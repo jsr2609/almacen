@@ -26,18 +26,19 @@
                         </div>
                         <!-- Contenido -->
                         <h3>Formulario</h3>
-                        <form class="form-horizontal" method="POST"/>
+                        <form id="form-example" class="form-horizontal" method="POST"/>
                             {{form_widget(form)}}
+                            <div class="text-right">
+                                <button type="submit" id="" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span> 
+                                    Guardar
+                                </button>
+                            </div>
                         </form>
-                        <div class="text-right">
-                        <button type="button" id="" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-floppy-disk"></span> 
-                            Guardar
-                        </button>
-                        </div>
+                        
                         <!-- Fin Fomulario -->
                         <h3>Data Tables</h3>
-                        <table id="example" class="table display" width="100%" cellspacing="0">
+                        <table id="tb-example" class="table display" width="100%" cellspacing="0">
 
                             <thead>
                                 <tr>
@@ -532,7 +533,11 @@
     <script type="text/javascript">
         $(document).ready(function(){
             // js/tables.js
-            createDataTable("complete", "example");
+            createDataTable("complete", "tb-example");
+            
+            $("#form-example").validate({
+                
+            });
         });
     </script>
 {% endblock %}
