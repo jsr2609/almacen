@@ -19,7 +19,10 @@
         "sensio/distribution-bundle": "~2.3",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "sensio/generator-bundle": "~2.3",
-        "incenteev/composer-parameter-handler": "~2.0"
+        "incenteev/composer-parameter-handler": "~2.0",
+        "gregwar/form-bundle": "dev-master",
+        "whiteoctober/tcpdf-bundle": "dev-master",
+        "mopa/bootstrap-bundle": "v3.0.0-beta2"
     },
     "scripts": {
         "post-install-cmd": [

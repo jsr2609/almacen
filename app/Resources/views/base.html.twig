@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html id="{% block html_id %}almacen{% endblock %}">
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Bienvenido!{% endblock %} | Almacen</title>
+        <meta content="" name="ALMACEN">
+        <meta content="" name="SSA">
+        <meta content=
+            "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            name="viewport"
+        >
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body>
+    <body role="document">
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
