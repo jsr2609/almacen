@@ -15,37 +15,37 @@ class EntradaDetalles
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="Id", type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="integer", length=2, nullable=false)
+     * @ORM\Column(name="Cantidad", type="integer", length=2, nullable=false)
      */
     private $cantidad;
 
     /**
-     * @ORM\Column(type="decimal", nullable=false)
+     * @ORM\Column(name="Precio", type="decimal", nullable=false)
      */
     private $precio;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(name="AplicaIVA", type="boolean", nullable=true)
      */
     private $aplicaIVA;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(name="Observaciones", type="string", nullable=true)
      */
     private $observaciones;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
      */
     private $fechaCreacion;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(name="FechaActualizacion", type="date", nullable=true)
      */
     private $fechaActualizacion;
 }

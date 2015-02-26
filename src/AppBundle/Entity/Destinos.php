@@ -9,12 +9,12 @@ class Destinos
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer", length=2)
+     * @ORM\Column(name="Id", type="integer", length=2)
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=150, nullable=false)
+     * @ORM\Column(name="Nombre", type="string", length=150, nullable=false)
      */
     private $nombre;
 }

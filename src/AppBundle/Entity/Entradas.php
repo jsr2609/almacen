@@ -16,57 +16,57 @@ class Entradas
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="Id", type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="integer", length=2, nullable=false)
+     * @ORM\Column(name="Folio", type="integer", length=2, nullable=false)
      */
     private $folio;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(name="Fecha", type="date", nullable=false)
      */
     private $fecha;
 
     /**
-     * @ORM\Column(type="integer", length=1, nullable=false)
+     * @ORM\Column(name="TipoEntradaId", type="integer", length=1, nullable=false)
      */
     private $tipoEntradaId;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(name="Observaciones", type="string", nullable=true)
      */
     private $observaciones;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(name="PedidoNumero", type="string", length=10, nullable=true)
      */
     private $pedidoNumero;
 
     /**
-     * @ORM\Column(type="integer", length=1, nullable=true)
+     * @ORM\Column(name="PedidoTipoId", type="integer", length=1, nullable=true)
      */
     private $pedidoTipoId;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(name="NumeroFactura", type="string", length=10, nullable=true)
      */
     private $numeroFactura;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(name="FechaFactura", type="date", nullable=true)
      */
     private $fechaFactura;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
      */
     private $fechaCreacion;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
      */
     private $fechaActualizacion;
 }

@@ -12,37 +12,37 @@ class Ejercicios
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer", length=2)
+     * @ORM\Column(name="Id", type="integer", length=2)
      */
     private $id;
 
     /**
-     * @ORM\Column(type="integer", length=2, nullable=false)
+     * @ORM\Column(name="NumeroEntradas", type="integer", length=2, nullable=false)
      */
     private $numeroEntradas;
 
     /**
-     * @ORM\Column(type="integer", length=2, nullable=false)
+     * @ORM\Column(name="NumeroSalidas", type="integer", length=2, nullable=false)
      */
     private $numeroSalidas;
 
     /**
-     * @ORM\Column(type="integer", length=1, nullable=false)
+     * @ORM\Column(name="IVA", type="integer", length=1, nullable=false)
      */
     private $iVA;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(name="Activo", type="boolean", nullable=false)
      */
     private $activo;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
      */
     private $fechaCreacion;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
      */
     private $fechaActualizacion;
 }
