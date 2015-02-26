@@ -12,37 +12,37 @@ class Partidas
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer", length=2)
+     * @ORM\Column(name="Id", type="integer", length=2)
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=150, nullable=false)
+     * @ORM\Column(name="Nombre", type="string", length=150, nullable=false)
      */
     private $nombre;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(name="Descripcion", type="string", nullable=true)
      */
     private $descripcion;
 
     /**
-     * @ORM\Column(type="string", length=5, nullable=false)
+     * @ORM\Column(name="Prefijo", type="string", length=5, nullable=false)
      */
     private $prefijo;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
      */
     private $fechaCreacion;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
      */
     private $fechaActualizacion;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(name="Activo", type="boolean", nullable=false)
      */
     private $activo;
 }

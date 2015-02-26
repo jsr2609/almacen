@@ -15,27 +15,27 @@ class SalidaDetalles
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="Id", type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(name="Cantidad", type="integer", nullable=false)
      */
     private $cantidad;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(name="Activo", type="boolean", nullable=false)
      */
     private $activo;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
      */
     private $fechaCreacion;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
      */
     private $fechaActualizacion;
 }

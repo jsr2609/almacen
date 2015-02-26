@@ -9,32 +9,32 @@ class Programas
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer", length=2)
+     * @ORM\Column(name="Id", type="integer", length=2)
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=150, nullable=false)
+     * @ORM\Column(name="Nombre", type="string", length=150, nullable=false)
      */
     private $nombre;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=false)
+     * @ORM\Column(name="Clave", type="string", length=10, nullable=false)
      */
     private $clave;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(name="Activo", type="boolean", nullable=false)
      */
     private $activo;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
      */
     private $fechaCreacion;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
      */
     private $fechaActualizacion;
 }
