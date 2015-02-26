@@ -10,7 +10,7 @@
 /bin/
 /composer.phar
 
-
+.directory
 web/uploads/*
 *.php~
 *.back
