@@ -4,3 +4,7 @@ logout:
 app_homepage:
     path:     /
     defaults: { _controller: AppBundle:Default:index }
+
+app_demo:
+    path: /demo
+    defaults: { _controller: AppBundle:Default:demo }

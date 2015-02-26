@@ -22,9 +22,22 @@ class DemoType extends AbstractType
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nombre', 'text', array(
+        $builder
+            ->add('nombre', 'text', array(
             
-        ));
+            ))
+            ->add('fecha', 'date',array(
+                'widget' => 'single_text',
+                
+                'required' => true,
+                    'format' => 'dd/MM/y',
+                'attr' => array(
+                    'class' => 'datepicker', 
+                    'data-mask' => '99/99/9999',
+                    'data-mask-placeholder' => '-',
+                ),
+                'widget_addon_prepend' => array('icon' => 'calendar')
+            ));
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)

@@ -14,6 +14,10 @@ class DefaultController extends Controller
     }
     
     public function demoAction(Request $peticion) {
+        $form = $this->createForm(new DemoType());
         
+        return $this->render("::/Default/demo.html.twig", array(
+            'form' => $form->createView(),
+        ));
     }
 }

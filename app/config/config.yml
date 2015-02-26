@@ -67,3 +67,18 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+white_october_tcpdf:
+    tcpdf:
+        k_tcpdf_external_config: true
+        k_path_images: '%kernel.root_dir%/../web/imagenes/'
+
+mopa_bootstrap:
+    form:
+        templating: MopaBootstrapBundle:Form:fields.html.twig
+        horizontal_label_class: col-sm-3 col-md-3 col-lg-2
+        horizontal_input_wrapper_class: col-sm-9 col-md-9  col-lg-10
+        render_fieldset: false
+        show_legend:    false
+        render_optional_text:  false
+        render_required_asterisk:  true
