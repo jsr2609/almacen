@@ -1,0 +1,45 @@
+{% extends "::/Admin/layout.html.twig" %}
+{% block content %}
+<section id="widget-grid" class="">
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="wid-id-0" class="jarviswidget" 
+                 data-widget-deletebutton="true" data-widget-colorbutton="true" data-widget-editbutton="true">
+                <header>
+
+
+                    <span class="widget-icon"> <i class="fa fa-desktop"></i> </span>
+                    <h2>Inicio</h2>
+
+                </header>
+
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <input class="form-control" type="text">
+
+                    </div>
+                    <div class="widget-body">
+                        
+                        <h3>Bienvenido</h3>
+                        
+
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}
+{% block javascript_page %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            // js/tables.js
+            createDataTable("complete", "tb-example");
+            
+            $("#form-example").validate({
+                
+            });
+        });
+    </script>
+{% endblock %}

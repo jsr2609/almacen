@@ -10,7 +10,7 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('AppBundle:Default:index.html.twig');
+        return $this->render('::/Default/index.html.twig');
     }
     
     public function demoAction(Request $peticion) {

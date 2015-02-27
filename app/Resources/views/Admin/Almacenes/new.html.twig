@@ -1,0 +1,58 @@
+{% extends '::Admin/layout.html.twig' %}
+{% block title_page %}
+    <i class="fa fa-list fa-plus-circle "></i>
+    Almacenes <span>> Nuevo</span>
+{% endblock %}
+
+{% block content -%}
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div id="wid-id-0" class="jarviswidget" 
+                     data-widget-deletebutton="true" data-widget-colorbutton="true" data-widget-editbutton="true">
+                    <header>
+
+
+                        <span class="widget-icon"> <i class="fa fa-plus-circle"></i> </span>
+                        <h2>Nuevo</h2>
+
+                    </header>
+
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <input class="form-control" type="text">
+
+                        </div>
+                        <div class="widget-body ">
+                            <!-- Contenido -->
+                            <div class="widget-header">                        
+                                <!-- Botones de Accion -->
+                                                             
+                                <a href="{{ path('admin_almacenes', {}) }}" class="btn btn-primary" data-toggle="tool-tip" title="">
+                                    <i class="fa fa-list fa-fw"></i> Lista de Avales
+                                </a>
+                            </div>
+                            <!-- Contenido -->
+                            <form id="AvalesType" class="form-horizontal" action="{{path('admin_almacenes_create')}}" method="POST">
+                                {# Si se tienen que personalizar los campos, hacerlo en una plantillas #}
+                                {{form_widget(form)}}
+                                <div class="text-right">
+                                    <button type="submit" id="" class="btn btn-info">
+                                        <span class="glyphicon glyphicon-floppy-disk"></span> 
+                                        Crear
+                                    </button>
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+{% endblock %}
+{% block javascript_page %}
+    {{ include("::Admin/Almacenes/scripts_compartidos.html.twig") }}
+{% endblock %}

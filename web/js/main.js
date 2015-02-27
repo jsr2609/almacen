@@ -65,76 +65,59 @@ function initDatePicker(options) {
 /**
  * Crea un mensaje
  */
-function createMessage(type, text, time, position)
+function createAlert(type, title, content, time)
 {
-    if(type == null) {
-        alert("Indica el tipo de mensaje: success, danger, warning, info");
-        return;
-    }
-    switch(type) {
-        case "danger":
-            if(text == null) {
-                text = "Ha ocurrido un error al realizar la operación";
-            }
-            if(position == null) {
-                position = "messages";
-            }
-            if(time == null) {
-                time = 8000;
-            }
-            icon = '<span class="glyphicon glyphicon-remove-sign"></span><strong> Error</strong> ';
-        break;
-        
-        case "success":
-            if(text == null) {
-                text = "La operación se realizo con exito";
-            }
-            if(position == null) {
-                position = "messages";
-            }
-            if(time == null) {
-                time = 2000;
-            }
-            icon = '<span class="glyphicon glyphicon-ok-sign"></span><strong> Exito</strong> ';
-        break;
-        
-        case "warning":
-            if(text == null) {
-                text = "";
-            }
-            if(position == null) {
-                position = "messages";
-            }
-            if(time == null) {
-                time = 3000;
-            }
-            icon = '<span class="glyphicon glyphicon-warning-sign"></span><strong> Advertencia</strong> ';
-        break;
-        
-        case "info":
-            if(text == null) {
-                text = "";
-            }
-            if(position == null) {
-                position = "messages";
-            }
-            if(time == null) {
-                time = 3000;
-            }
-            icon = '<span class="glyphicon glyphicon-exclamation-sign"></span><strong> Información</strong> ';
-        break;
-            
-    }
-    
-    msg = '<div class="alert alert-'+type+' alert-dismissable fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+icon+text+'</div>';
+   
+   if(type == null) {
+       alert("Indica el tipo de mensaje: success, danger, warning, info");
+       return;
+   }
+   if(time == null) {
+       time = 3000;
+   }
+   if(content == null) {
+       content = "<i class='fa fa-clock-o'></i> <i>Hace 1 segundo...</i>";
+   }
+   switch(type) {
+       case "danger":
+           if(title == null) {
+               title = "Ha ocurrido un error al realizar la operación";
+           }
+           optionsMessage = {
+               title: title,
+               content: content,
+               color: "#c26565",
+               icon: "fa fa-warning bounce animated",
+               timeout: time
+           };
 
-    $("#"+position).html(msg);  
-    if(time !== 0) {
-        setTimeout(function(){
-            $("#"+position+" .alert").alert("close");    
-        }, time);
-    }
-}
+       break;
+
+       case "success":
+           if(title == null) {
+               title = "El proceso se realizo satisfactoriamente.";
+           }
+           optionsMessage = {
+               title: title,
+               content: content,
+               color: "#5F895F",
+               icon: "fa fa-check bounce animated",
+               timeout: time
+           };
+       break;
+
+       case "warning":
+           
+       break;
+
+       case "info":
+           
+       break;
+
+   }
+
+    $.bigBox(optionsMessage);
+} //Fin crear mensaje
 
 function getParent(element, selector) {
     if(element == null) {

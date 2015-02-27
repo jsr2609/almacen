@@ -1,3 +1,7 @@
+app_admin_almacenes:
+    resource: "@AppBundle/Resources/config/routing/almacenes.yml"
+    prefix:   /admin/almacenes
+
 logout:
     path: /logout
     
