@@ -1,16 +1,13 @@
 <?php
+
+namespace AppBundle\Entity;
+
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(
- *     name="Salidas",
- *     indexes={
- *         @ORM\Index(name="FK_SalidasEjercicioId_EjerciciosId_idx", columns={"ejercicioId"}),
- *         @ORM\Index(name="FK_SalidasProgramaId_ProgramaId_idx", columns={"programaId"}),
- *         @ORM\Index(name="FK_SalidasProgramaId_DestinosId_idx", columns={"destinoId"})
- *     }
- * )
+ *     name="Salidas")
  */
 class Salidas
 {
@@ -19,6 +16,24 @@ class Salidas
      * @ORM\Column(name="Id", type="integer")
      */
     private $id;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Ejercicios")
+     * @ORM\JoinColumn(name="EjercicioId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+    */
+    private $ejercicio;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Programas")
+     * @ORM\JoinColumn(name="ProgramaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+    */
+    private $programa;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Destinos")
+     * @ORM\JoinColumn(name="DestinoId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+    */
+    private $destino;
 
     /**
      * @ORM\Column(name="Folio", type="integer", length=2, nullable=false)
@@ -53,7 +68,7 @@ class Salidas
     /**
      * @ORM\Column(name="Activo", type="boolean", nullable=false)
      */
-    private $activo;
+    private $activo = true;
 
     /**
      * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
@@ -64,4 +79,12 @@ class Salidas
      * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
      */
     private $fechaActualizacion;
+    
+     public function __construct() 
+    {
+        $this->fechaCreacion = new \DateTime();
+        $this->fechaActualizacion = new \DateTime();
+    }
+    
+    
 }

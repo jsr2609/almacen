@@ -1,4 +1,7 @@
 <?php
+
+namespace AppBundle\Entity;
+
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
@@ -9,7 +12,8 @@ class Destinos
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="Id", type="integer", length=2)
+     * @ORM\Column(name="Id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 

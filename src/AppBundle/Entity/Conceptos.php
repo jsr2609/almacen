@@ -1,4 +1,6 @@
 <?php
+namespace AppBundle\Entity;
+
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
@@ -9,7 +11,8 @@ class Conceptos
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="Id", type="integer", length=2)
+     * @ORM\Column(name="Id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -26,7 +29,7 @@ class Conceptos
     /**
      * @ORM\Column(name="Activo", type="string", length=45, nullable=false)
      */
-    private $activo;
+    private $activo = true;
 
     /**
      * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
@@ -37,4 +40,11 @@ class Conceptos
      * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
      */
     private $fechaActualizacion;
+    
+     public function __construct() 
+    {
+        $this->fechaCreacion = new \DateTime();
+        $this->fechaActualizacion = new \DateTime();
+    }
+    
 }

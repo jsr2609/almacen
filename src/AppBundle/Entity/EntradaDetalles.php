@@ -1,24 +1,36 @@
 <?php
+
+namespace AppBundle\Entity;
+
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(
- *     name="EntradaDetalles",
- *     indexes={
- *         @ORM\Index(name="FK_ENTRADA_ID_idx", columns={"entradaId"}),
- *         @ORM\Index(name="FK_EntradaDetallesArticuloId_ArticulosId_idx", columns={"articuloId"})
- *     }
- * )
+ *     name="EntradaDetalles")
  */
 class EntradaDetalles
 {
     /**
      * @ORM\Id
      * @ORM\Column(name="Id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Entradas")
+     * @ORM\JoinColumn(name="EntradaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+    */
+    private $entrada;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Articulos")
+     * @ORM\JoinColumn(name="ArticuloId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+    */
+    private $articulo;
+    
+    
     /**
      * @ORM\Column(name="Cantidad", type="integer", length=2, nullable=false)
      */
@@ -48,4 +60,10 @@ class EntradaDetalles
      * @ORM\Column(name="FechaActualizacion", type="date", nullable=true)
      */
     private $fechaActualizacion;
+    
+    public function __construct() 
+    {
+        $this->fechaCreacion = new \DateTime();
+        $this->fechaActualizacion = new \DateTime();
+    }
 }
