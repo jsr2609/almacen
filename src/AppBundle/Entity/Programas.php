@@ -1,15 +1,19 @@
 <?php
+
+namespace AppBundle\Entity;
+
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="Programas", uniqueConstraints={@ORM\UniqueConstraint(name="Clave_UNIQUE", columns={"Clave"})})
+ * @ORM\Table(name="Programas")
  */
 class Programas
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="Id", type="integer", length=2)
+     * @ORM\Column(name="Id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -26,7 +30,7 @@ class Programas
     /**
      * @ORM\Column(name="Activo", type="boolean", nullable=false)
      */
-    private $activo;
+    private $activo = true;
 
     /**
      * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
@@ -37,4 +41,11 @@ class Programas
      * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
      */
     private $fechaActualizacion;
+    
+     public function __construct() 
+    {
+        $this->fechaCreacion = new \DateTime();
+        $this->fechaActualizacion = new \DateTime();
+    }
+    
 }

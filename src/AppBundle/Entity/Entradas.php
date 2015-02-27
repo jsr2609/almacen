@@ -1,25 +1,42 @@
 <?php
+
+namespace AppBundle\Entity;
+
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(
- *     name="Entradas",
- *     indexes={
- *         @ORM\Index(name="FK_EntradasProveedorId_ProveedoresId_idx", columns={"proveedorId"}),
- *         @ORM\Index(name="FK_EntradasProgramaId_ProgramasId_idx", columns={"programaId"}),
- *         @ORM\Index(name="FK_EntradasEjercicioId_EjerciciosId_idx", columns={"ejercicioId"})
- *     }
- * )
+ *     name="Entradas")
  */
 class Entradas
 {
     /**
      * @ORM\Id
      * @ORM\Column(name="Id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Proveedores")
+     * @ORM\JoinColumn(name="ProveedorId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+    */
+    private $proveedor;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Programas")
+     * @ORM\JoinColumn(name="ProgramaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+    */
+    private $programa;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Ejercicios")
+     * @ORM\JoinColumn(name="EjercicioId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+    */
+    private $ejercicio;
+    
+    
     /**
      * @ORM\Column(name="Folio", type="integer", length=2, nullable=false)
      */
@@ -69,4 +86,11 @@ class Entradas
      * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
      */
     private $fechaActualizacion;
+    
+     public function __construct() 
+    {
+        $this->fechaCreacion = new \DateTime();
+        $this->fechaActualizacion = new \DateTime();
+    }
+    
 }

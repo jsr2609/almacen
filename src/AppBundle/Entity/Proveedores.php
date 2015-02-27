@@ -1,4 +1,7 @@
 <?php
+
+namespace AppBundle\Entity;
+
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
@@ -9,7 +12,8 @@ class Proveedores
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="Id", type="integer", length=2)
+     * @ORM\Column(name="Id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -27,4 +31,12 @@ class Proveedores
      * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
      */
     private $fechaActualizacion;
+    
+    
+     public function __construct() 
+    {
+        $this->fechaCreacion = new \DateTime();
+        $this->fechaActualizacion = new \DateTime();
+    }
+    
 }
