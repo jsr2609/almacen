@@ -1,3 +1,15 @@
+ssa_seguridad:
+    resource: "@SSASeguridadBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ssa_utilidades:
+    resource: "@SSAUtilidadesBundle/Resources/config/routing.yml"
+    prefix:   /
+
+seguridad:
+    resource: "@SeguridadBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix:   /

@@ -1,0 +1,30 @@
+admin_usuarios:
+    path:     /
+    defaults: { _controller: "AppBundle:Usuarios:index" }
+
+admin_usuarios_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Usuarios:show" }
+
+admin_usuarios_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Usuarios:new" }
+
+admin_usuarios_create:
+    path:     /create
+    defaults: { _controller: "AppBundle:Usuarios:create" }
+    requirements: { _method: post }
+
+admin_usuarios_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Usuarios:edit" }
+
+admin_usuarios_update:
+    path:     /{id}/update
+    defaults: { _controller: "AppBundle:Usuarios:update" }
+    requirements: { _method: post|put }
+
+admin_usuarios_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Usuarios:delete" }
+    requirements: { _method: post|delete }

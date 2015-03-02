@@ -1,0 +1,75 @@
+{% extends '::/Admin/layout.html.twig' %}
+
+{% block content -%}
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div id="wid-id-0" class="jarviswidget" 
+                     data-widget-deletebutton="true" data-widget-colorbutton="true" data-widget-editbutton="true">
+                    <header>
+
+
+                        <span class="widget-icon"> <i class="fa fa-list"></i> </span>
+                        <h2>Lista</h2>
+
+                    </header>
+
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <input class="form-control" type="text">
+
+                        </div>
+                        <div class="widget-body">
+                            <!-- Contenido -->
+                            <div class="widget-header">                        
+                                <!-- Botones de Accion -->
+                            </div>
+                            <!-- Contenido -->
+                            <table id="tb-lista-usuarios" class="table">
+                                <thead>
+                                    <tr>  
+                                        <th>Nombre</th>
+                                        <th>Usuario</th>
+
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for entity in entities %}
+                                    <tr>
+                                        <td>{{ entity.nombre }}</td>
+                                        <td>{{ entity.usuario }}</td>
+                                        
+                                        <td>
+                                        <ul>
+                                            <li>
+                                                <a href="{{ path('admin_usuarios_show', { 'id': entity.id }) }}">show</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('admin_usuarios_edit', { 'id': entity.id }) }}">edit</a>
+                                            </li>
+                                        </ul>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+    <h1>Usuarios list</h1>
+
+    
+
+        <ul>
+        <li>
+            <a href="{{ path('admin_usuarios_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

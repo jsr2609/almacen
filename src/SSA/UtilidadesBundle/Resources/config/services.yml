@@ -1,0 +1,4 @@
+services:
+#    ssa_utilidades.example:
+#        class: SSA\UtilidadesBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

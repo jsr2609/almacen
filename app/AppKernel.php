@@ -20,6 +20,8 @@ class AppKernel extends Kernel
             new WhiteOctober\TCPDFBundle\WhiteOctoberTCPDFBundle(),
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
             new Gregwar\FormBundle\GregwarFormBundle(),
+            new SSA\UtilidadesBundle\SSAUtilidadesBundle(),
+            new SSA\SeguridadBundle\SSASeguridadBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
