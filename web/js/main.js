@@ -65,7 +65,7 @@ function initDatePicker(options) {
 /**
  * Crea un mensaje
  */
-function createAlert(type, title, content, time)
+function createAlert(type, title, content, time, size)
 {
    
    if(type == null) {
@@ -95,13 +95,14 @@ function createAlert(type, title, content, time)
 
        case "success":
            if(title == null) {
-               title = "El proceso se realizo satisfactoriamente.";
+               title = "El proceso se realizó satisfactoriamente.";
            }
            optionsMessage = {
                title: title,
                content: content,
                color: "#5F895F",
-               icon: "fa fa-check bounce animated",
+               icon: "fa fa-thumbs-up bounce animated",
+               iconSmall : "fa fa-thumbs-up bounce animated",
                timeout: time
            };
        break;
@@ -114,9 +115,13 @@ function createAlert(type, title, content, time)
            
        break;
 
-   }
-
-    $.bigBox(optionsMessage);
+    }
+    if(size == "big") {
+        $.bigBox(optionsMessage);
+    } else {
+        $.smallBox(optionsMessage);
+    }
+    
 } //Fin crear mensaje
 
 function getParent(element, selector) {

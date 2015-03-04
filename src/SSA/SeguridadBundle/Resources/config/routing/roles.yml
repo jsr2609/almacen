@@ -1,0 +1,30 @@
+seguridad_roles:
+    path:     /
+    defaults: { _controller: "SSASeguridadBundle:Roles:index" }
+
+seguridad_roles_show:
+    path:     /{id}/show
+    defaults: { _controller: "SSASeguridadBundle:Roles:show" }
+
+seguridad_roles_new:
+    path:     /new
+    defaults: { _controller: "SSASeguridadBundle:Roles:new" }
+
+seguridad_roles_create:
+    path:     /create
+    defaults: { _controller: "SSASeguridadBundle:Roles:create" }
+    requirements: { _method: post }
+
+seguridad_roles_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "SSASeguridadBundle:Roles:edit" }
+
+seguridad_roles_update:
+    path:     /{id}/update
+    defaults: { _controller: "SSASeguridadBundle:Roles:update" }
+    requirements: { _method: post|put }
+
+seguridad_roles_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "SSASeguridadBundle:Roles:delete" }
+    requirements: { _method: post|delete }

@@ -1,0 +1,30 @@
+seguridad_usuarios:
+    path:     /
+    defaults: { _controller: "SSASeguridadBundle:Usuarios:index" }
+
+seguridad_usuarios_show:
+    path:     /{id}/show
+    defaults: { _controller: "SSASeguridadBundle:Usuarios:show" }
+
+seguridad_usuarios_new:
+    path:     /new
+    defaults: { _controller: "SSASeguridadBundle:Usuarios:new" }
+
+seguridad_usuarios_create:
+    path:     /create
+    defaults: { _controller: "SSASeguridadBundle:Usuarios:create" }
+    requirements: { _method: post }
+
+seguridad_usuarios_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "SSASeguridadBundle:Usuarios:edit" }
+
+seguridad_usuarios_update:
+    path:     /{id}/update
+    defaults: { _controller: "SSASeguridadBundle:Usuarios:update" }
+    requirements: { _method: post|put }
+
+seguridad_usuarios_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "SSASeguridadBundle:Usuarios:delete" }
+    requirements: { _method: post|delete }

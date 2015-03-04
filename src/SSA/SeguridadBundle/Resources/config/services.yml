@@ -2,3 +2,6 @@ services:
 #    ssa_seguridad.example:
 #        class: SSA\SeguridadBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+    ssa_seguridad.Usuarios:
+        class: SSA\SeguridadBundle\Manager\UsuariosManager
+        arguments: ["@ssa_utilidades.base", "@security.encoder_factory"]

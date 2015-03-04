@@ -1,15 +1,3 @@
-app_admin_usuarios:
-    resource: "@AppBundle/Resources/config/routing/usuarios.yml"
-    prefix:   /admin/usuarios
-
-app_admin_grupos:
-    resource: "@AppBundle/Resources/config/routing/grupos.yml"
-    prefix:   /admin/grupos
-
-app_admin_roles:
-    resource: "@AppBundle/Resources/config/routing/roles.yml"
-    prefix:   /admin/roles
-
 app_admin_almacenes:
     resource: "@AppBundle/Resources/config/routing/almacenes.yml"
     prefix:   /admin/almacenes

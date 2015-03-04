@@ -1,0 +1,30 @@
+seguridad_grupos:
+    path:     /
+    defaults: { _controller: "SSASeguridadBundle:Grupos:index" }
+
+seguridad_grupos_show:
+    path:     /{id}/show
+    defaults: { _controller: "SSASeguridadBundle:Grupos:show" }
+
+seguridad_grupos_new:
+    path:     /new
+    defaults: { _controller: "SSASeguridadBundle:Grupos:new" }
+
+seguridad_grupos_create:
+    path:     /create
+    defaults: { _controller: "SSASeguridadBundle:Grupos:create" }
+    requirements: { _method: post }
+
+seguridad_grupos_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "SSASeguridadBundle:Grupos:edit" }
+
+seguridad_grupos_update:
+    path:     /{id}/update
+    defaults: { _controller: "SSASeguridadBundle:Grupos:update" }
+    requirements: { _method: post|put }
+
+seguridad_grupos_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "SSASeguridadBundle:Grupos:delete" }
+    requirements: { _method: post|delete }
