@@ -113,6 +113,11 @@ class Usuarios implements AdvancedUserInterface, \Serializable
      */
     private $fechaActualizacion;
     
+    public function getNombreCompleto()
+    {
+        return $this->nombre." ".$this->apellidoPaterno." ".$this->apellidoMaterno;
+    }
+    
     public function __construct()
     {
         $this->activo = true;
@@ -217,14 +222,7 @@ class Usuarios implements AdvancedUserInterface, \Serializable
     public function __toString() {
         return $this->nombre;
     }
-    
-    /**
-     * Recupera nombre completo 
-     */
-    public function getNombreCompleto() {
-        return $this->nombre." ".$this->apellidoPaterno;
-    }
-    
+   
     
     /** Getters y Setters */
     

@@ -8,7 +8,7 @@
 
             <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
                 <img alt="user" class="online" src="{{asset('img/avatar-man.jpg')}}">
-                <span>Jonh Doe</span>
+                <span>{{app.user.nombreCompleto}}</span>
                 <i class="fa fa-angle-down"></i>
             </a> 
 
@@ -23,6 +23,17 @@
                     <a href="index.html" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Inicio</span></a>
                     
                 </li>
+                
+                <li>
+                    <a href="#"><i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent"> Administración</span></a>
+                    <ul>              
+                        <li><a href="{{ path('admin_almacenes') }}"><i class="fa fa-list fa-fw"></i> Almacenes</a></li>
+                        <li><a href="{{ path('utilidades_parametros') }}"><i class="fa fa-cog fa-fw"></i> Parámetros</a></li>
+                        <li><a href="{{ path('seguridad_usuarios') }}"><i class="fa fa-user fa-fw"></i> Usuarios</a></li>
+                        <li><a href="{{ path('seguridad_grupos') }}"><i class="fa fa-group fa-fw"></i> Grupos</a></li>
+                        <li><a href="{{ path('seguridad_roles') }}"><i class="fa fa-list fa-fw"></i> Roles</a></li>
+                    </ul>
+                </li>
                 {#
                 {% if is_granted('ROLE_CAPTURISTA') %}
                     <li>
@@ -33,7 +44,7 @@
                             {% endif %}
                             <li><a href="{{ path('admin_avales_lista') }}"><i class="fa fa-list fa-fw"></i>Administración</a></li>
                             <li><a href="{{ path('admin_monitoreos_lista_general') }}"><i class="fa fa-list fa-fw"></i>Monitoreos</a></li>
-                        </ul>
+                        </ul>5
                     </li>
                 {% endif %}
                 <li>

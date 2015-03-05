@@ -1,0 +1,43 @@
+{% extends '::/Admin/layout.html.twig' %}
+{% block title_page %}
+    <i class="fa fa-list fa-plus-circle "></i>
+    Parametros <span>> Nuevo</span>
+{% endblock %}
+{% block content -%}
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div id="wid-id-0" class="jarviswidget" 
+                     data-widget-deletebutton="true" data-widget-colorbutton="true" data-widget-editbutton="true">
+                    <header>
+
+
+                        <span class="widget-icon"> <i class="fa fa-plus-circle"></i> </span>
+                        <h2>Nuevo</h2>
+
+                    </header>
+
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <input class="form-control" type="text">
+
+                        </div>
+                        <div class="widget-body ">
+                            <!-- Contenido -->
+                            <div class="widget-header">                        
+                                <!-- Botones de Accion -->
+                                <a href="{{ path('utilidades_parametros', {}) }}" class="btn btn-primary" data-toggle="tooltip" title="Crear">
+                                    <i class="fa fa-list fa-fw"></i> Lista de Parámetros
+                                </a>
+                            </div>
+                            <!-- Contenido -->
+                            {{ form(form) }}
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+{% endblock %}

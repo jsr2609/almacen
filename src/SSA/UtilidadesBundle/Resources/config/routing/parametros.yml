@@ -1,0 +1,30 @@
+utilidades_parametros:
+    path:     /
+    defaults: { _controller: "SSAUtilidadesBundle:Parametros:index" }
+
+utilidades_parametros_show:
+    path:     /{id}/show
+    defaults: { _controller: "SSAUtilidadesBundle:Parametros:show" }
+
+utilidades_parametros_new:
+    path:     /new
+    defaults: { _controller: "SSAUtilidadesBundle:Parametros:new" }
+
+utilidades_parametros_create:
+    path:     /create
+    defaults: { _controller: "SSAUtilidadesBundle:Parametros:create" }
+    requirements: { _method: post }
+
+utilidades_parametros_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "SSAUtilidadesBundle:Parametros:edit" }
+
+utilidades_parametros_update:
+    path:     /{id}/update
+    defaults: { _controller: "SSAUtilidadesBundle:Parametros:update" }
+    requirements: { _method: post|put }
+
+utilidades_parametros_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "SSAUtilidadesBundle:Parametros:delete" }
+    requirements: { _method: post|delete }

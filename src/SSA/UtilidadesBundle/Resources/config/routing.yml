@@ -1,3 +1,7 @@
+ssa_utilidades_utilidades_parametros:
+    resource: "@SSAUtilidadesBundle/Resources/config/routing/parametros.yml"
+    prefix:   /utilidades/parametros
+
 ssa_utilidades_homepage:
     path:     /hello/{name}
     defaults: { _controller: SSAUtilidadesBundle:Default:index }

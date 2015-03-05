@@ -1,0 +1,72 @@
+{% extends '::/Admin/layout.html.twig' %}
+{% block title_page %}
+    <i class="fa fa-list fa-list "></i>
+    Parametros <span>> Lista</span>
+{% endblock %}
+{% block content -%}
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div id="wid-id-0" class="jarviswidget" 
+                     data-widget-deletebutton="true" data-widget-colorbutton="true" data-widget-editbutton="true">
+                    <header>
+
+
+                        <span class="widget-icon"> <i class="fa fa-list"></i> </span>
+                        <h2>Lista</h2>
+
+                    </header>
+
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <input class="form-control" type="text">
+
+                        </div>
+                        <div class="widget-body ">
+                            <!-- Contenido -->
+                            <div class="widget-header">                        
+                                <!-- Botones de Accion -->
+                                <a href="{{ path('utilidades_parametros_new', {}) }}" class="btn btn-primary">
+                                    <i class="fa fa-plus-circle fa-fw"></i> Nuevo
+                                </a>
+                            </div>
+                            <!-- Contenido -->
+                            <table id="lista-parametros" class="table records_list">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Valor</th>                
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for entity in entities %}
+                                    <tr>
+
+                                        <td>{{ entity.nombre }}</td>
+                                        <td>{{ entity.valor }}</td>
+
+                                        <td>
+                                            <a href="{{ path('utilidades_parametros_edit', {'id': entity.id}) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar">
+                                                <i class="fa fa-edit fa-fw"></i> Editar                                              
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+{% endblock %}
+{% block javascript_page %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            dtListaParametros = createDataTable("minimal", "lista-parametros");
+        });
+    </script>
+{% endblock %}
