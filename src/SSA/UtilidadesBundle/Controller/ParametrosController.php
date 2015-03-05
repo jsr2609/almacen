@@ -22,7 +22,8 @@ class ParametrosController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
+        $valor = $em->getRepository('SSAUtilidadesBundle:Parametros')->recuperarValorPorNombre('parametro_prueb');
+        
         $entities = $em->getRepository('SSAUtilidadesBundle:Parametros')->findAll();
 
         return $this->render('SSAUtilidadesBundle:Parametros:index.html.twig', array(

@@ -9,7 +9,7 @@
 /vendor/
 /bin/
 /composer.phar
-
+/app/sessions/
 .directory
 web/uploads/*
 *.php~
