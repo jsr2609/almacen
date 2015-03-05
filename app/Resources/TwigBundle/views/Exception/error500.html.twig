@@ -1,7 +1,24 @@
 {% extends '::/Admin/layout.html.twig' %}
 {% block title_page %}
-    <i class="fa fa-list fa-list "></i>
-    Parametros <span>> Lista</span>
 {% endblock %}
 {% block content -%}
+<div class="row">
+    <div class="col-sm-12">
+            <div class="text-center error-box">
+                    <h1 class="error-text tada animated"><i class="fa fa-times-circle text-danger error-icon-shadow"></i> Error 500</h1>
+                    <h2 class="font-xl"><strong>Lo sentimos, ha ocurrido un error!</strong></h2>
+                    <br />
+                    <p class="lead semi-bold">
+                            
+                            <small>
+                                Contacta al administrador del sistema para solucionar el problema <br/>
+                                llama al telefono 49 43 100 ext 1412.
+                            </small>
+                    </p>
+                    
+            </div>
+
+    </div>
+
+</div>
 {% endblock %}
