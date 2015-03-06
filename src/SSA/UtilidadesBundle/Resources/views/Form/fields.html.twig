@@ -1,3 +1,41 @@
+{% block gender_widget %}
+    {% spaceless %}
+        {% if expanded %}
+            <ul class="list-inline" {{ block('widget_container_attributes') }}>
+            {% for child in form %}
+                <li>
+                    {{ form_widget(child) }}
+                    {{ form_label(child) }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            {# just let the choice widget render the select tag #}
+            {{ block('choice_widget') }}
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block campoprueba_widget %}
+    {% spaceless %}
+        
+            <div class="{{ horizontal_input_wrapper_class }}" {{ block('widget_container_attributes') }}>
+                <div class="row">
+                    {% for child in form %}
+                
+                    {{ form_widget(child) }}
+                    
+                
+            {% endfor %}
+                </div>
+            {#
+            
+            #}
+            
+            </div>
+    {% endspaceless %}
+{% endblock %}
+
 {%- block button_row -%}
     <div class="text-right">
         {{- form_widget(form) -}}
