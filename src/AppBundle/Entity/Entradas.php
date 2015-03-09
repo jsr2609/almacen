@@ -50,7 +50,7 @@ class Entradas
     /**
      * @ORM\Column(name="TipoEntradaId", type="integer", length=1, nullable=false)
      */
-    private $tipoEntradaId;
+    private $tipoEntrada;
 
     /**
      * @ORM\Column(name="Observaciones", type="string", nullable=true)
@@ -65,7 +65,7 @@ class Entradas
     /**
      * @ORM\Column(name="PedidoTipoId", type="integer", length=1, nullable=true)
      */
-    private $pedidoTipoId;
+    private $pedidoTipo;
 
     /**
      * @ORM\Column(name="NumeroFactura", type="string", length=10, nullable=true)
@@ -78,12 +78,12 @@ class Entradas
     private $fechaFactura;
 
     /**
-     * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
+     * @ORM\Column(name="FechaCreacion", type="datetime", nullable=false)
      */
     private $fechaCreacion;
 
     /**
-     * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
+     * @ORM\Column(name="FechaActualizacion", type="datetime", nullable=false)
      */
     private $fechaActualizacion;
     

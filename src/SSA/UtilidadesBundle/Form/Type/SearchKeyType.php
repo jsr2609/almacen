@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class CampoPruebaType extends AbstractType
+class SearchKeyType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -14,14 +14,15 @@ class CampoPruebaType extends AbstractType
             ->add('key', 'entity_id', array(
                 'class' => $options['class'],
                 'hidden' => false,
-                'widget_addon_prepend' => array('icon' => 'search'),
+                'widget_addon_prepend' => $options['widget_addon_prepend_key'],
                 'label' => false,
                 'horizontal_input_wrapper_class' => $options['horizontal_input_wrapper_class_key'],
             ))
             ->add('description', 'text',array(
                 'horizontal_input_wrapper_class' => $options['horizontal_input_wrapper_class_description'],
                 'label' => false,
-                'attr' => array('readonly' => true)
+                'attr' => array('readonly' => true),
+                'required' => false,
             ))
             ;
         
@@ -30,10 +31,12 @@ class CampoPruebaType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
+            'property' => 'id',
             'horizontal_input_wrapper_class' => 'col-sm-9 col-md-9  col-lg-10',
-            'class' => null,
-            'horizontal_input_wrapper_class_key' => 'col-sm-12 col-md-4 col-lg-3',
-            'horizontal_input_wrapper_class_description' => 'col-sm-12 col-md-8 col-lg-9',
+            'class' => '',
+            'widget_addon_prepend_key' => array('icon' => 'search'),
+            'horizontal_input_wrapper_class_key' => 'col-sm-4 col-md-4 col-lg-3',
+            'horizontal_input_wrapper_class_description' => 'col-sm-8 col-md-8 col-lg-9',
         ));
     }
 
@@ -44,6 +47,6 @@ class CampoPruebaType extends AbstractType
 
     public function getName()
     {
-        return 'campoprueba';
+        return 'search_key';
     }
 }

@@ -158,18 +158,18 @@ class Usuarios implements AdvancedUserInterface, \Serializable
      * @inheritDoc
      */
     public function getRoles()
-    {
-        $roles = array("ROLE_USER");
-        
-        foreach($this->grupos as $grupo) {
-            foreach($grupo->getRoles(1) as $rol) {
-                if(!in_array($rol, $roles)) {
-                    $roles[] = "ROLE_".strtoupper($rol);
-                }
+    {             
+        $roleUser = new Roles();
+        $roleUser->setNombre('ROLE_USER');
+        $roles = array($roleUser);
+        foreach ($this->grupos as $group) {
+            foreach($group->getRoles() as $rol) {
+                $roles[] = $rol;
             }
+            
         }
         
-        return $roles;
+        return array_unique($roles);
     }
 
     /**

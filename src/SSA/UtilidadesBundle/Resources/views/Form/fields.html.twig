@@ -16,23 +16,15 @@
     {% endspaceless %}
 {% endblock %}
 
-{% block campoprueba_widget %}
+{% block search_key_widget %}
     {% spaceless %}
-        
-            <div class="{{ horizontal_input_wrapper_class }}" {{ block('widget_container_attributes') }}>
-                <div class="row">
-                    {% for child in form %}
-                
+        <div class="{{ horizontal_input_wrapper_class }}" {{ block('widget_container_attributes') }}>
+            <div class="row">
+                {% for child in form %}
                     {{ form_widget(child) }}
-                    
-                
-            {% endfor %}
-                </div>
-            {#
-            
-            #}
-            
+                {% endfor %}
             </div>
+        </div>
     {% endspaceless %}
 {% endblock %}
 

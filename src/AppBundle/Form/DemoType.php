@@ -11,8 +11,8 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use SSA\UtilidadesBundle\Form\Type\GenderType;
-use SSA\UtilidadesBundle\Form\Type\CampoPruebaType;
+use SSA\UtilidadesBundle\Form\Type\SearchKeyType;
+
 
 /**
  * Description of DemoForm
@@ -40,7 +40,7 @@ class DemoType extends AbstractType
                 ),
                 'widget_addon_prepend' => array('icon' => 'calendar')
             ))
-            ->add('campo_compuesto', new CampoPruebaType(), array(
+            ->add('programa', new SearchKeyType(), array(
                 "class" => "AppBundle:Programas"
             ));
             ;
