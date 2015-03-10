@@ -10,7 +10,12 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('::/Default/index.html.twig');
+        return $this->redirect($this->generateUrl("admin_homepage"));
+    }
+    
+    public function indexAdminAction()
+    {
+        return $this->render("::/Default/index_admin.html.twig");
     }
     
     public function demoAction(Request $peticion) {

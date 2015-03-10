@@ -35,7 +35,7 @@ class Articulos
     /**
      * @ORM\Column(name="PresentacionId", type="integer", length=2, nullable=false)
      */
-    private $presentacionId;
+    private $presentacion;
 
     /**
      * @ORM\Column(name="Cantidad", type="integer", length=2, nullable=true)
@@ -53,12 +53,12 @@ class Articulos
     private $activo = true;
 
     /**
-     * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
+     * @ORM\Column(name="FechaCreacion", type="datetime", nullable=false)
      */
     private $fechaCreacion;
 
     /**
-     * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
+     * @ORM\Column(name="FechaActualizacion", type="datetime", nullable=false)
      */
     private $fechaActualizacion;
     

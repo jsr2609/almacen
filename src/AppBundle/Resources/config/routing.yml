@@ -5,6 +5,10 @@ app_admin_entradas:
 app_admin_almacenes:
     resource: "@AppBundle/Resources/config/routing/almacenes.yml"
     prefix:   /admin/almacenes
+    
+admin_homepage:
+    path:     /admin/
+    defaults: { _controller: AppBundle:Default:indexAdmin }
 
 logout:
     path: /logout

@@ -23,12 +23,12 @@ class Proveedores
     private $nombre;
 
     /**
-     * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
+     * @ORM\Column(name="FechaCreacion", type="datetime", nullable=false)
      */
     private $fechaCreacion;
 
     /**
-     * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
+     * @ORM\Column(name="FechaActualizacion", type="datetime", nullable=false)
      */
     private $fechaActualizacion;
     
