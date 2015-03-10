@@ -8,3 +8,9 @@ services:
         arguments: ["@doctrine", "@security.context", '@router']
         calls:
             - [setRequest, ['@?request=']]
+            
+    #Form types
+    ssa_utilidades.form.type.searh_key:
+        class: SSA\UtilidadesBundle\Form\Type\SearchKeyType
+        tags:
+            - { name: form.type, alias: search_key }

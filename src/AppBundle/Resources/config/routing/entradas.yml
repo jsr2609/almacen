@@ -1,0 +1,30 @@
+admin_entradas:
+    path:     /
+    defaults: { _controller: "AppBundle:Entradas:index" }
+
+admin_entradas_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Entradas:show" }
+
+admin_entradas_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Entradas:new" }
+
+admin_entradas_create:
+    path:     /create
+    defaults: { _controller: "AppBundle:Entradas:create" }
+    requirements: { _method: post }
+
+admin_entradas_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Entradas:edit" }
+
+admin_entradas_update:
+    path:     /{id}/update
+    defaults: { _controller: "AppBundle:Entradas:update" }
+    requirements: { _method: post|put }
+
+admin_entradas_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Entradas:delete" }
+    requirements: { _method: post|delete }

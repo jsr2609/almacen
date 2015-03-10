@@ -1,0 +1,49 @@
+{% extends '::/Admin/layout.html.twig' %}
+{% block title_page %}
+    <i class="fa fa-plus-circle fa-list "></i>
+    Entradas <span>> Nueva</span>
+{% endblock %}
+{% block content -%}
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div id="wid-id-0" class="jarviswidget" 
+                     data-widget-deletebutton="true" data-widget-colorbutton="true" data-widget-editbutton="true">
+                    <header>
+
+
+                        <span class="widget-icon"> <i class="fa fa-plus-circle"></i> </span>
+                        <h2>Nueva</h2>
+
+                    </header>
+
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <input class="form-control" type="text">
+
+                        </div>
+                        <div class="widget-body">
+                            <!-- Contenido -->
+                            <div class="widget-header">                        
+                                <!-- Botones de Accion -->
+                                <a href="{{ path('admin_entradas', {}) }}" class="btn btn-primary">
+                                    <i class="fa fa-list fa-fw"></i> Lista de Entradas
+                                </a>
+                            </div>
+                            <!-- Contenido -->
+                            {{ form(form) }}
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+{% endblock %}
+{% block javascript_page %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#entradas_type_fecha").focus();
+        });
+    </script>
+{% endblock %}

@@ -47,8 +47,10 @@ class Entradas
      */
     private $fecha;
 
+    
     /**
-     * @ORM\Column(name="TipoEntradaId", type="integer", length=1, nullable=false)
+     * @ORM\ManyToOne(targetEntity="EntradaTipos", cascade={})
+     * @ORM\JoinColumn(name="TipoEntradaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
      */
     private $tipoEntrada;
 

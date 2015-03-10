@@ -1,0 +1,82 @@
+{% extends '::/Admin/layout.html.twig' %}
+{% block title_page %}
+    <i class="fa fa-list fa-list "></i>
+    Entradas <span>> Lista</span>
+{% endblock %}
+{% block content -%}
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div id="wid-id-0" class="jarviswidget" 
+                     data-widget-deletebutton="true" data-widget-colorbutton="true" data-widget-editbutton="true">
+                    <header>
+
+
+                        <span class="widget-icon"> <i class="fa fa-list"></i> </span>
+                        <h2>Lista</h2>
+
+                    </header>
+
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <input class="form-control" type="text">
+
+                        </div>
+                        <div class="widget-body ">
+                            <!-- Contenido -->
+                            <div class="widget-header">                        
+                                <a href="{{ path('admin_entradas_new', {}) }}" class="btn btn-primary">
+                                    <i class="fa fa-plus-circle fa-fw"></i> Nueva
+                                </a>
+                            </div>
+                            <!-- Contenido -->
+                            <table id="lista-entradas" class="table">
+                                <thead>
+                                    <tr>                                        
+                                        <th>Folio</th>
+                                        <th>Fecha</th>
+                                        <th>Tipo</th>
+                                        <th>Pedido</th>
+                                        <th>Factura</th>                                        
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for entity in entities %}
+                                    <tr>                                        
+                                        <td>{{ entity.folio }}</td>
+                                        <td>{% if entity.fecha %}{{ entity.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                        <td>{{ entity.tipoEntrada }}</td>                                        
+                                        <td>{{ entity.pedidoNumero }}</td>                                        
+                                        <td>{{ entity.numeroFactura }}</td>                                        
+                                        <td>
+                                        <ul>
+                                            <li>
+                                                <a href="{{ path('admin_entradas_show', { 'id': entity.id }) }}">show</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('admin_entradas_edit', { 'id': entity.id }) }}">edit</a>
+                                            </li>
+                                        </ul>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+{% endblock %}
+{% block javascript_page %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            dtListaEntradas = createDataTable("complete", "lista-entradas");
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Entradas</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Folio</th>
+                <td>{{ entity.folio }}</td>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td>{{ entity.fecha|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Tipoentrada</th>
+                <td>{{ entity.tipoEntrada }}</td>
+            </tr>
+            <tr>
+                <th>Observaciones</th>
+                <td>{{ entity.observaciones }}</td>
+            </tr>
+            <tr>
+                <th>Pedidonumero</th>
+                <td>{{ entity.pedidoNumero }}</td>
+            </tr>
+            <tr>
+                <th>Pedidotipo</th>
+                <td>{{ entity.pedidoTipo }}</td>
+            </tr>
+            <tr>
+                <th>Numerofactura</th>
+                <td>{{ entity.numeroFactura }}</td>
+            </tr>
+            <tr>
+                <th>Fechafactura</th>
+                <td>{{ entity.fechaFactura|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Fechacreacion</th>
+                <td>{{ entity.fechaCreacion|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Fechaactualizacion</th>
+                <td>{{ entity.fechaActualizacion|date('Y-m-d H:i:s') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_entradas') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('admin_entradas_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
