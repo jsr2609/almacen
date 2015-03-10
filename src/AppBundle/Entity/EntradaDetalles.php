@@ -44,7 +44,7 @@ class EntradaDetalles
     /**
      * @ORM\Column(name="AplicaIVA", type="boolean", nullable=true)
      */
-    private $aplicaIVA;
+    private $aplicaIva;
 
     /**
      * @ORM\Column(name="Observaciones", type="string", nullable=true)
@@ -52,12 +52,12 @@ class EntradaDetalles
     private $observaciones;
 
     /**
-     * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
+     * @ORM\Column(name="FechaCreacion", type="datetime", nullable=false)
      */
     private $fechaCreacion;
 
     /**
-     * @ORM\Column(name="FechaActualizacion", type="date", nullable=true)
+     * @ORM\Column(name="FechaActualizacion", type="datetime", nullable=true)
      */
     private $fechaActualizacion;
     

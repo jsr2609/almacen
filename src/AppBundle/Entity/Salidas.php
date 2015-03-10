@@ -46,9 +46,10 @@ class Salidas
     private $fecha;
 
     /**
-     * @ORM\Column(name="TipoEntradaId", type="integer", length=2, nullable=false)
+     * @ORM\ManyToOne(targetEntity="EntradaTipos", cascade={})
+     * @ORM\JoinColumn(name="TipoEntradaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
      */
-    private $tipoEntradaId;
+    private $tipoEntrada;
 
     /**
      * @ORM\Column(name="NombreQuienRecibe", type="string", length=150, nullable=false)
@@ -71,12 +72,12 @@ class Salidas
     private $activo = true;
 
     /**
-     * @ORM\Column(name="FechaCreacion", type="date", nullable=false)
+     * @ORM\Column(name="FechaCreacion", type="datetime", nullable=false)
      */
     private $fechaCreacion;
 
     /**
-     * @ORM\Column(name="FechaActualizacion", type="date", nullable=false)
+     * @ORM\Column(name="FechaActualizacion", type="datetime", nullable=false)
      */
     private $fechaActualizacion;
     
