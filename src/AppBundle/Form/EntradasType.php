@@ -40,26 +40,33 @@ class EntradasType extends AbstractType
                 'class' => 'AppBundle:Programas'
             ))
             ->add('pedidoNumero', 'text', array(
-                'label' => 'Número de Pedido'
+                'label' => 'Número de Pedido',
+                'required' => false,
             ))
             ->add('pedidoTipo', 'choice', array(
                 'label' => 'Tipo de pedido',
                 'choices' => array('Orden', 'Pedido', 'Propuesta', 'Otro'),
                 'expanded' => true,
                 'widget_type'  => 'inline',
+                'required' => false,
+                'empty_value' => false,
             ))
             ->add('proveedor', 'search_key', array(
                 'class' => 'AppBundle:Proveedores'
             ))
             ->add('numeroFactura', 'text', array(
                 'label' => 'Numero de Factura',
+                'required' => false,
             ))
             ->add('fechaFactura', 'date', array(
                 'widget' => 'single_text',
                 'label' => 'Fecha de Factura',
+                'required' => false,
             ))
             
-            ->add('observaciones', 'textarea')
+            ->add('observaciones', 'textarea', array(
+                'required' => false,
+            ))
         ;
     }
     

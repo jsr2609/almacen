@@ -132,10 +132,10 @@ class Grupos
     /**
      * Add roles
      *
-     * @param \AppBundle\Entity\Roles $roles
+     * @param \SSA\SeguridadBundle\Entity\Roles $roles
      * @return Grupos
      */
-    public function addRole(\AppBundle\Entity\Roles $roles)
+    public function addRole(\SSA\SeguridadBundle\Entity\Roles $roles)
     {
         $this->roles[] = $roles;
 
@@ -145,9 +145,9 @@ class Grupos
     /**
      * Remove roles
      *
-     * @param \AppBundle\Entity\Roles $roles
+     * @param \SSA\SeguridadBundle\Entity\Roles $roles
      */
-    public function removeRole(\AppBundle\Entity\Roles $roles)
+    public function removeRole(\SSA\SeguridadBundle\Entity\Roles $roles)
     {
         $this->roles->removeElement($roles);
     }

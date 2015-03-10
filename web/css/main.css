@@ -11,3 +11,14 @@ and open the template in the editor.
 .margin-top-15 {
     margin-top: 15px;
 }
+
+
+/*
+ * Formularios
+ */
+
+.required .asterisk {
+    color: #953b39;
+    font-weight: bold;
+}
+

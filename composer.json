@@ -20,6 +20,7 @@
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
+        "doctrine/doctrine-fixtures-bundle": "2.2.*",
         "gregwar/form-bundle": "dev-master",
         "whiteoctober/tcpdf-bundle": "dev-master",
         "mopa/bootstrap-bundle": "v3.0.0-beta2"

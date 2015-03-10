@@ -41,9 +41,6 @@
     </section>
 {% endblock %}
 {% block javascript_page %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#entradas_type_fecha").focus();
-        });
-    </script>
+    {{ include('::/Admin/Entradas/scripts_compartidos.html.twig') }}
+    
 {% endblock %}
