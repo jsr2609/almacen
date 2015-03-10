@@ -1,0 +1,30 @@
+admin_almacenes:
+    path:     /
+    defaults: { _controller: "AppBundle:Admin/Almacenes:index" }
+
+admin_almacenes_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Admin/Almacenes:show" }
+
+admin_almacenes_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Admin/Almacenes:new" }
+
+admin_almacenes_create:
+    path:     /create
+    defaults: { _controller: "AppBundle:Admin/Almacenes:create" }
+    requirements: { _method: post }
+
+admin_almacenes_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Admin/Almacenes:edit" }
+
+admin_almacenes_update:
+    path:     /{id}/update
+    defaults: { _controller: "AppBundle:Admin/Almacenes:update" }
+    requirements: { _method: post|put }
+
+admin_almacenes_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Admin/Almacenes:delete" }
+    requirements: { _method: post|delete }

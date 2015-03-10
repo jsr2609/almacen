@@ -1,9 +1,9 @@
 app_admin_entradas:
-    resource: "@AppBundle/Resources/config/routing/entradas.yml"
+    resource: "@AppBundle/Resources/config/routing/Admin/entradas.yml"
     prefix:   /admin/entradas
 
 app_admin_almacenes:
-    resource: "@AppBundle/Resources/config/routing/almacenes.yml"
+    resource: "@AppBundle/Resources/config/routing/Admin/almacenes.yml"
     prefix:   /admin/almacenes
     
 admin_homepage:
