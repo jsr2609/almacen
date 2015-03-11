@@ -1,8 +1,8 @@
 <script type="text/javascript">
-    $("button.seleccionar-programa").click(function(){
+    $("#lista-programas").on("click", "button.seleccionar-programa", function(){
         row = getDataRowDT(dtProgramas, $(this));
-        $("#entradas_type_programa_key").val(row.data[0]);
-        $("#entradas_type_programa_description").val(row.data[1]);
+        $("#entradas_type_programa_key").val(row.data[1]);
+        $("#entradas_type_programa_description").val(row.data[2]);
         $("#modal-buscar-programa").modal('hide');
     });
 </script>

@@ -226,9 +226,11 @@ class ProgramasController extends Controller
     public function popupBuscarAction(Request $request)
     {
         $acciones = $request->query->get('acciones');
-        
+        $em = $this->getDoctrine()->getManager();
+        $programas = $em->getRepository("AppBundle:Programas")->recuperarLista();
         $html = $this->renderView('/Admin/Programas/popup_buscar.html.twig', array(
             'acciones' => $acciones,
+            'programas' => $programas,
         ));
         
         $data = array('code' => 200, 'html' => $html, 'message' => 'El proceso se realizó correctamente');

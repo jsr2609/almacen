@@ -6,25 +6,29 @@
                 <h4 class="modal-title">Busqueda de Programa</h4>
             </div>
             <div class="modal-body">
-                <table id="lista-programas" width="100%" class="table">
+                <table id="lista-programas" width="100%" class="table table-hover">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Clave</th>
                             <th>Nombre</th>
-                            <th>Acciones</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1234</td>
-                            <td>Programa 1234</td>    
-                            <td>
-                                <button type="button" id="" class="btn btn-primary seleccionar-programa"
-                                    programa-id="50" data-toggle="tooltip" title="Seleccionar">
-                                    <span class="glyphicon glyphicon-ok-sign"></span>                                     
-                                </button>
-                            </td>    
-                        </tr>
+                        {% for programa in programas %}
+                            <tr>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-xs seleccionar-programa"
+                                        programa-id="{{programa.id}}" data-toggle="tooltip" title="Seleccionar">
+                                        <span class="glyphicon glyphicon-ok-sign"></span>                                     
+                                    </button>
+                                </td>
+                                <td>{{programa.clave}}</td>
+                                <td>{{programa.nombre}}</td>
+                                
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -39,6 +43,6 @@
 </div><!-- /.modal -->
 <script type="text/javascript">
     $('#modal-buscar-programa').modal('show');
-    dtProgramas = createDataTable('minimal', 'lista-programas');
+    dtProgramas = createDataTable('complete', 'lista-programas');
 </script>
 {{include(acciones)}}
