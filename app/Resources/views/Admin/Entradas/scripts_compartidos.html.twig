@@ -3,7 +3,26 @@
         $("#entradas_type_fecha").focus();
         $("#entradas_type").validate();
         $("#entradas_type_programa .input-group-addon").click(function(){
-            alert("fsfds");
+            $.ajax({
+                url: "{{ path('admin_programas_popup_buscar') }}",
+                type: 'GET',             
+                dataType: "JSON",
+                data: {
+                    acciones: "/Admin/Entradas/acciones_buscar_programa.html.twig"
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $("#contenedor-modales").html(data.html);
+
+                    } else {
+                        
+
+                    }
+                },
+                error: function (request, text, error) {
+
+                }
+            });
         });
     });
 </script>

@@ -1,3 +1,7 @@
+app_admin_programas:
+    resource: "@AppBundle/Resources/config/routing/Admin/programas.yml"
+    prefix:   /admin/programas
+
 app_admin_entradas:
     resource: "@AppBundle/Resources/config/routing/Admin/entradas.yml"
     prefix:   /admin/entradas
