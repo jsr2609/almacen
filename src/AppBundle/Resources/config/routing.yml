@@ -1,3 +1,7 @@
+app_admin_proveedores:
+    resource: "@AppBundle/Resources/config/routing/Admin/proveedores.yml"
+    prefix:   /admin/proveedores
+
 app_admin_programas:
     resource: "@AppBundle/Resources/config/routing/Admin/programas.yml"
     prefix:   /admin/programas

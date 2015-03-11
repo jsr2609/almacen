@@ -1,0 +1,48 @@
+<div id="modal-buscar-proveedor" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Busqueda de Proveedor</h4>
+            </div>
+            <div class="modal-body">
+                <table id="lista-proveedores" width="100%" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>RFC</th>
+                            <th>Nombre</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for registro in registros %}
+                            <tr>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-xs seleccionar-proveedor"
+                                        programa-id="{{registro.id}}" data-toggle="tooltip" title="Seleccionar">
+                                        <span class="glyphicon glyphicon-ok-sign"></span>                                     
+                                    </button>
+                                </td>
+                                <td>{{registro.rfc}}</td>
+                                <td>{{registro.nombre}}</td>
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
+                </button>
+                
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript">
+    $('#modal-buscar-proveedor').modal('show');
+    dtProgramas = createDataTable('complete', 'lista-proveedores');
+</script>
+{{include(acciones)}}

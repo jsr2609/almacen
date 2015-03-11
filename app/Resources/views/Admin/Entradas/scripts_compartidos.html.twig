@@ -2,6 +2,7 @@
     $(document).ready(function(){
         $("#entradas_type_fecha").focus();
         $("#entradas_type").validate();
+        //Peticion para buscar el programa
         $("#entradas_type_programa .input-group-addon").click(function(){
             $.ajax({
                 url: "{{ path('admin_programas_popup_buscar') }}",
@@ -9,6 +10,29 @@
                 dataType: "JSON",
                 data: {
                     acciones: "/Admin/Entradas/acciones_buscar_programa.html.twig"
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $("#contenedor-modales").html(data.html);
+
+                    } else {
+                        
+
+                    }
+                },
+                error: function (request, text, error) {
+
+                }
+            });
+        });
+        //Petición para buscar el proveedor
+        $("#entradas_type_proveedor .input-group-addon").click(function(){
+            $.ajax({
+                url: "{{ path('admin_proveedores_popup_buscar') }}",
+                type: 'GET',             
+                dataType: "JSON",
+                data: {
+                    acciones: "/Admin/Entradas/acciones_buscar_proveedor.html.twig"
                 },
                 success: function (data) {
                     if (data.code == 200) {
