@@ -17,6 +17,11 @@ class Conceptos
     private $id;
 
     /**
+     * @ORM\Column(name="Clave", type="string", length=6, nullable=false)
+     */
+    private $clave;
+    
+    /**
      * @ORM\Column(name="Nombre", type="string", length=150, nullable=false)
      */
     private $nombre;
