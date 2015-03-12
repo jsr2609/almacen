@@ -22,6 +22,11 @@ class Partidas
      * @ORM\JoinColumn(name="ConceptoId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
     */
     private $concepto;
+    
+    /**
+     * @ORM\Column(name="Clave", type="string", length=6, nullable=false)
+     */
+    private $clave;
 
     /**
      * @ORM\Column(name="Nombre", type="string", length=150, nullable=false)
