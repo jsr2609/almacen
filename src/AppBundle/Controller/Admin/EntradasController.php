@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use AppBundle\Entity\Entradas;
 use AppBundle\Form\EntradasType;
+use AppBundle\Event\EntradasEvent;
+use AppBundle\EntradasEvents;
 
 /**
  * Entradas controller.
@@ -38,14 +40,24 @@ class EntradasController extends Controller
         $entity = new Entradas();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
+        
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            //Ejecutando eventos entradas.submitted
+            $entradasEvent = new EntradasEvent($entity);
+            $entradasEvent = $this->container->get('event_dispatcher')->dispatch(EntradasEvents::SUBMITTED, $entradasEvent);
+            
+            if ($entradasEvent->isPropagationStopped()) {
+                $this->addCommentToFlashBag('smtc_error', 'No se ha podido crear el comentario', $comment);
+            }
+            die("Antes del persist");
             $em->persist($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('admin_entradas_show', array('id' => $entity->getId())));
         }
+        
+        
 
         return $this->render('::/Admin/Entradas/new.html.twig', array(
             'entity' => $entity,
@@ -224,5 +236,12 @@ class EntradasController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+    
+    private function addFlash($type, $message) {
+        $this->getRequest()->getSession()->getFlashBag()->add(
+            $type,
+            $message
+        );
     }
 }

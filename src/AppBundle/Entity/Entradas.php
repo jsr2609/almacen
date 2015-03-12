@@ -367,6 +367,7 @@ class Entradas
      */
     public function setPrograma(\AppBundle\Entity\Programas $programa)
     {
+        
         $this->programa = $programa;
 
         return $this;

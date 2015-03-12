@@ -17,12 +17,14 @@ class EntradasType extends AbstractType
         $builder
             ->add('folio', 'text', array(
                 'help_block' => 'Folio generado automáticamente por el sistema.',
+                'required' => false,
                 'attr' => array(
                     'readonly' => true
                 )
             ))
             ->add('fecha', 'date', array(
                 'widget' => 'single_text',
+                'format' => 'dd/MM/y',
                 'attr' => array(
                     'class' => 'datepicker', 
                     'data-mask' => '99/99/9999',
@@ -37,7 +39,8 @@ class EntradasType extends AbstractType
                 'widget_type'  => 'inline'
             ))
             ->add('programa', 'search_key', array(
-                'class' => 'AppBundle:Programas'
+                'class' => 'AppBundle:Programas',
+                'property' => 'clave',
             ))
             ->add('pedidoNumero', 'text', array(
                 'label' => 'Número de Pedido',
@@ -52,7 +55,8 @@ class EntradasType extends AbstractType
                 'empty_value' => false,
             ))
             ->add('proveedor', 'search_key', array(
-                'class' => 'AppBundle:Proveedores'
+                'class' => 'AppBundle:Proveedores',
+                'property' => 'rfc',
             ))
             ->add('numeroFactura', 'text', array(
                 'label' => 'Numero de Factura',

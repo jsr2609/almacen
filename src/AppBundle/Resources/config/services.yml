@@ -2,3 +2,10 @@ services:
 #    app.example:
 #        class: AppBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+
+
+    app.listener.entradas_asignar_folio:
+        class: AppBundle\EventListener\EntradasAsignarFolioListener
+        tags:
+            - { name: "kernel.event_listener" , event: "entradas.submitted", method: "onEntradasSubmitted", priority: 1 }
+        

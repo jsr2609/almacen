@@ -12,5 +12,6 @@ services:
     #Form types
     ssa_utilidades.form.type.searh_key:
         class: SSA\UtilidadesBundle\Form\Type\SearchKeyType
+        arguments: ['@doctrine']
         tags:
             - { name: form.type, alias: search_key }
