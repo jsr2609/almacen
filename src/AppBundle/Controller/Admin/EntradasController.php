@@ -39,9 +39,11 @@ class EntradasController extends Controller
     {
         $entity = new Entradas();
         $form = $this->createCreateForm($entity);
+        //die(var_export($entity->getPrograma()));
         $form->handleRequest($request);
         
         if ($form->isValid()) {
+            
             $em = $this->getDoctrine()->getManager();
             //Ejecutando eventos entradas.submitted
             $entradasEvent = new EntradasEvent($entity);
@@ -50,7 +52,7 @@ class EntradasController extends Controller
             if ($entradasEvent->isPropagationStopped()) {
                 $this->addCommentToFlashBag('smtc_error', 'No se ha podido crear el comentario', $comment);
             }
-            die("Antes del persist");
+            
             $em->persist($entity);
             $em->flush();
 

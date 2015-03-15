@@ -25,6 +25,10 @@ class EntradasEvent extends Event
         $this->entrada = $entrada;
     }
     
+    /**
+     * 
+     * @return Entradas
+     */
     public function getEntrada()
     {
         return $this->entrada;

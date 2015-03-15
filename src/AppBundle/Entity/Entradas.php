@@ -89,6 +89,12 @@ class Entradas
      */
     private $fechaActualizacion;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="SSA\SeguridadBundle\Entity\Usuarios", cascade={})
+     * @ORM\JoinColumn(name="UsuarioId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     */
+    private $usuario;
+    
      public function __construct() 
     {
         $this->fechaCreacion = new \DateTime();
@@ -404,5 +410,28 @@ class Entradas
     public function getEjercicio()
     {
         return $this->ejercicio;
+    }
+
+    /**
+     * Set usuario
+     *
+     * @param \SSA\SeguridadBundle\Entity\Usuarios $usuario
+     * @return Entradas
+     */
+    public function setUsuario(\SSA\SeguridadBundle\Entity\Usuarios $usuario)
+    {
+        $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \SSA\SeguridadBundle\Entity\Usuarios 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
     }
 }

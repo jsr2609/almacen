@@ -18,21 +18,35 @@ use Doctrine\Common\Persistence\ObjectManager;
  * @author jsr
  */
 
-class SearchKeyTransformer implements DataTransformerInterface
+class SearchKeyViewTransformer implements DataTransformerInterface
 {
     public function __construct()
     {
         
     }
     
+    /**
+     * Transforma un valor escalar en un objeto
+     * 
+     * @param type $value
+     * @return \AppBundle\Entity\Programas
+     */
+    
     public function reverseTransform($value) 
     {
-        die("REVERDE");
+        die("rtvw");
+        
     }
 
+    /**
+     * Transforma un objeto en un valor scalar
+     * 
+     * @param type $value
+     * @return string
+     */
     public function transform($value) 
     {
-        return "HOLA";
+        die("tvw");
     }
 
 //put your code here

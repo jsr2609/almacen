@@ -24,6 +24,11 @@ class Ejercicios
      * @ORM\JoinColumn(name="AlmacenId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
     */
     private $almacen;
+    
+    /**
+     * @ORM\Column(name="Periodo", type="integer", nullable=false)
+     */
+    private $periodo;
 
     /**
      * @ORM\Column(name="NumeroEntradas", type="integer", nullable=false)
@@ -233,5 +238,28 @@ class Ejercicios
     public function getAlmacen()
     {
         return $this->almacen;
+    }
+
+    /**
+     * Set periodo
+     *
+     * @param integer $periodo
+     * @return Ejercicios
+     */
+    public function setPeriodo($periodo)
+    {
+        $this->periodo = $periodo;
+
+        return $this;
+    }
+
+    /**
+     * Get periodo
+     *
+     * @return integer 
+     */
+    public function getPeriodo()
+    {
+        return $this->periodo;
     }
 }

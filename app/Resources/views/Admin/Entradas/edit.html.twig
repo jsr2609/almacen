@@ -1,16 +1,54 @@
-{% extends '::base.html.twig' %}
+{% extends '::/Admin/layout.html.twig' %}
+{% block title_page %}
+    <i class="fa fa-edit fa-list "></i>
+    Entradas <span>> Editar</span>
+{% endblock %}
+{% block content -%}
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div id="wid-id-0" class="jarviswidget" 
+                     data-widget-deletebutton="true" data-widget-colorbutton="true" data-widget-editbutton="true">
+                    <header>
 
-{% block body -%}
-    <h1>Entradas edit</h1>
 
-    {{ form(edit_form) }}
+                        <span class="widget-icon"> <i class="fa fa-plus-circle"></i> </span>
+                        <h2>Editar</h2>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_entradas') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+                    </header>
+
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <input class="form-control" type="text">
+
+                        </div>
+                        <div class="widget-body">
+                            <!-- Contenido -->
+                            <div class="widget-header">                        
+                                <!-- Botones de Accion -->
+                                <ul class="list-inline">
+                                    <li>
+                                        <a href="{{ path('admin_entradas', {}) }}" class="btn btn-primary">
+                                            <i class="fa fa-list fa-fw"></i> Lista de Entradas
+                                        </a>
+                                    </li>
+                                    <li>{{ form(delete_form) }}</li>
+                                </ul>
+                            </div>
+                            <!-- Contenido -->
+                            {{ form(edit_form) }}
+                            <div id="contenedor-modales">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+{% endblock %}
+{% block javascript_page %}
+    {{ include('::/Admin/Entradas/scripts_compartidos.html.twig') }}
+    
 {% endblock %}

@@ -27,7 +27,12 @@
 
                     <!-- breadcrumb -->
                     <ol class="breadcrumb">
-                            <li>Inicio</li>
+                            <li>
+                                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{app.session.get('almacen').nombre}}
+                            </li>
+                            <li>
+                                Ejercicio {{app.session.get('almacen').ejercicio.periodo}}
+                            </li>
                             {% block items_breadcrumb %}
                             {% endblock %}
                     </ol>

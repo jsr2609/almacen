@@ -40,7 +40,22 @@ class EntradasType extends AbstractType
             ))
             ->add('programa', 'search_key', array(
                 'class' => 'AppBundle:Programas',
-                'property' => 'clave',
+                'property_key' => 'clave',
+                'property_description' => 'nombre'
+            ))
+            ->add('proveedor', 'search_key', array(
+                'class' => 'AppBundle:Proveedores',
+                'property_key' => 'rfc',
+                'property_description' => 'nombre'
+            ))
+            ->add('numeroFactura', 'text', array(
+                'label' => 'Numero de Factura',
+                'required' => false,
+            ))
+            ->add('fechaFactura', 'date', array(
+                'widget' => 'single_text',
+                'label' => 'Fecha de Factura',
+                'required' => false,
             ))
             ->add('pedidoNumero', 'text', array(
                 'label' => 'Número de Pedido',
@@ -53,19 +68,6 @@ class EntradasType extends AbstractType
                 'widget_type'  => 'inline',
                 'required' => false,
                 'empty_value' => false,
-            ))
-            ->add('proveedor', 'search_key', array(
-                'class' => 'AppBundle:Proveedores',
-                'property' => 'rfc',
-            ))
-            ->add('numeroFactura', 'text', array(
-                'label' => 'Numero de Factura',
-                'required' => false,
-            ))
-            ->add('fechaFactura', 'date', array(
-                'widget' => 'single_text',
-                'label' => 'Fecha de Factura',
-                'required' => false,
             ))
             
             ->add('observaciones', 'textarea', array(

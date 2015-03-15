@@ -4,8 +4,28 @@ services:
 #        arguments: [@service_id, "plain_value", %parameter%]
 
 
+    #Listeners
     app.listener.entradas_asignar_folio:
         class: AppBundle\EventListener\EntradasAsignarFolioListener
+        arguments: ['@doctrine', '@session']
         tags:
             - { name: "kernel.event_listener" , event: "entradas.submitted", method: "onEntradasSubmitted", priority: 1 }
+    
+    app.listener.entradas_asignar_ejercicio:
+        class: AppBundle\EventListener\EntradasAsignarEjercicioListener
+        arguments: ['@doctrine', '@session']
+        tags:
+            - { name: "kernel.event_listener" , event: "entradas.submitted", method: "onEntradasSubmitted", priority: 2 }
+    
+    app.listener.entradas_asignar_usuario:
+        class: AppBundle\EventListener\EntradasAsignarUsuarioListener
+        arguments: ['@security.context']
+        tags:
+            - { name: "kernel.event_listener" , event: "entradas.submitted", method: "onEntradasSubmitted", priority: 3 }
+    
+    app.listener.security_after_Login:
+        class: AppBundle\EventListener\SecurityAfterLoginListener
+        arguments: ['@security.context', '@session', '@doctrine']
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
         

@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  *
  * @author jsr
  */
-class EntradasAsignarFolioListener 
+class EntradasAsignarEjercicioListener 
 {
     
     private $session;
@@ -37,11 +37,7 @@ class EntradasAsignarFolioListener
             'almacen' => $almacenDatos['id'],
             'periodo' => $almacenDatos['ejercicio']['periodo'],
         ));
-        $folio = $ejercicio->getNumeroEntradas();
-        $folio = $folio + 1;
-        $entrada->setFolio($folio);
-        $ejercicio->setNumeroEntradas($folio);
-        $em->persist($ejercicio);
+        $entrada->setEjercicio($ejercicio);
         
     }
 }
