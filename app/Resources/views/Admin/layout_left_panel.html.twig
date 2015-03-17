@@ -6,7 +6,7 @@
     <div class="login-info">
         <span> <!-- User image size is adjusted inside CSS, it should stay as it --> 
 
-            <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
+            <a href="javascript:void(0);" id="show-shortcut" >
                 <img alt="user" class="online" src="{{asset('img/avatar-man.jpg')}}">
                 <span>{{app.user.nombreCompleto}}</span>
                 <i class="fa fa-angle-down"></i>
@@ -20,7 +20,7 @@
     <nav>
             <ul>
                 <li class="active">
-                    <a href="index.html" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Inicio</span></a>
+                    <a href="{{ path('admin_homepage') }}" title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Inicio</span></a>
                     
                 </li>
                 
@@ -32,6 +32,16 @@
                         
                     </ul>
                 </li>
+                
+                <li>
+                    <a href="#"><i class="fa fa-lg fa-fw fa-file-text"></i> <span class="menu-item-parent"> Salidas</span></a>
+                    <ul>              
+                        <li><a href=""><i class="fa fa-plus-circle fa-fw"></i> Nueva</a></li>
+                        <li><a href=""><i class="fa fa-list fa-fw"></i> Administración</a></li>
+                        
+                    </ul>
+                </li>
+                
                 
                 <li>
                     <a href="#"><i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent"> Administración</span></a>
