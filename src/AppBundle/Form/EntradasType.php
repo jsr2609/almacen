@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use AppBundle\Entity\Entradas;
 
 class EntradasType extends AbstractType
 {
@@ -32,9 +33,9 @@ class EntradasType extends AbstractType
                 ),
                 'widget_addon_prepend' => array('icon' => 'calendar'),
             ))
-            ->add('tipoEntrada', 'entity', array(
+            ->add('tipoEntrada', 'choice', array(
                 'label' => 'Tipo de Entrada',
-                'class' => 'AppBundle:EntradaTipos',
+                'choices' => Entradas::$entradaTipos,
                 'expanded' => true,
                 'widget_type'  => 'inline'
             ))
@@ -63,7 +64,7 @@ class EntradasType extends AbstractType
             ))
             ->add('pedidoTipo', 'choice', array(
                 'label' => 'Tipo de pedido',
-                'choices' => array('Orden', 'Pedido', 'Propuesta', 'Otro'),
+                'choices' => Entradas::$pedidoTipos,
                 'expanded' => true,
                 'widget_type'  => 'inline',
                 'required' => false,

@@ -11,6 +11,20 @@ use Doctrine\ORM\Mapping AS ORM;
  */
 class Entradas
 {
+    public static $entradaTipos = array(
+        1 => 'Directa',
+        2 => 'Donación',
+        3 => 'Licitación',
+        4 => 'Otra',
+    );
+    
+    public static $pedidoTipos = array(
+        1 => 'Orden',
+        2 => 'Pedido',
+        3 => 'Propuesta',
+        4 => 'Otro',
+    );
+    
     /**
      * @ORM\Id
      * @ORM\Column(name="Id", type="integer")
@@ -47,10 +61,8 @@ class Entradas
      */
     private $fecha;
 
-    
     /**
-     * @ORM\ManyToOne(targetEntity="EntradaTipos", cascade={})
-     * @ORM\JoinColumn(name="TipoEntradaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     * @ORM\Column(name="TipoEntradaId", type="smallint", nullable=false)
      */
     private $tipoEntrada;
 
