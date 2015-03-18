@@ -1,0 +1,30 @@
+admin_entradadetalles:
+    path:     /entrada/{id}
+    defaults: { _controller: "AppBundle:Admin/EntradaDetalles:index" }
+
+admin_entradadetalles_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Admin/EntradaDetalles:show" }
+
+admin_entradadetalles_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Admin/EntradaDetalles:new" }
+
+admin_entradadetalles_create:
+    path:     /create
+    defaults: { _controller: "AppBundle:Admin/EntradaDetalles:create" }
+    requirements: { _method: post }
+
+admin_entradadetalles_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Admin/EntradaDetalles:edit" }
+
+admin_entradadetalles_update:
+    path:     /{id}/update
+    defaults: { _controller: "AppBundle:Admin/EntradaDetalles:update" }
+    requirements: { _method: post|put }
+
+admin_entradadetalles_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Admin/EntradaDetalles:delete" }
+    requirements: { _method: post|delete }

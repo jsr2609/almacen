@@ -1,0 +1,112 @@
+{% extends '::/Admin/layout.html.twig' %}
+{% block title_page %}
+    <i class="fa fa-list fa-list "></i>
+    Artículos de Entrada <span>> Lista</span>
+{% endblock %}
+
+{% block content -%}
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div id="wid-id-0" class="jarviswidget" 
+                     data-widget-deletebutton="true" data-widget-colorbutton="true" data-widget-editbutton="true">
+                    <header>
+
+
+                        <span class="widget-icon"> <i class="fa fa-list"></i> </span>
+                        <h2>Lista</h2>
+
+                    </header>
+
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <input class="form-control" type="text">
+
+                        </div>
+                        <div class="widget-body ">
+                            <!-- Contenido -->
+                            <div class="widget-header">                        
+                                <!-- Botones de Accion -->
+                                <button type="button" id="btn-agregar-articulo" class="btn btn-primary" data-toggle="tooltip" title="Agregar">
+                                    <i class="fa fa-plus-circle fa-fw"></i> Agregar Artículo
+                                </button>
+
+                                <a href="{{ path('admin_entradas_edit', {'id': 1}) }}" class="btn btn-default" data-toggle="tooltip" title="Editar">
+                                    <i class="fa fa-edit fa-fw"></i> Edición de Entrada
+                                </a>
+                                <a href="{{ path('admin_entradas', {}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
+                                    <i class="fa fa-list fa-fw"></i> Lista de Entradas
+                                </a>                                
+                            </div>
+                            <!-- Contenido -->
+                            <table id="lista-articulos" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>                                        
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for entity in entities %}
+                                    <tr>
+                                        
+                                        <td>{{ entity.cantidad }}</td>
+                                        <td>{{ entity.precio }}</td>
+                                        
+                                        <td>
+                                        <ul>
+                                            <li>
+                                                <a href="{{ path('admin_entradadetalles_show', { 'id': entity.id }) }}">show</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('admin_entradadetalles_edit', { 'id': entity.id }) }}">edit</a>
+                                            </li>
+                                        </ul>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div id="contenedor-modales"></div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+{% endblock %}
+{% block javascript_page %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            dtListaArticulos = createDataTable("minimal", "lista-articulos");
+            $("#btn-agregar-articulo").click(function(){
+                $.ajax({
+                    url: "{{ path('admin_entradadetalles_new') }}",
+                    type: 'GET',
+                    dataType: "JSON",
+                    //data: $("#form_type").serialize()+"&valor=10",
+                    data: {
+
+                    },
+                    success: function(data) {
+                        if(data.code == 200) {
+                            $('#contenedor-modales').html(data.html);
+
+                        } else {
+                            createAlert("danger", null, data.message)
+
+                        }
+                    },
+                    error: function(request, text, error) {
+                        //$("#loader").modal("hide");
+                        createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

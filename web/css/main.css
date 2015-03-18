@@ -22,3 +22,10 @@ and open the template in the editor.
     font-weight: bold;
 }
 
+/*
+ * Modales
+ */
+
+.modal-lg {
+    width: 90%;
+}

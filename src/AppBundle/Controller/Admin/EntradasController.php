@@ -55,8 +55,8 @@ class EntradasController extends Controller
             
             $em->persist($entity);
             $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_entradas_show', array('id' => $entity->getId())));
+            $this->addFlash('success', "La entrada se creo satisfactoriamente, agregue los artículos necesarios.");
+            return $this->redirect($this->generateUrl('admin_entradadetalles', array()));
         }
         
         

@@ -46,8 +46,7 @@ class Salidas
     private $fecha;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EntradaTipos", cascade={})
-     * @ORM\JoinColumn(name="TipoEntradaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     * @ORM\Column(name="TipoEntradaId", type="smallint", nullable=false)
      */
     private $tipoEntrada;
 

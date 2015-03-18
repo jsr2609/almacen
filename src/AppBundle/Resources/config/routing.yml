@@ -1,3 +1,7 @@
+app_admin_entradadetalles:
+    resource: "@AppBundle/Resources/config/routing/Admin/entradadetalles.yml"
+    prefix:   /admin/entradadetalles
+
 app_admin_proveedores:
     resource: "@AppBundle/Resources/config/routing/Admin/proveedores.yml"
     prefix:   /admin/proveedores
