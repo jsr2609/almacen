@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping AS ORM;
  */
 class Ejercicios
 {
+    public static $tiposInventario = array(1 => "PEPS", 2 => "Promedio");
+    
     /**
      * @ORM\Id
      * @ORM\Column(name="Id", type="integer")
@@ -59,6 +61,11 @@ class Ejercicios
      * @ORM\Column(name="FechaActualizacion", type="datetime", nullable=false)
      */
     private $fechaActualizacion;
+    
+    /**
+     * @ORM\Column(name="TipoInventario", type="smallint", nullable=false)
+     */
+    private $tipoInventario;
     
     public function __construct() 
     {
@@ -261,5 +268,28 @@ class Ejercicios
     public function getPeriodo()
     {
         return $this->periodo;
+    }
+
+    /**
+     * Set tipoInventario
+     *
+     * @param integer $tipoInventario
+     * @return Ejercicios
+     */
+    public function setTipoInventario($tipoInventario)
+    {
+        $this->tipoInventario = $tipoInventario;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoInventario
+     *
+     * @return integer 
+     */
+    public function getTipoInventario()
+    {
+        return $this->tipoInventario;
     }
 }

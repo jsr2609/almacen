@@ -8,6 +8,10 @@ and open the template in the editor.
     Author     : jsr
 */
 
+.margin-top-0 {
+    margin-top: 0px;
+}
+
 .margin-top-15 {
     margin-top: 15px;
 }

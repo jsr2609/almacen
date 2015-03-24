@@ -11,6 +11,9 @@ use Doctrine\ORM\Mapping AS ORM;
  */
 class EntradaDetalles
 {
+    
+    public static $aplicaIvaOpciones = array(0 => 'No', 1 => 'Si');
+    
     /**
      * @ORM\Id
      * @ORM\Column(name="Id", type="integer")
@@ -20,7 +23,7 @@ class EntradaDetalles
     
     /**
      * @ORM\ManyToOne(targetEntity="Entradas")
-     * @ORM\JoinColumn(name="EntradaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     * @ORM\JoinColumn(name="EntradaId", referencedColumnName="Id", nullable=false, onDelete="CASCADE")
     */
     private $entrada;
     
@@ -35,16 +38,26 @@ class EntradaDetalles
      * @ORM\Column(name="Cantidad", type="integer", length=2, nullable=false)
      */
     private $cantidad;
+    
+    /**
+     * @ORM\Column(name="Existencia", type="integer", length=2, nullable=false)
+     */
+    private $existencia;
 
     /**
-     * @ORM\Column(name="Precio", type="decimal", nullable=false)
+     * @ORM\Column(name="Precio", type="decimal", nullable=false, precision=10, scale=2)
      */
     private $precio;
+    
+    /**
+     * @ORM\Column(name="FechaCaducidad", type="date", nullable=true)
+     */
+    private $fechaCaducidad;
 
     /**
      * @ORM\Column(name="AplicaIVA", type="boolean", nullable=true)
      */
-    private $aplicaIva;
+    private $aplicaIva = false;
 
     /**
      * @ORM\Column(name="Observaciones", type="string", nullable=true)
@@ -259,5 +272,51 @@ class EntradaDetalles
     public function getArticulo()
     {
         return $this->articulo;
+    }
+
+    /**
+     * Set fechaCaducidad
+     *
+     * @param \DateTime $fechaCaducidad
+     * @return EntradaDetalles
+     */
+    public function setFechaCaducidad($fechaCaducidad)
+    {
+        $this->fechaCaducidad = $fechaCaducidad;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaCaducidad
+     *
+     * @return \DateTime 
+     */
+    public function getFechaCaducidad()
+    {
+        return $this->fechaCaducidad;
+    }
+
+    /**
+     * Set existencia
+     *
+     * @param integer $existencia
+     * @return EntradaDetalles
+     */
+    public function setExistencia($existencia)
+    {
+        $this->existencia = $existencia;
+
+        return $this;
+    }
+
+    /**
+     * Get existencia
+     *
+     * @return integer 
+     */
+    public function getExistencia()
+    {
+        return $this->existencia;
     }
 }

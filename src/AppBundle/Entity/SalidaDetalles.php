@@ -20,7 +20,7 @@ class SalidaDetalles
     
      /**
      * @ORM\ManyToOne(targetEntity="Salidas")
-     * @ORM\JoinColumn(name="SalidaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     * @ORM\JoinColumn(name="SalidaId", referencedColumnName="Id", nullable=false, onDelete="CASCADE")
     */
     private $salida;
     

@@ -68,4 +68,221 @@ class Articulos
         $this->fechaCreacion = new \DateTime();
         $this->fechaActualizacion = new \DateTime();
     }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set clave
+     *
+     * @param string $clave
+     * @return Articulos
+     */
+    public function setClave($clave)
+    {
+        $this->clave = $clave;
+
+        return $this;
+    }
+
+    /**
+     * Get clave
+     *
+     * @return string 
+     */
+    public function getClave()
+    {
+        return $this->clave;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Articulos
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set presentacion
+     *
+     * @param integer $presentacion
+     * @return Articulos
+     */
+    public function setPresentacion($presentacion)
+    {
+        $this->presentacion = $presentacion;
+
+        return $this;
+    }
+
+    /**
+     * Get presentacion
+     *
+     * @return integer 
+     */
+    public function getPresentacion()
+    {
+        return $this->presentacion;
+    }
+
+    /**
+     * Set cantidad
+     *
+     * @param integer $cantidad
+     * @return Articulos
+     */
+    public function setCantidad($cantidad)
+    {
+        $this->cantidad = $cantidad;
+
+        return $this;
+    }
+
+    /**
+     * Get cantidad
+     *
+     * @return integer 
+     */
+    public function getCantidad()
+    {
+        return $this->cantidad;
+    }
+
+    /**
+     * Set unidadMedidaPresentacion
+     *
+     * @param string $unidadMedidaPresentacion
+     * @return Articulos
+     */
+    public function setUnidadMedidaPresentacion($unidadMedidaPresentacion)
+    {
+        $this->unidadMedidaPresentacion = $unidadMedidaPresentacion;
+
+        return $this;
+    }
+
+    /**
+     * Get unidadMedidaPresentacion
+     *
+     * @return string 
+     */
+    public function getUnidadMedidaPresentacion()
+    {
+        return $this->unidadMedidaPresentacion;
+    }
+
+    /**
+     * Set activo
+     *
+     * @param boolean $activo
+     * @return Articulos
+     */
+    public function setActivo($activo)
+    {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
+     * Get activo
+     *
+     * @return boolean 
+     */
+    public function getActivo()
+    {
+        return $this->activo;
+    }
+
+    /**
+     * Set fechaCreacion
+     *
+     * @param \DateTime $fechaCreacion
+     * @return Articulos
+     */
+    public function setFechaCreacion($fechaCreacion)
+    {
+        $this->fechaCreacion = $fechaCreacion;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaCreacion
+     *
+     * @return \DateTime 
+     */
+    public function getFechaCreacion()
+    {
+        return $this->fechaCreacion;
+    }
+
+    /**
+     * Set fechaActualizacion
+     *
+     * @param \DateTime $fechaActualizacion
+     * @return Articulos
+     */
+    public function setFechaActualizacion($fechaActualizacion)
+    {
+        $this->fechaActualizacion = $fechaActualizacion;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaActualizacion
+     *
+     * @return \DateTime 
+     */
+    public function getFechaActualizacion()
+    {
+        return $this->fechaActualizacion;
+    }
+
+    /**
+     * Set partida
+     *
+     * @param \AppBundle\Entity\Partidas $partida
+     * @return Articulos
+     */
+    public function setPartida(\AppBundle\Entity\Partidas $partida)
+    {
+        $this->partida = $partida;
+
+        return $this;
+    }
+
+    /**
+     * Get partida
+     *
+     * @return \AppBundle\Entity\Partidas 
+     */
+    public function getPartida()
+    {
+        return $this->partida;
+    }
 }

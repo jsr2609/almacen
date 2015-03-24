@@ -28,3 +28,7 @@ admin_entradadetalles_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Admin/EntradaDetalles:delete" }
     requirements: { _method: post|delete }
+    
+admin_entradadetalles_buscar_articulo:
+    path:     /buscar_articulo
+    defaults: { _controller: "AppBundle:Admin/EntradaDetalles:buscarArticulo" }

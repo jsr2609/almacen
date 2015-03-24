@@ -4,6 +4,9 @@
     Artículos de Entrada <span>> Lista</span>
 {% endblock %}
 
+{% block items_breadcrumb %}
+{% endblock %}
+
 {% block content -%}
     <section id="widget-grid" class="">
         <div class="row">
@@ -13,8 +16,10 @@
                     <header>
 
 
-                        <span class="widget-icon"> <i class="fa fa-list"></i> </span>
-                        <h2>Lista</h2>
+                        <span class="widget-icon"> <i class="fa fa-file"></i> </span>
+                        <h2>Folio de la Entrada: <b>{{entrada.folio}}</b> / 
+                            <i class="fa fa-list fa-fw"></i> Programa {{entrada.programa.nombre}}
+                        </h2>
 
                     </header>
 
@@ -43,17 +48,22 @@
                             <table id="lista-articulos" class="table">
                                 <thead>
                                     <tr>
+                                        <th>Clave</th>
+                                        <th>Nombre</th>
                                         <th>Cantidad</th>
-                                        <th>Precio</th>                                        
+                                        <th>Precio</th>
+                                        <th>Total</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {% for entity in entities %}
                                     <tr>
-                                        
+                                        <td></td>
+                                        <td></td>
                                         <td>{{ entity.cantidad }}</td>
                                         <td>{{ entity.precio }}</td>
+                                        <td></td>
                                         
                                         <td>
                                         <ul>
@@ -89,7 +99,7 @@
                     dataType: "JSON",
                     //data: $("#form_type").serialize()+"&valor=10",
                     data: {
-
+                        entradaId: "{{entrada.id}}"
                     },
                     success: function(data) {
                         if(data.code == 200) {

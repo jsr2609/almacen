@@ -16,6 +16,7 @@ namespace SSA\UtilidadesBundle\Manager;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Doctrine\ORM\Repository;
 
 
@@ -25,12 +26,14 @@ class BaseManager
     private $request;
     private $securityContext;
     private $router;
+    private $session;
     
-    public function __construct($doctrine, SecurityContext $securityContext, $router)
+    public function __construct($doctrine, SecurityContext $securityContext, $router, Session $session)
     {
         $this->doctrine = $doctrine;
         $this->router = $router;
         $this->securityContext = $securityContext;
+        $this->session = $session;
     }
     
     public function setRequest(Request $request = null) {
@@ -109,6 +112,11 @@ class BaseManager
             $type,
             $txt
         );
+    }
+    
+    public function getSession()
+    {
+        return $this->session;
     }
     
     

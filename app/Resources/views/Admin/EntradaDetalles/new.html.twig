@@ -11,7 +11,12 @@
                         {{ form(form) }}
                     </div>
                     <div class="col-lg-6">
-                        <h2>Descripción de Artículo</h2>
+                        <h2 class="margin-top-0">Descripción de Artículo</h2>
+                        <div id="articulo-descripcion">
+                            <span class="help-block">
+                                La descripción se va a mostrar al ingresar un artículo.
+                            </span>
+                        </div>
                     </div>
                 </div>
                 
@@ -20,15 +25,74 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">
                     <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
                 </button>
-                <button type="button" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Aceptar
-                </button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <script type="text/javascript">
+    initDatePicker();
+    $('#entrada_detalles_type').validate();
     $("#modal-nuevo-articulo").modal('show');
+    
+    //Interceptando el evento al enviar el formulario
+    $("#entrada_detalles_type").submit(function(e){
+        
+        if($('#entrada_detalles_type').valid()) {
+            e.preventDefault();
+            $.ajax({
+                url: "{{ path('admin_entradadetalles_create') }}",
+                type: 'POST',                
+                dataType: "JSON",
+                data: $("#entrada_detalles_type").serialize()+"&valor=10",
+                success: function(data) {
+                    if(data.code == 200) {
+                        createAlert("success", null, data.message)
+                        $("#modal-nuevo-articulo").modal('hide');
+                    } else {
+                        createAlert("danger", null, data.message)
+
+                    }
+                },
+                error: function(request, text, error) {
+                    //$("#loader").modal("hide");
+                    createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+                }
+            });
+        }
+    });
+    
+    //Interceptando el evento al salir del campo
+    $('#entrada_detalles_type_articulo').blur(function(){
+        articuloClave = $(this).val()
+        if(!isEmpty(articuloClave)) {
+            $.ajax({
+                url: "{{ path('admin_entradadetalles_buscar_articulo') }}",
+                type: 'GET',
+                dataType: "JSON",
+                //data: $("#people_type").serialize()+"&valor=10",
+                data: {
+                    articuloClave: articuloClave
+                },
+                success: function(data) {
+                    if(data.code == 200) {
+                        $('#articulo-descripcion').html(data.html);
+
+                    } else {
+                        createAlert("danger", null, data.message)
+
+                    }
+                },
+                error: function(request, text, error) {
+                    //$("#loader").modal("hide");
+                    createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+                }
+            });
+        }
+    }); //Fin blur campo artículo
+    
+    
 </script>
 
     

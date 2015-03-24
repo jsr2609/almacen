@@ -53,13 +53,18 @@ function resetForm(form) {
  * Inicia los datepicker 
  *
  */
-function initDatePicker(options) {
+function initDatePicker(options, element) {
     if(options == null) {
         settings = optionsDatePicker;
     } else {
         settings = $.extend({}, optionsDatePicker, options);   
     }
-    $(".datepicker").datepicker(settings);
+    if(element == null) {
+        $(".datepicker").datepicker(settings);
+    } else {
+        $("#"+element).datepicker(settings);
+    }
+    
 }
 
 /**
@@ -161,5 +166,19 @@ function loadOptionsSelect(url, data, select) {
             });                        
         }
     });
+}
+
+function isEmpty(txt) {
+    
+    
+    txt = txt.trim();
+    l = txt.length;
+    
+    if(l === 0) {
+        return true;
+    } else {
+        return false;
+    }
+    
 }
 

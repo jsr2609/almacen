@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\EntradaDetalles;
 use AppBundle\Form\EntradaDetallesType;
+use SSA\UtilidadesBundle\Helper\Helpers;
 
 /**
  * EntradaDetalles controller.
@@ -26,9 +27,10 @@ class EntradaDetallesController extends Controller
         $entrada = $em->getRepository("AppBundle:Entradas")->find($id);
 
         $entities = $em->getRepository('AppBundle:EntradaDetalles')->findAll();
-
+                
         return $this->render('/Admin/EntradaDetalles/index.html.twig', array(
             'entities' => $entities,
+            'entrada' => $entrada,
         ));
     }
     /**
@@ -37,17 +39,40 @@ class EntradaDetallesController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity = new EntradaDetalles();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+        if($request->isXmlHttpRequest()) {
+            $entity = new EntradaDetalles();
+            $form = $this->createCreateForm($entity);
+            $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_entradadetalles_show', array('id' => $entity->getId())));
+            if ($form->isValid()) {
+                $existenciasManager = $this->get('app.existencias');
+                $existenciasManager->aumentar($entity->getArticulo(), 
+                    $entity->getEntrada()->getPrograma(), $entity->getCantidad(), $entity->getPrecio()
+                );
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($entity);
+                //$em->flush();
+                
+                $entradaDetallesManager = $this->get('app.entrada_detalles');
+                $precio = $entradaDetallesManager->calcularPrecio($entity);
+                die(var_export($precio));
+                die('calculandoPrecio');
+                $registro = array(
+                    'clave' => $entity->getArticulo()->getClave(),
+                    'nombre' => Helpers::getSubString($entity->getArticulo()->getNombre()),
+                    'precio' => $precio,
+                );
+                $data = array('code' => 200, 'html' => '', 'message' => 'El artículo se agrego correctamente.');
+            } else {
+                $data = array('code' => 500, 'html' => '', 'message' => 'Se encontraron errores al procesar el formulario.');
+            }
+            
+            
+            $response = new JsonResponse($data);
+            return $response;
+            
         }
+        
 
         return $this->render('/Admin/EntradaDetalles/new.html.twig', array(
             'entity' => $entity,
@@ -69,7 +94,11 @@ class EntradaDetallesController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array(
+            'label' => 'Guardar',
+            'attr' => array('class' => 'btn-primary'),
+            'icon' => 'floppy-disk'
+        ));
 
         return $form;
     }
@@ -82,7 +111,11 @@ class EntradaDetallesController extends Controller
     {
         if($request->isXmlHttpRequest()) {
             $entity = new EntradaDetalles();
-            $form   = $this->createCreateForm($entity);
+            $entradaId = $request->query->get('entradaId');
+            $em = $this->getDoctrine()->getManager();
+            $entrada = $em->getRepository("AppBundle:Entradas")->find($entradaId);
+            $entity->setEntrada($entrada);
+            $form = $this->createCreateForm($entity);
 
             $html = $this->renderView('/Admin/EntradaDetalles/new.html.twig', array(
                 'entity' => $entity,
@@ -228,5 +261,26 @@ class EntradaDetallesController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+    
+    public function buscarArticuloAction(Request $request) {
+        if($request->isXmlHttpRequest()) {
+            $articuloClave = $request->query->get('articuloClave');
+            $em = $this->getDoctrine()->getManager();
+            $articulo = $em->getRepository("AppBundle:Articulos")->findOneByClave($articuloClave);
+            if(!$articulo) {
+                $data = array('code' => 500, 'html' => "", 
+                    'message' => 'No se ha encontrado un articulo con la clave: '.$articuloClave,
+                );
+            } else {
+                $html = $this->renderView("/Admin/Articulos/show.html.twig", array(
+                    'entity' => $articulo,
+                ));
+                $data = array('code' => 200, 'html' => $html, 'message' => 'Correcto');
+            }
+            
+            $response = new JsonResponse($data);
+            return $response;
+        }
     }
 }

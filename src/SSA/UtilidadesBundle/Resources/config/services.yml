@@ -5,7 +5,7 @@ services:
 
     ssa_utilidades.base:
         class: SSA\UtilidadesBundle\Manager\BaseManager
-        arguments: ["@doctrine", "@security.context", '@router']
+        arguments: ["@doctrine", "@security.context", '@router', '@session']
         calls:
             - [setRequest, ['@?request=']]
             

@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use AppBundle\Entity\EntradaDetalles; 
 
 class EntradaDetallesType extends AbstractType
 {
@@ -14,32 +15,58 @@ class EntradaDetallesType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $withInput = 'col-sm-6 col-md-12  col-lg-9';
+        $widthLabel = 'col-sm-6 col-md-12 col-lg-3';
         $builder
             ->add('articulo', 'entity_id', array(
                 'class' => "AppBundle:Articulos",
+                'property' => 'clave',
                 'widget_addon_prepend' => array('icon' => 'search'),
                 'hidden' => false,
-                'horizontal_label_class' => 'col-sm-6 col-md-5 col-lg-4',
-                'horizontal_input_wrapper_class' => 'col-sm-6 col-md-7  col-lg-8',
+                'horizontal_label_class' => $widthLabel,
+                'horizontal_input_wrapper_class' => $withInput,
             ))
             ->add('cantidad', 'number', array(                
-                'horizontal_label_class' => 'col-sm-6 col-md-5 col-lg-4',
-                'horizontal_input_wrapper_class' => 'col-sm-6 col-md-7  col-lg-8',
+                'horizontal_label_class' => $widthLabel,
+                'horizontal_input_wrapper_class' => $withInput,
             ))
             ->add('precio', 'text', array(                
-                'horizontal_label_class' => 'col-sm-6 col-md-5 col-lg-4',
-                'horizontal_input_wrapper_class' => 'col-sm-6 col-md-7  col-lg-8',
+                'horizontal_label_class' => $widthLabel,
+                'horizontal_input_wrapper_class' => $withInput,
             ))
-            ->add('aplicaIva', 'checkbox', array(
+            ->add('fechaCaducidad', 'date', array(
+                'widget' => 'single_text',
+                'format' => 'dd/MM/y',
+                'attr' => array(
+                    'class' => 'datepicker', 
+                    'data-mask' => '99/99/9999',
+                    'data-mask-placeholder' => '-',
+                ),
+                'widget_addon_prepend' => array('icon' => 'calendar'),
+                'horizontal_label_class' => $widthLabel,
+                'horizontal_input_wrapper_class' => $withInput,
+                'label' => 'Caducidad',
                 'required' => false,
+            ))
+            ->add('aplicaIva', 'choice', array(
+                'required' => true,
+                'multiple' => false,
+                'expanded' => true,
+                'choices' => EntradaDetalles::$aplicaIvaOpciones,
+                'widget_type'  => 'inline',
                 'help_block' => 'Marque si se aplica el IVA al precio',                
-                'horizontal_label_class' => 'col-sm-6 col-md-5 col-lg-4',
-                'horizontal_input_wrapper_class' => 'col-sm-6 col-md-7  col-lg-8',
+                'horizontal_label_class' => $widthLabel,
+                'horizontal_input_wrapper_class' => $withInput,
               
             ))
             ->add('observaciones', 'textarea', array(                
-                'horizontal_label_class' => 'col-sm-6 col-md-5 col-lg-4',
-                'horizontal_input_wrapper_class' => 'col-sm-6 col-md-7  col-lg-8',
+                'horizontal_label_class' => $widthLabel,
+                'horizontal_input_wrapper_class' => $withInput,
+                'required' => false,
+            ))
+            ->add('entrada', 'entity_id', array(
+                'class' => 'AppBundle:Entradas',
+                'label_render' => false,
             ))
           
             
@@ -53,7 +80,8 @@ class EntradaDetallesType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\EntradaDetalles',
-            'attr' => array('class' => 'form-horizontal'),
+            'attr' => array('class' => 'form-horizontal', 'id' => $this->getName()),
+            
         ));
     }
 
