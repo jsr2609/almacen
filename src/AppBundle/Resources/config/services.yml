@@ -40,5 +40,10 @@ services:
     app.entrada_detalles:
         class: AppBundle\Manager\EntradaDetallesManager
         arguments: ['@ssa_utilidades.base']
+    
+    app.ejercicios:
+        class: AppBundle\Manager\EjerciciosManager
+        arguments: ['@ssa_utilidades.base']
+        
         
         

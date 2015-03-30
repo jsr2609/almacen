@@ -63,7 +63,7 @@ class Existencias
      *
      * @ORM\Column(name="FechaCreacion", type="datetime", nullable=false)
      */
-    private $fechdoctrineaCreacion;
+    private $fechaCreacion;
     
     /**
      *
@@ -248,26 +248,5 @@ class Existencias
         return $this->total;
     }
 
-    /**
-     * Set fechdoctrineaCreacion
-     *
-     * @param \DateTime $fechdoctrineaCreacion
-     * @return Existencias
-     */
-    public function setFechdoctrineaCreacion($fechdoctrineaCreacion)
-    {
-        $this->fechdoctrineaCreacion = $fechdoctrineaCreacion;
-
-        return $this;
-    }
-
-    /**
-     * Get fechdoctrineaCreacion
-     *
-     * @return \DateTime 
-     */
-    public function getFechdoctrineaCreacion()
-    {
-        return $this->fechdoctrineaCreacion;
-    }
+    
 }

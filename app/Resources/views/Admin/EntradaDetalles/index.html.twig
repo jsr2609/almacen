@@ -59,21 +59,18 @@
                                 <tbody>
                                 {% for entity in entities %}
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>{{ entity.cantidad }}</td>
-                                        <td>{{ entity.precio }}</td>
-                                        <td></td>
+                                        <td>{{ entity.articulo.clave }}</td>
+                                        <td>{{ entity.articulo.nombre }}</td>
+                                        <td class="text-right">{{ entity.cantidad }}</td>
+                                        <td class="text-right">{{ entity.precio }}</td>
+                                        <td class="text-right">
+                                            {{ (entity.cantidad * entity.precio) | number_format(2, '.', ',') }}
+                                        </td>
                                         
                                         <td>
-                                        <ul>
-                                            <li>
-                                                <a href="{{ path('admin_entradadetalles_show', { 'id': entity.id }) }}">show</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ path('admin_entradadetalles_edit', { 'id': entity.id }) }}">edit</a>
-                                            </li>
-                                        </ul>
+                                            <button type="button" detalle-id="{{entity.id}}" class="btn btn-xs btn-primary btn-editar-articulo" data-toggle="tooltip" title="Editar">
+                                                <i class="fa fa-edit fa-fw"></i> 
+                                            </button>                                       
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -92,6 +89,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
             dtListaArticulos = createDataTable("minimal", "lista-articulos");
+            //Inicio click agregar artículo
             $("#btn-agregar-articulo").click(function(){
                 $.ajax({
                     url: "{{ path('admin_entradadetalles_new') }}",
@@ -116,7 +114,37 @@
 
                     }
                 });
-            });
+            }); //Fin click agregar artículo
+            
+            //Inicio click editar artículo
+            $("#lista-articulos").on("click", ".btn-editar-articulo", function(e){
+                detalleId = parseInt($(this).attr("detalle-id"));
+                rowDT = getDataRowDT(dtListaArticulos, $(this));
+                
+                $.ajax({
+                    url: "{{ path('admin_entradadetalles_edit') }}",
+                    type: 'GET',
+                    dataType: "JSON",
+                    //data: $("#people_type").serialize()+"&valor=10",
+                    data: {
+                        detalleId: detalleId
+                    },
+                    success: function(data) {
+                        if(data.code == 200) {
+                            $("#contenedor-modales").html(data.html);
+
+                        } else {
+                            createAlert("danger", null, data.message)
+
+                        }
+                    },
+                    error: function(request, text, error) {
+                        //$("#loader").modal("hide");
+                        createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+                    }
+                });
+            }); //Fin click editar articulo
         });
     </script>
 {% endblock %}

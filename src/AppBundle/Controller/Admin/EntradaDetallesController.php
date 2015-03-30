@@ -46,23 +46,50 @@ class EntradaDetallesController extends Controller
 
             if ($form->isValid()) {
                 $existenciasManager = $this->get('app.existencias');
-                $existenciasManager->aumentar($entity->getArticulo(), 
-                    $entity->getEntrada()->getPrograma(), $entity->getCantidad(), $entity->getPrecio()
-                );
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($entity);
-                //$em->flush();
+                $em = $this->getDoctrine()->getManager();            
+                
+                $ejerciciosManager = $this->get('app.ejercicios');
+                $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo('iva, tipoInventario', 'HYDRATE_ARRAY');
+                //Iniciando la transacción para crear el detalle y aumentar la existencia
+                //Consultar http://doctrine-orm.readthedocs.org/en/latest/reference/transactions-and-concurrency.html#approach-2-explicitly
+                $em->getConnection()->beginTransaction();
+                
+                try
+                {    
+                    $em->persist($entity);
+                    $existenciasManager->aumentar($entity->getArticulo(), 
+                        $entity->getEntrada()->getPrograma(), 
+                        $entity->getCantidad(), 
+                        $entity->getPrecio(),
+                        $ejercicio,
+                        $entity->getAplicaIva()
+                    );
+                    
+                    $em->flush();
+                    $em->getConnection()->commit();
+                    
+                } catch (Exception $e) {
+                    $em->getConnection()->rollback();
+                    throw $e;
+                } //Fin transacción
                 
                 $entradaDetallesManager = $this->get('app.entrada_detalles');
                 $precio = $entradaDetallesManager->calcularPrecio($entity);
-                die(var_export($precio));
-                die('calculandoPrecio');
+                $btnEditar =  '<button type="button" detalle-id="'.$entity->getId().'" 
+                    class="btn btn-xs btn-primary btn-editar-articulo" data-toggle="tooltip" 
+                    title="Editar"> <i class="fa fa-edit fa-fw"></i></button>';  
                 $registro = array(
                     'clave' => $entity->getArticulo()->getClave(),
                     'nombre' => Helpers::getSubString($entity->getArticulo()->getNombre()),
+                    'cantidad' => $entity->getCantidad(),
                     'precio' => $precio,
+                    'total' => number_format($precio * $entity->getCantidad(), 2, '.', ','),
+                    'btn_editar' => $btnEditar,
                 );
-                $data = array('code' => 200, 'html' => '', 'message' => 'El artículo se agrego correctamente.');
+                $data = array('code' => 200, 'html' => '', 
+                    'message' => 'El artículo se agrego correctamente.',
+                    'registro' => $registro,
+                );
             } else {
                 $data = array('code' => 500, 'html' => '', 'message' => 'Se encontraron errores al procesar el formulario.');
             }
@@ -154,24 +181,31 @@ class EntradaDetallesController extends Controller
      * Displays a form to edit an existing EntradaDetalles entity.
      *
      */
-    public function editAction($id)
+    public function editAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        if($request->isXmlHttpRequest()) {
+            $detalleId = $request->query->get('detalleId');
+            $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:EntradaDetalles')->find($id);
+            $entity = $em->getRepository('AppBundle:EntradaDetalles')->find($detalleId);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find EntradaDetalles entity.');
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find EntradaDetalles entity.');
+            }
+
+            $editForm = $this->createEditForm($entity);
+            $deleteForm = $this->createDeleteForm($detalleId);
+            
+            $html = $this->renderView('/Admin/EntradaDetalles/edit.html.twig', array(
+                'entity'      => $entity,
+                'edit_form'   => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            ));
+
+            $data = array('code' => 200, 'html' => $html, 'message' => '');
+            $response = new JsonResponse($data);
+            return $response;
         }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('/Admin/EntradaDetalles/edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
     /**
@@ -184,11 +218,11 @@ class EntradaDetallesController extends Controller
     private function createEditForm(EntradaDetalles $entity)
     {
         $form = $this->createForm(new EntradaDetallesType(), $entity, array(
-            'action' => $this->generateUrl('admin_entradadetalles_update', array('id' => $entity->getId())),
+            'action' => '',
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Actualizar', 'icon' => 'floppy-disk', 'attr' => array('class' => 'btn-primary')));
 
         return $form;
     }
@@ -196,54 +230,112 @@ class EntradaDetallesController extends Controller
      * Edits an existing EntradaDetalles entity.
      *
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AppBundle:EntradaDetalles')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find EntradaDetalles entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_entradadetalles_edit', array('id' => $id)));
-        }
-
-        return $this->render('/Admin/EntradaDetalles/edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-    /**
-     * Deletes a EntradaDetalles entity.
-     *
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
+        if($request->isXmlHttpRequest()) {
+            $id = $request->request->get('detalleId');
+            
             $em = $this->getDoctrine()->getManager();
+
             $entity = $em->getRepository('AppBundle:EntradaDetalles')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find EntradaDetalles entity.');
             }
+            
+            $cantidadActual = $entity->getCantidad();
+            $precioActual = $entity->getPrecio();
+            $aplicaIvaActual = $entity->getAplicaIva();
+            
+            $editForm = $this->createEditForm($entity);
+            $editForm->handleRequest($request);
 
-            $em->remove($entity);
-            $em->flush();
+            if ($editForm->isValid()) {
+                $existenciasManager = $this->get('app.existencias');
+                $entradaDetallesManager = $this->get('app.entrada_detalles');
+                //Iniciando la transaccion
+                // $em instanceof EntityManager
+                $ejerciciosManager = $this->get('app.ejercicios');
+                $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo('iva, tipoInventario', 'HYDRATE_ARRAY');
+                
+                $em->getConnection()->beginTransaction(); // suspend auto-commit
+                try {
+                    $existencia = $existenciasManager->buscar($entity->getArticulo(), $entity->getEntrada()->getPrograma(), false);
+                    $entradaDetallesManager->actualizarExistencia(
+                        $entity, $cantidadActual, $precioActual, 
+                        $ejercicio, $existencia, $aplicaIvaActual
+                    );
+                    
+                    
+                    $em->flush();
+                    $em->getConnection()->commit();
+                } catch (Exception $e) {
+                    $em->getConnection()->rollback();
+                    throw $e;
+                }
+                //Fin de la transaccion
+                $data = array('code' => 200, 'html' => '', 'message' => 'El artículo se actualizó correctamente.');
+            }
+            
+            
+            $response = new JsonResponse($data);
+            return $response;
+            
         }
+    }
+    /**
+     * Deletes a EntradaDetalles entity.
+     *
+     */
+    public function deleteAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()) {
+            $detalleId = $request->request->get('detalleId');
+            $form = $this->createDeleteForm($detalleId);
+            $form->handleRequest($request);
+            
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $entity = $em->getRepository('AppBundle:EntradaDetalles')->find($detalleId);
 
-        return $this->redirect($this->generateUrl('admin_entradadetalles'));
+                if (!$entity) {
+                    throw $this->createNotFoundException('Unable to find EntradaDetalles entity.');
+                }
+                
+                $existenciasManager = $this->get('app.existencias');
+                $ejerciciosManager = $this->get('app.ejercicios');
+                $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo('iva, tipoInventario', 'HYDRATE_ARRAY');                
+                //Inicio de la transaccion
+                // $em instanceof EntityManager
+                $em->getConnection()->beginTransaction(); // suspend auto-commit
+                try {
+                    $em->remove($entity);
+                    $existenciasManager->disminuir($entity->getArticulo(), 
+                        $entity->getEntrada()->getPrograma(), 
+                        $entity->getCantidad(), 
+                        $entity->getPrecio(),
+                        $ejercicio,
+                        $entity->getAplicaIva()
+                    );
+                    $em->flush();
+                    $em->getConnection()->commit();
+                } catch (Exception $e) {
+                    $em->getConnection()->rollback();
+                    throw $e;
+                }
+                //Fin de la transaccion
+                $data = array('code' => 200, 'html' => '', 'message' => 'El artículo se eliminó satisfactoriamente');
+                
+                
+            } else {
+                $data = array('code' => 500, 'html' => '', 'message' => 'Se encontraron errores al tratar de eliminar el artículo');
+            }
+
+            
+            $response = new JsonResponse($data);
+            return $response;
+        }
+        
     }
 
     /**
@@ -255,12 +347,17 @@ class EntradaDetallesController extends Controller
      */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_entradadetalles_delete', array('id' => $id)))
+        
+        $form = $this->createFormBuilder(null, array('attr' => array('id' => 'entrada_detalles_eliminar_type')))
+            ->setAction('')
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Eliminar', 'icon' => 'trash', 'attr' => array('class' => 'btn-danger')))
             ->getForm()
         ;
+        
+        return $form;
+        
+        
     }
     
     public function buscarArticuloAction(Request $request) {

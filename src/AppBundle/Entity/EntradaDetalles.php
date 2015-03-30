@@ -6,8 +6,12 @@ use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(
- *     name="EntradaDetalles")
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="ArticuloIdEntradaId_U", columns={"ArticuloId", "EntradaId"})
+ *     }
+ * )
  */
 class EntradaDetalles
 {
@@ -79,6 +83,23 @@ class EntradaDetalles
         $this->fechaCreacion = new \DateTime();
         $this->fechaActualizacion = new \DateTime();
     }
+    
+    // Inicio de funciones HasLifecycleCallbacks
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function copiarCantidadAExistencia()
+    {
+        $this->existencia = $this->cantidad;
+    }
+    
+    // Fin de funciones HasLifecycleCallbacks
+    
+    
+    /**
+     * Funciones generadas automáticamente
+     */
 
     /**
      * Get id

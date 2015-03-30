@@ -1,16 +1,90 @@
-{% extends '::base.html.twig' %}
+<div id="modal-editar-detalle" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Editar Artículo de la Entrada</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="margin-bottom-5">
+                            {{ form(delete_form) }}
+                        </div>
+                        {{ form(edit_form) }}
 
-{% block body -%}
-    <h1>EntradaDetalles edit</h1>
+                    
+                    </div>
+                    <div class="col-lg-6">
+                        <h2 class="margin-top-0">Descripción de Artículo</h2>
+                        {{include("/Admin/Articulos/show.html.twig", {'entity': entity.articulo})}}                        
+                    </div>
+                </div>
 
-    {{ form(edit_form) }}
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript">
+    $("#modal-editar-detalle").modal("show");
+    //Interceptando eliminar detalle
+    $("#entrada_detalles_eliminar_type").submit(function(e){
+        e.preventDefault();
+        
+        $.ajax({
+            url: "{{ path('admin_entradadetalles_delete') }}",
+            type: 'POST',
+            dataType: "JSON",
+            data: $("#entrada_detalles_eliminar_type").serialize()+"&detalleId={{entity.id}}",
+            success: function(data) {
+                if(data.code == 200) {
+                    dtListaArticulos.row(rowDT.index).remove().draw();
+                    createAlert("success", null, data.message)
+                    $("#modal-editar-detalle").modal("hide");
+                } else {
+                    createAlert("danger", null, data.message)
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_entradadetalles') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
-{% endblock %}
+                }
+            },
+            error: function(request, text, error) {
+                //$("#loader").modal("hide");
+                createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+            }
+        });
+        
+    }); //Fin eliminar detalle
+    
+    //Interceptando actualizar detalle
+    $("#entrada_detalles_type").submit(function(e){
+        if($('#entrada_detalles_type').valid()) {
+            e.preventDefault();
+            $.ajax({
+            url: "{{ path('admin_entradadetalles_update') }}",
+            type: 'POST',                
+            dataType: "JSON",
+            data: $("#entrada_detalles_type").serialize()+"&detalleId={{entity.id}}",
+            success: function(data) {
+                if(data.code == 200) {
+                    createAlert("success", null, data.message);
+                } else {
+                    createAlert("danger", null, data.message);
+
+                }
+            },
+            error: function(request, text, error) {
+                //$("#loader").modal("hide");
+                createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+            }
+        });
+        }
+    });
+    
+</script>

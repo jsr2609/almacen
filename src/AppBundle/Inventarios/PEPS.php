@@ -8,6 +8,7 @@
 
 namespace AppBundle\Inventarios;
 
+use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Existencias;
 use AppBundle\Entity\Programas;
 use AppBundle\Entity\Articulos;
@@ -19,29 +20,49 @@ use AppBundle\Entity\Articulos;
  */
 class PEPS 
 {
+    
+    
+    public function __construct()
+    {
+        
+    }
     /**
-    * Aumenta la cantidad de existencias de un artículo
-    * 
-    * @param object $articulo Id del Artículo
-    * @param object $progama Id del Programa
-    * @param integer $cantidad Cantidad de unidades
-    * @param decimal $precio Precio total
+     * Aumenta la cantidad de existencias de un artículo
+     * 
+     * @param object $articulo Id del Artículo
+     * @param object $progama Id del Programa
+     * @param integer $cantidad Cantidad de unidades
+     * @param decimal $precio Precio total
+     * @return Existencias Objeto Existencia
     */
+    
     public function aumentar(Existencias $existencia, Articulos $articulo, Programas $programa, $cantidad, $precio)
     {        
-        
         $cantidadActual = $existencia->getCantidad();
-        $precioPromedioActual = $existencia->getPrecio();
-        $totalActual = $cantidadActual * $precioPromedioActual;
+        $totalActual = $existencia->getTotal();
         
+        $totalNuevo = $totalActual + round(($precio * $cantidad), 2);
         $cantidadNueva = $cantidadActual + $cantidad;
-        $totalNuevo = $totalActual + ($precio * $cantidad);
-        $precioPromedioNuevo = $totalNuevo / $cantidadNueva;
+        
         
         $existencia->setCantidad($cantidadNueva);
-        $existencia->setPrecio($precioPromedioNuevo);
+        $existencia->setTotal($totalNuevo);
         
-        $em = $this->base->getManager();
-        $em->persist($existencia);
+        return $existencia;
+    }
+    
+    public function disminuir(Existencias $existencia, Articulos $articulo, Programas $programa, $cantidad, $precio)
+    {
+        $cantidadActual = $existencia->getCantidad();
+        $totalActual = $existencia->getTotal();
+        
+        $totalNuevo = $totalActual - round(($precio * $cantidad), 2);
+        
+        $cantidadNueva = $cantidadActual - $cantidad;
+        
+        $existencia->setCantidad($cantidadNueva);
+        $existencia->setTotal($totalNuevo);
+        
+        return $existencia;
     }
 }
