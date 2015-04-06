@@ -119,7 +119,7 @@ class ExistenciasManager
         $tipoInventario = $ejercicio['tipoInventario'];
         $iva = $ejercicio['iva'];
         if($aplicaIva) {
-            $precio = round(($precio + ($precio * ($iva/100))), 2);
+            $precio = round(($precio + ($precio * ($iva / 100))), 2);
         }
         
         $existencia = $this->buscar($articulo, $programa, false);

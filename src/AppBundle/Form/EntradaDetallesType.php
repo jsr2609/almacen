@@ -17,15 +17,18 @@ class EntradaDetallesType extends AbstractType
     {
         $withInput = 'col-sm-6 col-md-12  col-lg-9';
         $widthLabel = 'col-sm-6 col-md-12 col-lg-3';
+        if($options['mostrar_campo_articulo']) {
+            $builder
+                ->add('articulo', 'entity_id', array(
+                    'class' => "AppBundle:Articulos",
+                    'property' => 'clave',
+                    'widget_addon_prepend' => array('icon' => 'search'),
+                    'hidden' => false,
+                    'horizontal_label_class' => $widthLabel,
+                    'horizontal_input_wrapper_class' => $withInput,
+                ));
+        }
         $builder
-            ->add('articulo', 'entity_id', array(
-                'class' => "AppBundle:Articulos",
-                'property' => 'clave',
-                'widget_addon_prepend' => array('icon' => 'search'),
-                'hidden' => false,
-                'horizontal_label_class' => $widthLabel,
-                'horizontal_input_wrapper_class' => $withInput,
-            ))
             ->add('cantidad', 'number', array(                
                 'horizontal_label_class' => $widthLabel,
                 'horizontal_input_wrapper_class' => $withInput,
@@ -81,7 +84,7 @@ class EntradaDetallesType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\EntradaDetalles',
             'attr' => array('class' => 'form-horizontal', 'id' => $this->getName()),
-            
+            'mostrar_campo_articulo' => true,            
         ));
     }
 

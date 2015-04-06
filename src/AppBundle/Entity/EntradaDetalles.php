@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EntradaDetallesRepository")
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(
  *     uniqueConstraints={
@@ -49,7 +49,7 @@ class EntradaDetalles
     private $existencia;
 
     /**
-     * @ORM\Column(name="Precio", type="decimal", nullable=false, precision=10, scale=2)
+     * @ORM\Column(name="Precio", type="decimal", nullable=false, precision=14, scale=2)
      */
     private $precio;
     
@@ -61,7 +61,7 @@ class EntradaDetalles
     /**
      * @ORM\Column(name="AplicaIVA", type="boolean", nullable=true)
      */
-    private $aplicaIva = false;
+    private $aplicaIva;
 
     /**
      * @ORM\Column(name="Observaciones", type="string", nullable=true)

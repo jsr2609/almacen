@@ -48,13 +48,13 @@ class Existencias
     /**
      * @var string
      *
-     * @ORM\Column(name="Precio", type="decimal", nullable=false, precision=10, scale=2)
+     * @ORM\Column(name="Precio", type="decimal", nullable=false, precision=14, scale=2)
      */
     private $precio;
     
     /**
      *
-     * @ORM\Column(name="Total", type="decimal", nullable=false, precision=10, scale=2)
+     * @ORM\Column(name="Total", type="decimal", nullable=false, precision=14, scale=2)
      */
     private $total;
     

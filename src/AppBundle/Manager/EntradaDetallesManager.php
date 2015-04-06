@@ -31,21 +31,16 @@ class EntradaDetallesManager
     {
         $this->base = $base;
     }
-    
-    public function calcularPrecio(EntradaDetalles $entidad)
+          
+    public function calcularPrecio($precio, $iva, $aplicaIva)
     {
-        if($entidad->getAplicaIva()) {
-            $almacenDatos = $this->base->getSession()->get('almacen');
-            $ejercicio = $this->base->getRepository("AppBundle:Ejercicios")->findOneBy(array(
-                'almacen' => $almacenDatos['id'],
-                'periodo' => $almacenDatos['ejercicio']['periodo'],
-            ));
-            $precio = $entidad->getPrecio() + ($entidad->getPrecio() * ($ejercicio->getIva()/100));
+        if($aplicaIva) {
+            $precioNuevo = round($precio + ($precio * ($iva / 100)), 2);
         } else {
-            $precio = $entidad->getPrecio();
+            $precioNuevo = $precio;
         }
         
-        return $precio;
+        return $precioNuevo;
     }
     
     public function diferenciaCantidadesPEPS($cantidadNueva, $precioNuevo, $cantidadActual, $precioActual, $iva, $aplicaIva, $aplicaIvaActual)
@@ -55,12 +50,9 @@ class EntradaDetallesManager
             $precioNuevo = round($precioNuevo + ($precioNuevo * ($iva / 100)), 2);
         }
         
-        
-        
         if($aplicaIvaActual) {
             $precioActual = round($precioActual + ($precioActual * ($iva / 100)), 2);
         }
-        
         
         
         $diferenciaCantidad = $cantidadNueva - $cantidadActual;
@@ -120,6 +112,26 @@ class EntradaDetallesManager
                     ", no es posible actualizar la existencia del detalle";
                 throw new \LogicException($msgE);
         }
+    }
+    
+    public function listaArticulosPorEntrada($entradaId, $iva)
+    {
+        $repository = $this->base->getRepository("AppBundle:EntradaDetalles");
+        $select = "eds.id, art.clave as articuloClave, art.nombre as articuloNombre, eds.cantidad, eds.precio, eds.aplicaIva";
+        $articulos = $repository->buscarTodos($entradaId, $select);
+        
+        for($i = 0; $i < count($articulos); $i++) {
+            $precio = $articulos[$i]['precio'];
+            $aplicaIva = $articulos[$i]['aplicaIva'];
+            
+            if($aplicaIva) {
+                $precio = $precio + ($precio * ($iva / 100));
+            }
+            
+            $articulos[$i]['precio'] = round($precio, 2);
+        }
+        
+        return $articulos;
     }
     
     /**

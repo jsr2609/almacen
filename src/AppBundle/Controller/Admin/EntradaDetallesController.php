@@ -25,8 +25,10 @@ class EntradaDetallesController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $entrada = $em->getRepository("AppBundle:Entradas")->find($id);
-
-        $entities = $em->getRepository('AppBundle:EntradaDetalles')->findAll();
+        $ejerciciosManager = $this->get('app.ejercicios');
+        $iva = $ejerciciosManager->obtenerIVAPorAlmacenYPeriodo();
+        $detallesManager = $this->get('app.entrada_detalles');
+        $entities = $detallesManager->listaArticulosPorEntrada($entrada->getId(), $iva);
                 
         return $this->render('/Admin/EntradaDetalles/index.html.twig', array(
             'entities' => $entities,
@@ -74,16 +76,17 @@ class EntradaDetallesController extends Controller
                 } //Fin transacción
                 
                 $entradaDetallesManager = $this->get('app.entrada_detalles');
-                $precio = $entradaDetallesManager->calcularPrecio($entity);
+                $precioNuevo = $entradaDetallesManager->calcularPrecio($entity->getPrecio(), $ejercicio['iva'], $entity->getAplicaIva());
+                $total = round($precioNuevo * $entity->getCantidad(), 2);
                 $btnEditar =  '<button type="button" detalle-id="'.$entity->getId().'" 
                     class="btn btn-xs btn-primary btn-editar-articulo" data-toggle="tooltip" 
                     title="Editar"> <i class="fa fa-edit fa-fw"></i></button>';  
                 $registro = array(
                     'clave' => $entity->getArticulo()->getClave(),
                     'nombre' => Helpers::getSubString($entity->getArticulo()->getNombre()),
-                    'cantidad' => $entity->getCantidad(),
-                    'precio' => $precio,
-                    'total' => number_format($precio * $entity->getCantidad(), 2, '.', ','),
+                    'cantidad' => number_format($entity->getCantidad(), 0, '.', ','),
+                    'precio' => number_format($precioNuevo, 2, '.', ','),
+                    'total' => number_format($total, 2, '.', ','),
                     'btn_editar' => $btnEditar,
                 );
                 $data = array('code' => 200, 'html' => '', 
@@ -220,6 +223,7 @@ class EntradaDetallesController extends Controller
         $form = $this->createForm(new EntradaDetallesType(), $entity, array(
             'action' => '',
             'method' => 'PUT',
+            'mostrar_campo_articulo' => false,
         ));
 
         $form->add('submit', 'submit', array('label' => 'Actualizar', 'icon' => 'floppy-disk', 'attr' => array('class' => 'btn-primary')));
@@ -273,8 +277,20 @@ class EntradaDetallesController extends Controller
                     $em->getConnection()->rollback();
                     throw $e;
                 }
+                
+                $precioNuevo = $entradaDetallesManager->calcularPrecio($entity->getPrecio(), $ejercicio['iva'], $entity->getAplicaIva());
+                $totalNuevo = $precioNuevo * $entity->getCantidad();
+                
+                $registro = array(
+                    'precio' => number_format($precioNuevo, 2, '.', ','),
+                    'cantidad' => number_format($entity->getCantidad(), 0, '.', ','),
+                    'total' => number_format($totalNuevo, 2, '.', ','),
+                );
                 //Fin de la transaccion
-                $data = array('code' => 200, 'html' => '', 'message' => 'El artículo se actualizó correctamente.');
+                $data = array('code' => 200, 'html' => '', 
+                    'message' => 'El artículo se actualizó correctamente.',
+                    'registro' => $registro,
+                );
             }
             
             

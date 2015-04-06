@@ -50,19 +50,19 @@
                                     <tr>
                                         <th>Clave</th>
                                         <th>Nombre</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio</th>
-                                        <th>Total</th>
+                                        <th class="text-right">Cantidad</th>
+                                        <th class="text-right">Precio</th>
+                                        <th class="text-right">Total</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {% for entity in entities %}
                                     <tr>
-                                        <td>{{ entity.articulo.clave }}</td>
-                                        <td>{{ entity.articulo.nombre }}</td>
-                                        <td class="text-right">{{ entity.cantidad }}</td>
-                                        <td class="text-right">{{ entity.precio }}</td>
+                                        <td>{{ entity.articuloClave }}</td>
+                                        <td>{{ entity.articuloNombre }}</td>
+                                        <td class="text-right">{{ entity.cantidad | number_format(0, '.', ',') }}</td>
+                                        <td class="text-right">{{ entity.precio | number_format(2, '.', ',') }}</td>
                                         <td class="text-right">
                                             {{ (entity.cantidad * entity.precio) | number_format(2, '.', ',') }}
                                         </td>
