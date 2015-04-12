@@ -89,7 +89,7 @@
     {{include("Admin/layout_javascripts.html.twig")}}   
     <script src="{{asset('js/tables.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
-    {% block javascripts_byp_age %}
+    {% block javascripts_by_page %}
         <!-- OOOOO -->
 
     {% endblock %} 
@@ -99,6 +99,7 @@
 
         $(document).ready(function() {
             pageSetUp();
+            
         });
     </script>
     {% block javascript_page %}

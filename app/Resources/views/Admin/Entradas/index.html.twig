@@ -39,25 +39,26 @@
                                         <th>Tipo</th>
                                         <th>Pedido</th>
                                         <th>Factura</th>                                        
-                                        <th>Acciones</th>
+                                        <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {% for entity in entities %}
                                     <tr>                                        
                                         <td>{{ entity.folio }}</td>
-                                        <td>{% if entity.fecha %}{{ entity.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                        <td>{{ entity.fecha|date('d/m/Y') }}</td>
                                         <td>{{ entity.tipoEntrada }}</td>                                        
                                         <td>{{ entity.pedidoNumero }}</td>                                        
                                         <td>{{ entity.numeroFactura }}</td>                                        
-                                        <td>
+                                        <td class="text-right">
                                         <ul>
-                                            <li>
-                                                <a href="{{ path('admin_entradas_show', { 'id': entity.id }) }}">show</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ path('admin_entradas_edit', { 'id': entity.id }) }}">edit</a>
-                                            </li>
+                                            <a href="{{ path('admin_entradas_edit', {'id': entity.id}) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Editar">
+                                                <i class="fa fa-edit fa-fw"></i> Editar
+                                            </a>
+                                            <a href="{{ path('admin_entradadetalles', {'id': entity.id}) }}" class="btn btn-default btn-sm" data-toggle="tooltip" title="Lista">
+                                                <i class="fa fa-list fa-fw"></i> Articulos
+                                            </a>
+                                            
                                         </ul>
                                         </td>
                                     </tr>

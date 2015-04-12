@@ -15,23 +15,6 @@
     <body role="document">
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
-        {% block flash_messages %}
-            {# Mensajes Flash #}
-            {% for flashMessage in app.session.flashbag.get('success') %}
-                <script type="text/javascript">
-                    $(document).ready(function(){
-                        
-                        createAlert("success", null, "{{flashMessage}}");
-                    });
-                </script>
-            {% endfor %}
-            {% for flashMessage in app.session.flashbag.get('danger') %}
-                <script type="text/javascript">
-                    $(document).ready(function(){
-                        createAlert("danger", null, "{{flashMessage}}");
-                    });
-                </script>
-            {% endfor %}
-        {% endblock %}
+        {{include("/Admin/flash_messages.html.twig")}}
     </body>
 </html>

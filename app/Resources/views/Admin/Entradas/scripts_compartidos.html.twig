@@ -27,11 +27,7 @@
         });
         //Petición para buscar el proveedor
         $("#entradas_type_proveedor .input-group-addon").click(function(){
-            alert($(this).val().length);
-            return;
-            if(1) {
-                alert ("vacio");
-            }
+            
             $.ajax({
                 url: "{{ path('admin_proveedores_popup_buscar') }}",
                 type: 'GET',             

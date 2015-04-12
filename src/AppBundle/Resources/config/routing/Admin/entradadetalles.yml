@@ -3,7 +3,7 @@ admin_entradadetalles:
     defaults: { _controller: "AppBundle:Admin/EntradaDetalles:index" }
 
 admin_entradadetalles_show:
-    path:     /{id}/show
+    path:     /show
     defaults: { _controller: "AppBundle:Admin/EntradaDetalles:show" }
 
 admin_entradadetalles_new:

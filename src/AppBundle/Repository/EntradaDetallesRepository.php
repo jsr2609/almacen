@@ -86,6 +86,8 @@ class EntradaDetallesRepository extends EntityRepository
         return $query->getSingleScalarResult();
     }
     
+    
+    
     public function findAllWJ($category, $select = null, $hydrationMode = null, $user = null)
     {
         $qb = $this->findBaseWJQB($select, $user);
@@ -107,5 +109,17 @@ class EntradaDetallesRepository extends EntityRepository
         }
         
         return $query->getResult($hydration);
+    }
+    
+    public function contarEnSalidas($entradaDetalleId)
+    {
+        $dql = "SELECT COUNT(sds) FROM AppBundle:SalidaDetalles sds "
+                . "INNER JOIN sds.entradaDetalle eds "
+                . "WHERE eds.id = :entradaDetalle";
+        
+        $query = $this->getEntityManager()->createQuery($dql)
+                ->setParameter('entradaDetalle', $entradaDetalleId);
+        
+        return $query->getSingleScalarResult();
     }
 }

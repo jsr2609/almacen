@@ -113,11 +113,31 @@ function createAlert(type, title, content, time, size)
        break;
 
        case "warning":
-           
+           if(title == null) {
+               title = "Advertencia.";
+           }
+           optionsMessage = {
+               title: title,
+               content: content,
+               color: "#C79121",
+               icon: "fa fa-warning bounce animated",
+               iconSmall : "fa fa-warning bounce animated",
+               timeout: time
+           };
        break;
 
        case "info":
-           
+           if(title == null) {
+               title = "Información.";
+           }
+           optionsMessage = {
+               title: title,
+               content: content,
+               color: "#3276B1",
+               icon: "fa fa-bell bounce animated",
+               iconSmall : "fa fa-bell bounce animated",
+               timeout: time
+           };
        break;
 
     }

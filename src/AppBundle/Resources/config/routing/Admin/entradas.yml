@@ -3,7 +3,7 @@ admin_entradas:
     defaults: { _controller: "AppBundle:Admin/Entradas:index" }
 
 admin_entradas_show:
-    path:     /{id}/show
+    path:     /show
     defaults: { _controller: "AppBundle:Admin/Entradas:show" }
 
 admin_entradas_new:
@@ -28,3 +28,8 @@ admin_entradas_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Admin/Entradas:delete" }
     requirements: { _method: post|delete }
+
+admin_entradas_mostrar_con_articulos:
+    path:     /{id}/mostrar_con_articulos
+    defaults: { _controller: "AppBundle:Admin/Entradas:mostrarConArticulos" }
+    

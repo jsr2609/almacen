@@ -33,6 +33,11 @@
                                             <i class="fa fa-list fa-fw"></i> Lista de Entradas
                                         </a>
                                     </li>
+                                    <li>
+                                         <a href="{{ path('admin_entradadetalles', {'id': entity.id}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
+                                            <i class="fa fa-list fa-fw"></i> Articulos
+                                        </a>
+                                    </li>
                                     <li>{{ form(delete_form) }}</li>
                                 </ul>
                             </div>

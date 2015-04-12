@@ -84,6 +84,14 @@ class EntradaDetalles
         $this->fechaActualizacion = new \DateTime();
     }
     
+    public function getAplicaIvaTexto() 
+    {
+        $txt = $this->aplicaIva == false ? "No" : "Si"; 
+        return $txt;
+    }
+    
+    
+    
     // Inicio de funciones HasLifecycleCallbacks
     
     /**

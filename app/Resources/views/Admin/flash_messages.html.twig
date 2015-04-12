@@ -1,0 +1,31 @@
+{% block flash_messages %}
+    {# Mensajes Flash #}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                createAlert("success", null, "{{flashMessage}}");
+            });
+        </script>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('danger') %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                createAlert("danger", null, "{{flashMessage}}");
+            });
+        </script>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('info') %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                createAlert("info", null, "{{flashMessage}}");
+            });
+        </script>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('warning') %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                createAlert("warning", null, "{{flashMessage}}");
+            });
+        </script>
+    {% endfor %}
+{% endblock %}

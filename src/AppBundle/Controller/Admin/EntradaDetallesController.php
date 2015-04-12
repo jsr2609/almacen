@@ -162,22 +162,27 @@ class EntradaDetallesController extends Controller
      * Finds and displays a EntradaDetalles entity.
      *
      */
-    public function showAction($id)
+    public function showAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        if($request->isXmlHttpRequest()) {
+            $id = $request->query->get('detalleId');
+            
+            $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:EntradaDetalles')->find($id);
+            $entity = $em->getRepository('AppBundle:EntradaDetalles')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find EntradaDetalles entity.');
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find EntradaDetalles entity.');
+            }
+            
+            $html = $this->renderView('/Admin/EntradaDetalles/show.html.twig', array(
+                'entity'      => $entity,
+            ));
+            
+            $data = array('code' => 200, 'html' => $html, 'message' => '');
+            $response = new JsonResponse($data);
+            return $response;
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('/Admin/EntradaDetalles/show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
     /**
@@ -195,16 +200,26 @@ class EntradaDetallesController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find EntradaDetalles entity.');
             }
-
-            $editForm = $this->createEditForm($entity);
-            $deleteForm = $this->createDeleteForm($detalleId);
+            $cantidad = $em->getRepository("AppBundle:EntradaDetalles")->contarEnSalidas($detalleId);
+            if($cantidad > 0) {
+                /**
+                return $this->forward('AppBundle:Admin/EntradaDetalles:show', array(), array(
+                    'detalleId' => $detalleId,
+                ));**/
+                $this->get('ssa_utilidades.base')->addFlashMessage("info", "No se puede editar el detalle, ya existen salidas.");
+                $html = $this->renderView('/Admin/EntradaDetalles/show.html.twig', array(
+                    'entity'      => $entity,
+                ));
+            } else {
+                $editForm = $this->createEditForm($entity);
+                $deleteForm = $this->createDeleteForm($detalleId);  
+                $html = $this->renderView('/Admin/EntradaDetalles/edit.html.twig', array(
+                    'entity'      => $entity,
+                    'edit_form'   => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                ));
+            }
             
-            $html = $this->renderView('/Admin/EntradaDetalles/edit.html.twig', array(
-                'entity'      => $entity,
-                'edit_form'   => $editForm->createView(),
-                'delete_form' => $deleteForm->createView(),
-            ));
-
             $data = array('code' => 200, 'html' => $html, 'message' => '');
             $response = new JsonResponse($data);
             return $response;

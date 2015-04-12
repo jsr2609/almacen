@@ -4,7 +4,7 @@ namespace AppBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\Entradas;
 use AppBundle\Form\EntradasType;
 use AppBundle\Event\EntradasEvent;
@@ -110,22 +110,30 @@ class EntradasController extends Controller
      * Finds and displays a Entradas entity.
      *
      */
-    public function showAction($id)
+    public function showAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        if($request->isXmlHttpRequest()) {
+            $id = $request->query->get('entradaId');
+        
+            $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Entradas')->find($id);
+            $entity = $em->getRepository('AppBundle:Entradas')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Entradas entity.');
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Entradas entity.');
+            }
+
+            $deleteForm = $this->createDeleteForm($id);
+
+            $html = $this->renderView('::/Admin/Entradas/show.html.twig', array(
+                'entity'      => $entity,
+                'delete_form' => $deleteForm->createView(),
+            ));
+            
+            $data = array('code' => 200, 'html' => $html, 'message' => '');
+            $response = new JsonResponse($data);
+            return $response;
         }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('::/Admin/Entradas/show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
     /**
@@ -140,6 +148,16 @@ class EntradasController extends Controller
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Entradas entity.');
+        }
+        
+        $entradasManager = $this->get('app.entradas');
+        $editable = $entradasManager->comprobarEdicion($entity);
+        
+        if(!$editable['editable']) {
+            $this->addFlash("info", $editable['mensaje']);
+            return $this->redirect($this->generateUrl('admin_entradas_mostrar_con_articulos', array(
+                'id' => $entity->getId(),
+            )));
         }
 
         $editForm = $this->createEditForm($entity);
@@ -166,7 +184,11 @@ class EntradasController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array(
+            'label' => 'Actualizar',
+            'attr' => array('class' => 'btn-primary'),
+            'icon' => 'floppy-disk',
+        ));
 
         return $form;
     }
@@ -236,9 +258,33 @@ class EntradasController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_entradas_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array(
+                'label' => 'Eliminar',
+                'attr' => array('class' => 'btn-danger'),
+                'icon' => 'trash',
+            ))
             ->getForm()
         ;
+    }
+    
+    public function  mostrarConArticulosAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AppBundle:Entradas')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Entradas entity.');
+        }
+        
+        $ejerciciosManager = $this->get('app.ejercicios');
+        $iva = $ejerciciosManager->obtenerIVAPorAlmacenYPeriodo();
+        $detallesManager = $this->get('app.entrada_detalles');
+        $detalles = $detallesManager->listaArticulosPorEntrada($entity->getId(), $iva);
+        
+        return $this->render('Admin/Entradas/consultar_con_articulos.html.twig', array(
+            'entity' => $entity,
+            'detalles' => $detalles,
+        ));
     }
     
     private function addFlash($type, $message) {

@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EntradasRepository")
  * @ORM\Table(
  *     name="Entradas")
  */
@@ -107,10 +107,31 @@ class Entradas
      */
     private $usuario;
     
+    /**
+     * @ORM\Column(name="Activa", type="boolean", nullable=false)
+     */
+    private $activa = true;
+    
+    /**
+     * @ORM\Column(name="Validada", type="boolean", nullable=false)
+     */
+    private $validada = false;
+    
      public function __construct() 
     {
         $this->fechaCreacion = new \DateTime();
         $this->fechaActualizacion = new \DateTime();
+    }
+    
+    public function getTipoEntradaNombre()
+    {
+        return self::$entradaTipos[$this->tipoEntrada];
+    }
+    
+    public function getPedidoTipoNombre()
+    {
+        $nombre = $this->pedidoTipo == null ? "" : self::$pedidoTipos[$this->pedidoTipo];
+        return $nombre;
     }
     
 
@@ -445,5 +466,51 @@ class Entradas
     public function getUsuario()
     {
         return $this->usuario;
+    }
+
+    /**
+     * Set activa
+     *
+     * @param boolean $activa
+     * @return Entradas
+     */
+    public function setActiva($activa)
+    {
+        $this->activa = $activa;
+
+        return $this;
+    }
+
+    /**
+     * Get activa
+     *
+     * @return boolean 
+     */
+    public function getActiva()
+    {
+        return $this->activa;
+    }
+
+    /**
+     * Set validada
+     *
+     * @param boolean $validada
+     * @return Entradas
+     */
+    public function setValidada($validada)
+    {
+        $this->validada = $validada;
+
+        return $this;
+    }
+
+    /**
+     * Get validada
+     *
+     * @return boolean 
+     */
+    public function getValidada()
+    {
+        return $this->validada;
     }
 }

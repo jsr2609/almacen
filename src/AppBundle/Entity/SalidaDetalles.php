@@ -50,6 +50,12 @@ class SalidaDetalles
      */
     private $fechaActualizacion;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="EntradaDetalles")
+     * @ORM\JoinColumn(name="EntradaDetalleId", referencedColumnName="Id", nullable=true, onDelete="RESTRICT")
+     */
+    private $entradaDetalle;
+    
      public function __construct() 
     {
         $this->fechaCreacion = new \DateTime();
