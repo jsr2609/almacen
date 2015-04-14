@@ -29,7 +29,29 @@ class EntradasController extends Controller
 
         return $this->render('::/Admin/Entradas/index.html.twig', array(
             'entities' => $entities,
+            'entradaTipos' => Entradas::$entradaTipos,
         ));
+    }
+    /**
+     * Lists all Entradas entities ajax.
+     *
+     */
+    public function indexAjaxAction(Request $request)
+    {
+        $columnas = array(
+            array('db' => 'folio', 'dt' => 0),
+            array('db' => 'fecha', 'dt' => 1,
+                'formatter' => function(\DateTime $d, $record) {
+                    return $d->format('d/m/Y');
+                }
+            ),
+            array('db' => 'pedidoNumero', 'dt' => 3),
+            array('db' => 'facturaNumero', 'dt' => 4),
+            array('db' => 'tipoEntrada', 'dt' => 5),
+            
+        );
+        $dtManager = $this->get('ssa_utilidades.dataTables');
+        die(var_export("Ajax"));
     }
     /**
      * Creates a new Entradas entity.

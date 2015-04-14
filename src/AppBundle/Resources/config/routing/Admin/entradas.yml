@@ -2,6 +2,10 @@ admin_entradas:
     path:     /
     defaults: { _controller: "AppBundle:Admin/Entradas:index" }
 
+admin_entradas_ajax:
+    path:     /ajax
+    defaults: { _controller: "AppBundle:Admin/Entradas:indexAjax" }
+
 admin_entradas_show:
     path:     /show
     defaults: { _controller: "AppBundle:Admin/Entradas:show" }

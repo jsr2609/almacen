@@ -9,6 +9,10 @@ services:
         calls:
             - [setRequest, ['@?request=']]
             
+    ssa_utilidades.dataTables:
+        class: SSA\UtilidadesBundle\Manager\DataTablesManager
+        arguments: ["@doctrine"]
+            
     #Form types
     ssa_utilidades.form.type.searh_key:
         class: SSA\UtilidadesBundle\Form\Type\SearchKeyType

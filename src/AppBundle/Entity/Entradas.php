@@ -82,14 +82,14 @@ class Entradas
     private $pedidoTipo;
 
     /**
-     * @ORM\Column(name="NumeroFactura", type="string", length=10, nullable=true)
+     * @ORM\Column(name="FacturaNumero", type="string", length=10, nullable=true)
      */
-    private $numeroFactura;
+    private $facturaNumero;
 
     /**
-     * @ORM\Column(name="FechaFactura", type="date", nullable=true)
+     * @ORM\Column(name="FacturaFecha", type="date", nullable=true)
      */
-    private $fechaFactura;
+    private $facturaFecha;
 
     /**
      * @ORM\Column(name="FechaCreacion", type="datetime", nullable=false)
@@ -133,6 +133,9 @@ class Entradas
         $nombre = $this->pedidoTipo == null ? "" : self::$pedidoTipos[$this->pedidoTipo];
         return $nombre;
     }
+    
+    //Funciones autogeneradas
+
     
 
     /**
@@ -284,49 +287,49 @@ class Entradas
     }
 
     /**
-     * Set numeroFactura
+     * Set facturaNumero
      *
-     * @param string $numeroFactura
+     * @param string $facturaNumero
      * @return Entradas
      */
-    public function setNumeroFactura($numeroFactura)
+    public function setFacturaNumero($facturaNumero)
     {
-        $this->numeroFactura = $numeroFactura;
+        $this->facturaNumero = $facturaNumero;
 
         return $this;
     }
 
     /**
-     * Get numeroFactura
+     * Get facturaNumero
      *
      * @return string 
      */
-    public function getNumeroFactura()
+    public function getFacturaNumero()
     {
-        return $this->numeroFactura;
+        return $this->facturaNumero;
     }
 
     /**
-     * Set fechaFactura
+     * Set facturaFecha
      *
-     * @param \DateTime $fechaFactura
+     * @param \DateTime $facturaFecha
      * @return Entradas
      */
-    public function setFechaFactura($fechaFactura)
+    public function setFacturaFecha($facturaFecha)
     {
-        $this->fechaFactura = $fechaFactura;
+        $this->facturaFecha = $facturaFecha;
 
         return $this;
     }
 
     /**
-     * Get fechaFactura
+     * Get facturaFecha
      *
      * @return \DateTime 
      */
-    public function getFechaFactura()
+    public function getFacturaFecha()
     {
-        return $this->fechaFactura;
+        return $this->facturaFecha;
     }
 
     /**
@@ -376,6 +379,52 @@ class Entradas
     }
 
     /**
+     * Set activa
+     *
+     * @param boolean $activa
+     * @return Entradas
+     */
+    public function setActiva($activa)
+    {
+        $this->activa = $activa;
+
+        return $this;
+    }
+
+    /**
+     * Get activa
+     *
+     * @return boolean 
+     */
+    public function getActiva()
+    {
+        return $this->activa;
+    }
+
+    /**
+     * Set validada
+     *
+     * @param boolean $validada
+     * @return Entradas
+     */
+    public function setValidada($validada)
+    {
+        $this->validada = $validada;
+
+        return $this;
+    }
+
+    /**
+     * Get validada
+     *
+     * @return boolean 
+     */
+    public function getValidada()
+    {
+        return $this->validada;
+    }
+
+    /**
      * Set proveedor
      *
      * @param \AppBundle\Entity\Proveedores $proveedor
@@ -406,7 +455,6 @@ class Entradas
      */
     public function setPrograma(\AppBundle\Entity\Programas $programa)
     {
-        
         $this->programa = $programa;
 
         return $this;
@@ -466,51 +514,5 @@ class Entradas
     public function getUsuario()
     {
         return $this->usuario;
-    }
-
-    /**
-     * Set activa
-     *
-     * @param boolean $activa
-     * @return Entradas
-     */
-    public function setActiva($activa)
-    {
-        $this->activa = $activa;
-
-        return $this;
-    }
-
-    /**
-     * Get activa
-     *
-     * @return boolean 
-     */
-    public function getActiva()
-    {
-        return $this->activa;
-    }
-
-    /**
-     * Set validada
-     *
-     * @param boolean $validada
-     * @return Entradas
-     */
-    public function setValidada($validada)
-    {
-        $this->validada = $validada;
-
-        return $this;
-    }
-
-    /**
-     * Get validada
-     *
-     * @return boolean 
-     */
-    public function getValidada()
-    {
-        return $this->validada;
     }
 }

@@ -36,34 +36,40 @@
                                     <tr>                                        
                                         <th>Folio</th>
                                         <th>Fecha</th>
-                                        <th>Tipo</th>
+                                        
                                         <th>Pedido</th>
-                                        <th>Factura</th>                                        
+                                        <th>Factura</th>     
+                                        <th>Tipo</th>
                                         <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for entity in entities %}
-                                    <tr>                                        
-                                        <td>{{ entity.folio }}</td>
-                                        <td>{{ entity.fecha|date('d/m/Y') }}</td>
-                                        <td>{{ entity.tipoEntrada }}</td>                                        
-                                        <td>{{ entity.pedidoNumero }}</td>                                        
-                                        <td>{{ entity.numeroFactura }}</td>                                        
-                                        <td class="text-right">
-                                        <ul>
-                                            <a href="{{ path('admin_entradas_edit', {'id': entity.id}) }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Editar">
-                                                <i class="fa fa-edit fa-fw"></i> Editar
-                                            </a>
-                                            <a href="{{ path('admin_entradadetalles', {'id': entity.id}) }}" class="btn btn-default btn-sm" data-toggle="tooltip" title="Lista">
-                                                <i class="fa fa-list fa-fw"></i> Articulos
-                                            </a>
-                                            
-                                        </ul>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
+                                
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>
+                                            <input class="form-control" placeholder="Folio..." name="folio" type="text"/>
+                                        </th>
+                                        <th>
+                                            <input class="form-control" placeholder="Fecha..." name="fecha" type="text"/>
+                                        </th>
+                                        <th>
+                                            <input class="form-control" placeholder="Pedido..." name="pedida" type="text"/>
+                                        </th>
+                                        <th>
+                                            <input class="form-control" placeholder="Factura..." name="factura" type="text"/>
+                                        </th>
+                                        <th>
+                                            <select class="form-control">
+                                                <option value="">...</option>
+                                                {% for tipo in entradaTipos %}
+                                                    <option value="{{loop.index}}">{{tipo}}</option>
+                                                 {% endfor %}
+                                            </select>
+                                        </th>
+                                    </tr>
+                                </tfoot>
                             </table>
 
                         </div>
@@ -77,7 +83,57 @@
 {% block javascript_page %}
     <script type="text/javascript">
         $(document).ready(function(){
-            dtListaEntradas = createDataTable("complete", "lista-entradas");
+            noOrdenar = [5];
+            dtListaEntradas = createDataTable("complete", "lista-entradas", {
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{{ path('admin_entradas_ajax') }}",
+                    "data": function(d) {
+                        //d.formFilter = $("#NombreForm").serializeJSON();
+                    }
+                },
+                "aoColumnDefs": [
+                    { "bSortable": false, "aTargets": noOrdenar }
+                ],
+
+                "initComplete": function(oSettings, json) {
+                    this.fnSetFilteringDelay(500);
+                }
+            });
+            
+            //Aplicando filtros por columnas
+            var search_timeout = undefined; 
+        
+            function setDelayColumn(item, colIdx)
+            {
+                if(search_timeout != undefined) {
+                    clearTimeout(search_timeout);
+                }
+                $this = item;
+                search_timeout = setTimeout(function() {
+                  search_timeout = undefined;
+
+
+
+                  dtListaEntradas.column(colIdx).search( $this.value ).draw();
+
+                }, 500);
+            }
+        
+            //Funciona sólo con  inputs
+            dtListaEntradas.columns().eq( 0 ).each( function ( colIdx ) {
+                //Interceptando el los filtros
+
+
+                $( 'input', dtListaEntradas.column( colIdx ).footer() ).on( 'keyup', function () {
+                    setDelayColumn(this, colIdx);
+                } );
+
+                $( 'select', dtListaEntradas.column( colIdx ).footer() ).on( 'change', function () {
+                    setDelayColumn(this, colIdx);
+                } );
+            });
         });
     </script>
 {% endblock %}

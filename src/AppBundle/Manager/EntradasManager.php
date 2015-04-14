@@ -75,4 +75,10 @@ class EntradasManager
         );
     }
     
+    public function obtenerRegistrosDT($repositorio, $peticion, $columnas, $cExtra = array(),
+        $nombreFF = null, $cFiltros = null
+    ) {
+        
+    }
+    
 }
