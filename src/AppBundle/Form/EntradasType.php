@@ -49,11 +49,11 @@ class EntradasType extends AbstractType
                 'property_key' => 'rfc',
                 'property_description' => 'nombre'
             ))
-            ->add('numeroFactura', 'text', array(
+            ->add('facturaNumero', 'text', array(
                 'label' => 'Numero de Factura',
                 'required' => false,
             ))
-            ->add('fechaFactura', 'date', array(
+            ->add('facturaFecha', 'date', array(
                 'widget' => 'single_text',
                 'label' => 'Fecha de Factura',
                 'required' => false,

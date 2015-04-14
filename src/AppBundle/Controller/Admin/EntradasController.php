@@ -45,13 +45,26 @@ class EntradasController extends Controller
                     return $d->format('d/m/Y');
                 }
             ),
-            array('db' => 'pedidoNumero', 'dt' => 3),
-            array('db' => 'facturaNumero', 'dt' => 4),
-            array('db' => 'tipoEntrada', 'dt' => 5),
+            array('db' => 'pedidoNumero', 'dt' => 2),
+            array('db' => 'facturaNumero', 'dt' => 3),
+            array('db' => 'tipoEntrada', 'dt' => 4,
+                'formatter' => function($d, $record) {
+                    return Entradas::$entradaTipos[$d];
+                }
+            ),
             
         );
         $dtManager = $this->get('ssa_utilidades.dataTables');
-        die(var_export("Ajax"));
+        $entradasManager = $this->get('app.entradas');
+        $ejerciciosManager = $this->get('app.ejercicios');
+        $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo("id");
+        $datos = $entradasManager->obtenerRegistrosDT($ejercicio['id'], $dtManager, 'AppBundle:VwEntradas', 
+            $request->query->all(), $columnas
+        );
+        
+        $respuesta = new JSONResponse($datos);
+        
+        return $respuesta;
     }
     /**
      * Creates a new Entradas entity.

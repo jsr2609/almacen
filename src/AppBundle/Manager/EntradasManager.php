@@ -17,15 +17,18 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 use Doctrine\ORM\Repository;
+use Doctrine\ORM\QueryBuilder;
 use AppBundle\Entity\Entradas;
 use AppBundle\Repository\EntradasRepository;
+use SSA\UtilidadesBundle\Manager\DataTablesManager;
 use SSA\UtilidadesBundle\Manager\BaseManager;
 
 
 class EntradasManager 
 {
-    private $base;
+    private $base; 
     private $repository = "AppBundle:Entradas";
+    private $dataTable;
         
     public function __construct(BaseManager $base)
     {
@@ -35,6 +38,11 @@ class EntradasManager
     public function generarFolio( )
     {
         $this->getRepository();
+    }
+    
+    public function setDataTable(DataTablesManager $dt)
+    {
+        $this->dataTable = $dt;
     }
     
     /**
@@ -75,10 +83,115 @@ class EntradasManager
         );
     }
     
-    public function obtenerRegistrosDT($repositorio, $peticion, $columnas, $cExtra = array(),
-        $nombreFF = null, $cFiltros = null
+    /**
+     * Inicio de funciones para recuperar registros del datatable
+     */
+    
+    public function obtenerRegistrosDT($ejercicioId, DataTablesManager $dt, $repositorio, $peticion, 
+        $columnas, $cExtra = array(), $nombreFF = null, $cFiltros = null
     ) {
         
+        $this->dataTable = $dt;
+        
+        $this->dataTable->init($repositorio, $peticion, $columnas, array('id'));
+        
+        $registrosTotal = $this->contarRegistrosTotalDT($ejercicioId);
+        
+        $informacionRegistrosFiltrados = $this->recuperarInformacionFiltrosDT($ejercicioId);
+        
+        return array(
+            "draw" => \intval($peticion['draw']),
+            "recordsTotal"    => intval( $registrosTotal ),
+            "recordsFiltered" => intval( $informacionRegistrosFiltrados['total'] ),
+            "data"            =>  $this->dataOutputDT($columnas, $informacionRegistrosFiltrados['registros'], $cExtra)
+        );
     }
+    
+    public function dataOutputDT($columns, $records, $extraColums = null) {
+        $out = array();
+        $basePath = $this->base->getBasePath();
+        foreach($records as $indexRow => $record) {
+            $row = array();
+            for ( $j=0, $jen=count($columns) ; $j<$jen ; $j++ ) {
+                $column = $columns[$j];
+
+                // Is there a formatter?
+                if ( isset( $column['formatter'] ) ) {
+                    $row[ $column['dt'] ] = $column['formatter']( $record[ $column['db'] ], $record );
+                }
+                else {
+                    $row[ $column['dt'] ] = $record[ $columns[$j]['db'] ];
+                }
+            }    
+            /*
+            $configuracion = "<a data-toggle='tooltip' title='Configuración' class='btn btn-primary btn-xs' href='".
+                    $this->base->generateUrl('admin_avales_configuracion', array('id' => $record['id'])).
+                    "'><i class='fa fa-cog fa-fw'></i></a>";
+             
+             */
+            $editar = '<a class="btn btn-primary btn-xs" href="'.
+                    $this->base->generateUrl('admin_entradas_edit', array('id' => $record['id'])).
+                    '"><i class="fa fa-edit fa-fw"></i> Editar</a>';
+            $articulos = '<a class="btn btn-default btn-xs" href="'.
+                    $this->base->generateUrl('admin_entradadetalles', array('id' => $record['id'])).
+                    '"><i class="fa fa-list fa-fw"></i> Articulos</a>';
+            $row[] = $editar.' '.$articulos;
+            
+
+            $out[] = $row;
+           
+        }
+        
+        return $out;
+    }
+    
+    public function agregarFiltrosExtraQBDT(QueryBuilder $qb, $ejercicioId, $activo = true) 
+    {      
+        $root = $qb->getRootAliases()[0];
+        $qb->andWhere($root.".activa = :activo");        
+        $qb->setParameter("activo", $activo);
+        
+        $qb->andWhere($root.".ejercicio = :ejercicio");        
+        $qb->setParameter("ejercicio", $ejercicioId);
+        
+        
+        
+        return $qb;
+    }
+    
+    public function contarRegistrosTotalDT($ejercicioId, $activo = true) {
+        
+        $qb = $this->dataTable->getBaseQB();
+        $root = $qb->getRootAliases()[0];
+        
+        $this->agregarFiltrosExtraQBDT($qb, $ejercicioId, $activo);
+        
+        $qb->select($qb->expr()->count($root));  
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+    
+    public function recuperarInformacionFiltrosDT($ejercicioId, $activo = true) 
+    {
+        $qb = $this->dataTable->applyActionsQB();
+        $root = $qb->getRootAliases()[0];
+        $this->agregarFiltrosExtraQBDT($qb, $ejercicioId, $activo); 
+        //Agregar Filtros extra si se necesitan    
+        
+        $total = $qb->select($qb->expr()->count($root))->getQuery()->getSingleScalarResult();  
+        
+        $this->dataTable->setLimitQB($qb);
+        
+        $qb->select($this->dataTable->getBaseSelect());
+        $registros = $qb->getQuery()->getArrayResult();
+        
+        return array(
+            'total' => $total,
+            'registros' => $registros,
+        );
+    }
+    
+    /**
+     * Fin de funciones para recuperar registros del datatable
+     */
     
 }

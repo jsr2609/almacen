@@ -9,7 +9,7 @@ class EjerciciosRepository extends EntityRepository
 {
     private $root = "ecs";
     
-    public function buscarPorEjercicio($almacen, $periodo, $select = null, $hydrationMode = 'HYDRATE_OBJECT', $root = null)
+    public function buscarPorAlmacenYPeriodo($almacen, $periodo, $select = null, $hydrationMode = 'HYDRATE_OBJECT', $root = null)
     {   
         if(!$root) { 
             $root = $this->root;

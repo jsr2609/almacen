@@ -30,6 +30,12 @@
                                             <i class="fa fa-list fa-fw"></i> Lista de Entradas
                                         </a>
                                     </li>
+                                    
+                                    <li>
+                                        <a href="{{ path('admin_entradadetalles', {'id': entity.id}) }}" class="btn btn-default">
+                                            <i class="fa fa-list fa-fw"></i> Lista de Artículos
+                                        </a>
+                                    </li>
                                     <li>{#{{ form(delete_form) }}#}</li>
                                 </ul>
                             </div>

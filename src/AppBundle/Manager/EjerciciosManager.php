@@ -56,9 +56,11 @@ class EjerciciosManager
     {
         $almacenDatos = $this->base->getSession()->get('almacen');
         $repository = $this->getRepository();
-        $select = $this->agregarRootAliasSelect($select);
+        if($select){
+            $select = $this->agregarRootAliasSelect($select);
+        }
         
-        $ejercicio = $repository->buscarPorEjercicio($almacenDatos['id'], 
+        $ejercicio = $repository->buscarPorAlmacenYPeriodo($almacenDatos['id'], 
             $almacenDatos['ejercicio']['periodo'], $select, $hydrationMode, $this->rootAlias
         );
         
