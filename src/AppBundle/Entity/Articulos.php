@@ -46,6 +46,11 @@ class Articulos
      * @ORM\Column(name="UnidadMedidaPresentacion", type="string", length=45, nullable=true)
      */
     private $unidadMedidaPresentacion;
+    
+    /**
+     * @ORM\Column(name="PresentacionNombre", type="string", length=50, nullable=true)
+     */
+    private $presentacionNombre;
 
     /**
      * @ORM\Column(name="Activo", type="boolean", nullable=false)

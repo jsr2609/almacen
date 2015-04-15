@@ -36,4 +36,7 @@ admin_entradas_delete:
 admin_entradas_mostrar_con_articulos:
     path:     /{id}/mostrar_con_articulos
     defaults: { _controller: "AppBundle:Admin/Entradas:mostrarConArticulos" }
-    
+
+admin_entradas_pdf:
+    path:     /{id}/pdf
+    defaults: { _controller: "AppBundle:Admin/Entradas:pdf" }

@@ -190,8 +190,62 @@ class EntradasManager
         );
     }
     
+    public function buscar($id, $select = null, $devolverNull = false, $hydrationMode = 'HYDRATE_OBJECT')
+    {
+        $repository = $this->getRepository();
+        $entidad = $repository->buscar($id, $select, $hydrationMode);
+        
+        if(!$devolverNull && !$entidad ) {
+            
+            throw $this->base->createNotFoundException("No se encontró una entrada con el id ".$id);
+        }
+        
+        return $entidad;
+    }
+    
     /**
      * Fin de funciones para recuperar registros del datatable
      */
+    
+    public function generarPDF(\TCPDF $pdf, $entrada)
+    {
+        $pdf->SetHeaderData(PDF_HEADER_LOGO, 50, PDF_HEADER_TITLE, "ALMACEN CENTRAL", array(0,64,255), array(0,64,128));
+        $pdf->setFooterData(array(0,64,0), array(0,64,128));
+        // set header and footer fonts
+        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+        // set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        
+        $pdf->AddPage();
+        $pdf->Ln(2);
+        //$pdf->Cell($w, $h, $txt, $border, $ln, $align, $fill, $link, $stretch, $ignore_min_height)
+        $pdf->SetFont('helvetica', 'B', 13);
+        $pdf->Cell(0, 0, 'AVISO DE ALTA', '', 1, 'C');
+        
+        $pdf->SetFont('helvetica', '', 11);
+        $pdf->Ln(5);
+        
+        $lugar = $entrada['ejercicio']['almacen']['lugar']." A ".$entrada['fecha']->format('d/m/Y');
+        $pdf->Cell(0, 0, $lugar, '', 1, 'L');
+        $pdf->Cell(0, 0, mb_strtoupper($entrada['ejercicio']['almacen']['nombreJefeServicios']), '', 1, 'L');
+        $pdf->Cell(0, 0, 'CON ESTA FECHA SE DAN DE ALTA PROCEDENTES DE', '', 1, 'L');
+        $datosFactura = 'SEGUN FACTURA '.$entrada['facturaNumero'].' DE FECHA '.$entrada['facturaFecha']->format('d/m/Y').', NUMERO DE PEDIDO '.$entrada['pedidoNumero'];
+        $pdf->Cell(0, 0, $datosFactura, '', 1, 'L');
+        
+        
+        
+        
+        
+        return $pdf;
+    }
     
 }

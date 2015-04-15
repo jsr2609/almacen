@@ -322,6 +322,19 @@ class EntradasController extends Controller
         ));
     }
     
+    public function pdfAction(Request $request, $id)
+    {
+        $tcpdfManager = $this->get('white_october.tcpdf');
+        
+        $pdf = $tcpdfManager->create();
+        $entradasManager = $this->get('app.entradas');
+        $select = "ets, partial pgs.{id, clave, nombre}, partial pvs.{id, rfc, nombre},partial ecs.{id, iva}, ams";
+        $entrada = $entradasManager->buscar($id, $select, false, 'HYDRATE_ARRAY');
+        
+        $pdf = $entradasManager->generarPDF($pdf, $entrada);
+        $pdf->output('entrada.pdf', 'D');
+    }
+    
     private function addFlash($type, $message) {
         $this->getRequest()->getSession()->getFlashBag()->add(
             $type,

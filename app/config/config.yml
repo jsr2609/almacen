@@ -75,9 +75,13 @@ swiftmailer:
     spool:     { type: memory }
 
 white_october_tcpdf:
+    class: 'AppBundle\MyTCPDF\MyTCPDF'
     tcpdf:
         k_tcpdf_external_config: true
-        k_path_images: '%kernel.root_dir%/../web/imagenes/'
+        k_path_images: '%kernel.root_dir%/../web/img'
+        pdf_page_format:      letter
+        pdf_header_title: SECRETARÍA DE SALUD
+        pdf_header_logo: '/logo_salud.png'
 
 mopa_bootstrap:
     form:

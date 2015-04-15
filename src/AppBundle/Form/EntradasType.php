@@ -57,6 +57,13 @@ class EntradasType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Fecha de Factura',
                 'required' => false,
+                'format' => 'dd/MM/y',
+                'attr' => array(
+                    'class' => 'datepicker', 
+                    'data-mask' => '99/99/9999',
+                    'data-mask-placeholder' => '-',
+                ),
+                'widget_addon_prepend' => array('icon' => 'calendar'),
             ))
             ->add('pedidoNumero', 'text', array(
                 'label' => 'Número de Pedido',
