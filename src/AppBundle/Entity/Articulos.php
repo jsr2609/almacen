@@ -23,7 +23,7 @@ class Articulos
     private $partida;
     
     /**
-     * @ORM\Column(name="partidaClave", type="string", length=6, nullable=false)
+     * @ORM\Column(name="partidaClave", type="string", length=6, nullable=true)
      */
     private $partidaClave;
 
