@@ -21,6 +21,11 @@ class Articulos
      * @ORM\JoinColumn(name="PartidaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
     */
     private $partida;
+    
+    /**
+     * @ORM\Column(name="partidaClave", type="string", length=6, nullable=false)
+     */
+    private $partidaClave;
 
     /**
      * @ORM\Column(name="Clave", type="string", length=15, nullable=false)

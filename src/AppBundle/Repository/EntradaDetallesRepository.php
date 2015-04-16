@@ -86,6 +86,20 @@ class EntradaDetallesRepository extends EntityRepository
         return $query->getSingleScalarResult();
     }
     
+    public function obtenerPartidasPorEntrada($entradaId) 
+    {
+        $dql = "SELECT DISTINCT(pts.id), pts.clave, pts.nombre FROM AppBundle:EntradaDetalles eds "
+                . "INNER JOIN eds.entrada AS ets "
+                . "INNER JOIN eds.articulo AS ats "
+                . "INNER JOIN ats.partida AS pts "
+                . "WHERE ets.id = :entrada";
+        $query = $this->getEntityManager()->createQuery($dql);
+        
+        $query->setParameter('entrada', $entradaId);
+        
+        return $query->getArrayResult();
+    }
+    
     
     
     public function findAllWJ($category, $select = null, $hydrationMode = null, $user = null)

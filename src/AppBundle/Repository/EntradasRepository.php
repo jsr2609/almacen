@@ -49,6 +49,8 @@ class EntradasRepository extends EntityRepository
         
     }
     
+    
+    
     public function contarEnSalidas($entradaId)
     {
         $dql = "SELECT COUNT(sds.id) FROM AppBundle:SalidaDetalles AS sds "
