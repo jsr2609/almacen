@@ -57,6 +57,11 @@ class EntradaDetalles
      * @ORM\Column(name="FechaCaducidad", type="date", nullable=true)
      */
     private $fechaCaducidad;
+    
+    /**
+     * @ORM\Column(name="Lote", type="string", length=10, nullable=true)
+     */
+    private $lote;
 
     /**
      * @ORM\Column(name="AplicaIVA", type="boolean", nullable=true)
@@ -347,5 +352,28 @@ class EntradaDetalles
     public function getExistencia()
     {
         return $this->existencia;
+    }
+
+    /**
+     * Set lote
+     *
+     * @param string $lote
+     * @return EntradaDetalles
+     */
+    public function setLote($lote)
+    {
+        $this->lote = $lote;
+
+        return $this;
+    }
+
+    /**
+     * Get lote
+     *
+     * @return string 
+     */
+    public function getLote()
+    {
+        return $this->lote;
     }
 }

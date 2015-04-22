@@ -75,13 +75,19 @@ swiftmailer:
     spool:     { type: memory }
 
 white_october_tcpdf:
-    class: 'AppBundle\MyTCPDF\MyTCPDF'
+    class: 'AppBundle\PDF\MyTCPDF'
     tcpdf:
         k_tcpdf_external_config: true
         k_path_images: '%kernel.root_dir%/../web/img'
         pdf_page_format:      letter
         pdf_header_title: SECRETARÍA DE SALUD
-        pdf_header_logo: '/logo_salud.png'
+        pdf_header_logo: '/escudo_gro_mini.jpg'
+        pdf_header_logo_width: 20
+        pdf_margin_top: 35
+        pdf_margin_footer: 20
+        pdf_margin_left: 10
+        pdf_margin_right: 10
+        
 
 mopa_bootstrap:
     form:

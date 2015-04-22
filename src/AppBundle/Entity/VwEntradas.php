@@ -401,4 +401,17 @@ class VwEntradas
     {
         return $this->proveedorNombre;
     }
+
+    /**
+     * Set activa
+     *
+     * @param boolean $activa
+     * @return VwEntradas
+     */
+    public function setActiva($activa)
+    {
+        $this->activa = $activa;
+
+        return $this;
+    }
 }

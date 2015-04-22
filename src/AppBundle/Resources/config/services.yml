@@ -44,6 +44,10 @@ services:
     app.ejercicios:
         class: AppBundle\Manager\EjerciciosManager
         arguments: ['@ssa_utilidades.base']
+    
+    app.articulos:
+        class: AppBundle\Manager\ArticulosManager
+        arguments: ['@ssa_utilidades.base']
         
         
         

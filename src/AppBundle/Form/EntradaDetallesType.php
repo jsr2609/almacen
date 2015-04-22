@@ -37,6 +37,17 @@ class EntradaDetallesType extends AbstractType
                 'horizontal_label_class' => $widthLabel,
                 'horizontal_input_wrapper_class' => $withInput,
             ))
+            ->add('aplicaIva', 'choice', array(
+                'required' => true,
+                'multiple' => false,
+                'expanded' => true,
+                'choices' => EntradaDetalles::$aplicaIvaOpciones,
+                'widget_type'  => 'inline',
+                'help_block' => 'Marque si se aplica el IVA al precio',                
+                'horizontal_label_class' => $widthLabel,
+                'horizontal_input_wrapper_class' => $withInput,
+              
+            ))
             ->add('fechaCaducidad', 'date', array(
                 'widget' => 'single_text',
                 'format' => 'dd/MM/y',
@@ -51,17 +62,12 @@ class EntradaDetallesType extends AbstractType
                 'label' => 'Caducidad',
                 'required' => false,
             ))
-            ->add('aplicaIva', 'choice', array(
-                'required' => true,
-                'multiple' => false,
-                'expanded' => true,
-                'choices' => EntradaDetalles::$aplicaIvaOpciones,
-                'widget_type'  => 'inline',
-                'help_block' => 'Marque si se aplica el IVA al precio',                
+            ->add('lote', 'text', array(
                 'horizontal_label_class' => $widthLabel,
                 'horizontal_input_wrapper_class' => $withInput,
-              
+                'required' => false
             ))
+            
             ->add('observaciones', 'textarea', array(                
                 'horizontal_label_class' => $widthLabel,
                 'horizontal_input_wrapper_class' => $withInput,

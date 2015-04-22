@@ -22,6 +22,9 @@ use AppBundle\Entity\Entradas;
 use AppBundle\Repository\EntradasRepository;
 use SSA\UtilidadesBundle\Manager\DataTablesManager;
 use SSA\UtilidadesBundle\Manager\BaseManager;
+use SSA\UtilidadesBundle\Helper\Helpers;
+use AppBundle\PDF\BasePDF;
+use AppBundle\PDF\Alta;
 
 
 class EntradasManager 
@@ -208,92 +211,20 @@ class EntradasManager
      */
     
     public function generarPDF(\TCPDF $pdf, $entrada)
-    {
-        
-        $pdf->SetHeaderData(PDF_HEADER_LOGO, 50, PDF_HEADER_TITLE, mb_strtoupper($entrada['ejercicio']['almacen']['nombre'], 'UTF-8'), array(0,64,255), array(0,64,128));
-        $pdf->setFooterData(array(0,64,0), array(0,64,128));
-        // set header and footer fonts
-        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-        // set default monospaced font
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-        // set margins
-        $pdf->SetMargins(10, PDF_MARGIN_TOP, 10);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-        // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-        
-        $pdf->AddPage();
-        
-        $pdf->Ln(2);
-        //$pdf->Cell($w, $h, $txt, $border, $ln, $align, $fill, $link, $stretch, $ignore_min_height)
-        $pdf->SetFont('helvetica', 'B', 13);
-        $pdf->Cell(0, 0, 'AVISO DE ALTA', '', 1, 'C');
-        
-        $pdf->SetFont('helvetica', '', 9);
-        $pdf->Ln(5);
-        $pdf->Cell(0, 0, 'No. '.$entrada['folio'], '', 1, 'R');
-        $pdf->Ln(5);
-        $lugar = $entrada['ejercicio']['almacen']['lugar']." A ".$entrada['fecha']->format('d/m/Y');
-        $pdf->Cell(0, 0, $lugar, '', 1, 'L');
-        $pdf->Cell(0, 0, mb_strtoupper($entrada['ejercicio']['almacen']['nombreJefeServicios']), '', 1, 'L');
-        $pdf->Cell(0, 0, 'CON ESTA FECHA SE DAN DE ALTA PROCEDENTES DE:', '', 1, 'L');
-        $pdf->Cell(0, 0, mb_strtoupper($entrada['proveedor']['nombre']), '', 1, 'L');
-        
-        $datosFactura = 'SEGUN FACTURA '.$entrada['facturaNumero'].', DE FECHA '.$entrada['facturaFecha']->format('d/m/Y')
-            .', NÚMERO DE PEDIDO '.$entrada['pedidoNumero'];
-        $pdf->Cell(0, 0, $datosFactura, '', 1, 'L');
-        $programa = $entrada['programa']['clave'].'-'.$entrada['programa']['nombre'];
-        $pdf->Cell(0, 0, 'PROGRAMA: '.$programa, '', 1, 'L');
-        $pdf->Cell(0, 0, 'OBSERVACIONES: '.mb_strtoupper($entrada['observaciones']), '', 1, 'L');
-        $pdf->Cell(0, 0, 'LOS ARTICULOS QUE ACONTINUACIÓN SE DETALLAN:', '', 1, 'L');
-        $pdf->Ln(5);
-        $pdf->SetFont('helvetica', '', 8);
-        
-        $wPage = $pdf->getPageWidth() - PDF_MARGIN_LEFT - PDF_MARGIN_RIGHT;
-        $wCve = 20;
-        $wNombre = 80;
-        $wCaducidad = 15;
-        $wCantidad = 15;
-        $wUnidad = 20;
-        $wPrecio = 20;
-        $wImporte = 20;
-        $hCell = 5;
-        
-        
-        
-        $pdf->cell($wCve, $hCell, 'CLAVE', 'LTRB', 0, 'C');
-        $pdf->cell($wNombre, $hCell, 'NOMBRE', 'LTRB', 0, 'C');
-        $pdf->cell($wCaducidad, $hCell, 'CAD.', 'LTRB', 0, 'C');
-        $pdf->cell($wCantidad, $hCell, 'CANTIDAD', 'LTRB', 0, 'C');
-        $pdf->cell($wUnidad, $hCell, 'UNIDAD', 'LTRB', 0, 'C');
-        $pdf->cell($wPrecio, $hCell, 'PRECIO', 'LTRB', 0, 'C');
-        $pdf->cell($wImporte, $hCell, 'IMPORTE', 'LTRB', 1, 'C');
-        
-        $pdf->Ln(1);
-        
-        $pdf->SetFont('helvetica', '', 8);
-        
+    {        
+        $bPDF = new BasePDF();
+        $footerText = array(
+            'address' => $entrada['ejercicio']['almacen']['domicilio'],
+            'telephones' => $entrada['ejercicio']['almacen']['telefonos'],
+        );
+        $bPDF->init($pdf, $entrada['ejercicio']['almacen']['nombre'], $footerText);
         $edsRepository = $this->base->getRepository('AppBundle:EntradaDetalles');
-        $partidas = $edsRepository->obtenerPartidasPorEntrada($entrada['id']);
+        $alta = new Alta($pdf, $entrada);
+        $alta->imprimirDatos();
+        $alta->imprimirDetalles($edsRepository);
         
-        foreach($partidas as $partida) {
-            $pdf->SetFont('helvetica', 'B', 8);
-            $pdf->cell($wImporte, $hCell, $partida['nombre'], '', 1, 'l');
-            $pdf->Ln(1);
-            $pdf->SetFont('helvetica', '', 8);
-            //Articulos
-            $pdf->cell($wCve, $hCell, '000.211.0056', 'LTRB', 0, 'C');
-            $pdf->cell($wNombre, $hCell, 'CONJUNTO SEMIEJECUTIVO LINEA ERGOS', 'LTRB', 0, 'L');
-            $pdf->cell($wCaducidad, $hCell, '22/12/2018', 'LTRB', 0, 'C');
-            $pdf->cell($wCantidad, $hCell, '1,200,000', 'LTRB', 0, 'R');
-            $pdf->cell($wUnidad, $hCell, 'PIEZA', 'LTRB', 0, 'C');
-            $pdf->cell($wPrecio, $hCell, '3,400,255.00', 'LTRB', 0, 'R');
-            $pdf->cell($wImporte, $hCell, '3,400,255.00', 'LTRB', 1, 'R');
-        }
+        $alta->imprimirFirmas();
+        
         
         return $pdf;
     }

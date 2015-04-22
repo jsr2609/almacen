@@ -9,18 +9,25 @@ class EntradaDetallesRepository extends EntityRepository
 {
     private $rootAlias = 'eds';
     
-    public function buscarTodos($entradaId = null, $select = null, $hydrationMode = 'HYDRATE_ARRAY')
+    public function buscarTodos($select = null, $entradaId = null, $partidaId = null, $hydrationMode = 'HYDRATE_ARRAY')
     {
         if(!$select) {
-            $select = 'eds, eta, art';            
+            $select = 'eds, ets, ats';
         }
         $qb = $this->createQueryBuilder('eds');
         $qb->select($select);
-        $qb->innerJoin('eds.entrada', 'eta')
-            ->innerJoin('eds.articulo', 'art');
+        $qb->innerJoin('eds.entrada', 'ets')
+            ->innerJoin('eds.articulo', 'ats')
+            ->innerJoin('ats.partida', 'pts')
+            ->innerJoin('ats.presentacion', 'pss')
+        ;
         if($entradaId) {
             $qb->andWhere('eds.entrada = :entrada');
             $qb->setParameter('entrada', $entradaId);
+        }
+        if($partidaId) {
+            $qb->andWhere('ats.partida = :partida');
+            $qb->setParameter('partida', $partidaId);
         }
         
         $query = $qb->getQuery();
@@ -38,6 +45,8 @@ class EntradaDetallesRepository extends EntityRepository
         
         return $query->getResult($hydration);
     }
+    
+    
     
     public function buscarPorEjercicio($almacen, $periodo, $select = null, $hydrationMode = 'HYDRATE_OBJECT', $root = null)
     {   
@@ -88,7 +97,7 @@ class EntradaDetallesRepository extends EntityRepository
     
     public function obtenerPartidasPorEntrada($entradaId) 
     {
-        $dql = "SELECT DISTINCT(pts.id), pts.clave, pts.nombre FROM AppBundle:EntradaDetalles eds "
+        $dql = "SELECT DISTINCT pts.id, pts.clave, pts.nombre FROM AppBundle:EntradaDetalles eds "
                 . "INNER JOIN eds.entrada AS ets "
                 . "INNER JOIN eds.articulo AS ats "
                 . "INNER JOIN ats.partida AS pts "

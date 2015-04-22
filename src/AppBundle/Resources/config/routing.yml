@@ -1,5 +1,5 @@
 app_admin_articulos:
-    resource: "@AppBundle/Resources/config/routing/articulos.yml"
+    resource: "@AppBundle/Resources/config/routing/Admin/articulos.yml"
     prefix:   /admin/articulos
 
 app_admin_entradadetalles:

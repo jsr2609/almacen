@@ -40,6 +40,11 @@
                                     <span class="glyphicon glyphicon-search"></span> 
                                     Datos de la Entrada
                                 </button>
+                                
+                                    <a href="{{ path('admin_entradas_pdf', {'id': entrada.id}) }}" class="btn btn-default" data-toggle="tooltip" title="PDF">
+                                       <i class="fa fa-file-pdf-o fa-fw"></i> Generar PDF
+                                   </a>
+                               
 
                                 
                                 <a href="{{ path('admin_entradas', {}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
@@ -95,7 +100,17 @@
 {% block javascript_page %}
     <script type="text/javascript">
         $(document).ready(function(){
-            dtListaArticulos = createDataTable("minimal", "lista-articulos");
+            dtListaArticulos = createDataTable("minimal", "lista-articulos", {
+                "columns": [
+                    {  },
+                    {  },
+                    { "className": "text-right" },
+                    { "className": "text-right" },
+                    { "className": "text-right" },
+                    { "className": "text-right" },
+                    
+                ],
+            });
             //Inicio click agregar artículo
             $("#btn-agregar-articulo").click(function(){
                 $.ajax({
