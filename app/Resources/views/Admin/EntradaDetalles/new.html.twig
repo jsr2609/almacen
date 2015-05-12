@@ -20,6 +20,7 @@
                     </div>
                 </div>
                 
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -32,7 +33,36 @@
 <script type="text/javascript">
     initDatePicker();
     $('#entrada_detalles_type').validate();
-    $("#modal-nuevo-articulo").modal('show');
+    
+    
+    $("#entrada_detalles_type_articulo").tooltip();
+    
+    //Interceptando el click para buscar un artículo
+    $("#entrada_detalles_type_articulo_control_group .input-group-addon").click(function(){
+        $.ajax({
+            url: "{{ path('admin_articulos_popup_buscar') }}",
+            type: 'GET',
+            dataType: "JSON",
+            //data: $("#people_type").serialize()+"&valor=10",
+            data: {
+                "acciones": "/Admin/EntradaDetalles/acciones_seleccionar_articulo.html.twig"
+            },
+            success: function(data) {
+                if(data.code == 200) {
+                    $("#contenedor-modal-popup-buscar-articulo").html(data.html);
+
+                } else {
+                    createAlert("danger", null, data.message)
+
+                }
+            },
+            error: function(request, text, error) {
+                //$("#loader").modal("hide");
+                createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+            }
+        });
+    });
     
     //Interceptando el evento al enviar el formulario
     $("#entrada_detalles_type").submit(function(e){
@@ -71,35 +101,42 @@
         }
     });
     
+    function mostrarInfoArticulo(clave)
+    {
+        $.ajax({
+            url: "{{ path('admin_entradadetalles_buscar_articulo') }}",
+            type: 'GET',
+            dataType: "JSON",
+            //data: $("#people_type").serialize()+"&valor=10",
+            data: {
+                articuloClave: clave
+            },
+            success: function(data) {
+                if(data.code == 200) {
+                    $('#articulo-descripcion').html(data.html);
+
+                } else {
+                    createAlert("danger", null, data.message)
+
+                }
+            },
+            error: function(request, text, error) {
+                //$("#loader").modal("hide");
+                createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+            }
+        });
+    }
+    
     //Interceptando el evento al salir del campo
     $('#entrada_detalles_type_articulo').blur(function(){
         articuloClave = $(this).val()
         if(!isEmpty(articuloClave)) {
-            $.ajax({
-                url: "{{ path('admin_entradadetalles_buscar_articulo') }}",
-                type: 'GET',
-                dataType: "JSON",
-                //data: $("#people_type").serialize()+"&valor=10",
-                data: {
-                    articuloClave: articuloClave
-                },
-                success: function(data) {
-                    if(data.code == 200) {
-                        $('#articulo-descripcion').html(data.html);
-
-                    } else {
-                        createAlert("danger", null, data.message)
-
-                    }
-                },
-                error: function(request, text, error) {
-                    //$("#loader").modal("hide");
-                    createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
-
-                }
-            });
+            mostrarInfoArticulo(articuloClave);
         }
     }); //Fin blur campo artículo
+    
+    $("#modal-nuevo-articulo").modal('show');
     
     
 </script>

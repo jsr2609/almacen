@@ -244,4 +244,44 @@ class ArticulosController extends Controller
             ->getForm()
         ;
     }
+    
+   /**
+    * Popup para buscar un artículo
+    */ 
+    public function popupBuscarAction(Request $request)
+    {
+        $acciones = $request->query->get('acciones');
+                
+        $html = $this->renderView("/Admin/Articulos/popup_buscar.html.twig", array(
+            'acciones' => $acciones,
+        ));
+        
+        $data = array('code' => 200, 'html' => $html, 'message' => '');
+        $response = new JsonResponse($data);
+        return $response;
+        
+    }
+    
+    public function popupBuscarIndexAction(Request $request)
+    {
+        $columnas = array(
+            array('dt' => 0, 'db' => 'clave'),
+            array('dt' => 1, 'db' => 'nombre'),
+            array('dt' => 2, 'db' => 'presentacionNombre'),
+            array('dt' => 3, 'db' => 'partidaClave')
+        );
+        
+        $dtManager = $this->get('ssa_utilidades.dataTables');
+        
+        $articulosManager = $this->get('app.articulos');
+        
+        $datos = $articulosManager->obtenerRegistrosDT($dtManager, 'AppBundle:VwArticulos', 
+            $request->query->all(), $columnas, null, null, null, "enlacesPopupIndex"
+        );
+        
+        $respuesta = new JSONResponse($datos);
+        
+        return $respuesta;        
+    }
+    
 }

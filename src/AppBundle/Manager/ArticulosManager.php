@@ -30,9 +30,9 @@ class ArticulosManager
         $this->base = $base;
     }
     
-    //Inican funciones DataTables
+    //Inician funciones DataTables
     public function obtenerRegistrosDT(DataTablesManager $dt, $repositorio, $peticion, 
-        $columnas, $cExtra = array(), $nombreFF = null, $cFiltros = null
+        $columnas, $cExtra = array(), $nombreFF = null, $cFiltros = null, $fnEnlaces = null
     ) {
         
         $this->dataTable = $dt;
@@ -47,9 +47,11 @@ class ArticulosManager
             "draw" => \intval($peticion['draw']),
             "recordsTotal"    => intval( $registrosTotal ),
             "recordsFiltered" => intval( $informacionRegistrosFiltrados['total'] ),
-            "data"            =>  $this->dataOutputDT($columnas, $informacionRegistrosFiltrados['registros'], $cExtra)
+            "data"            =>  $this->dataOutputDT($columnas, $informacionRegistrosFiltrados['registros'], $cExtra, $fnEnlaces)
         );
     }
+    
+    
     
     public function agregarFiltrosExtraQBDT(QueryBuilder $qb, $root, $activo = true) 
     {      
@@ -90,8 +92,10 @@ class ArticulosManager
         );
     }
     
-    public function dataOutputDT($columns, $records, $extraColums = null) {
-        
+    public function dataOutputDT($columns, $records, $extraColums = null, $fnEnlaces = null) {
+        if(!$fnEnlaces) {
+            $fnEnlaces = "enlacesIndex";
+        }
         $out = array();
         $basePath = $this->base->getBasePath();
         foreach($records as $indexRow => $record) {
@@ -113,14 +117,11 @@ class ArticulosManager
                     "'><i class='fa fa-cog fa-fw'></i></a>";
              
              */
-            $editar = '<a data-toggle="tooltip" title="Editar" class="btn btn-primary btn-xs" href="'.
-                    $this->base->generateUrl('admin_articulos_edit', array('id' => $record['id'])).
-                    '"><i class="fa fa-edit fa-fw"></i> </a>';
-            $consultar = '<a data-toggle="tooltip" title="Consultar" class="btn btn-default btn-xs" href="'.
-                    $this->base->generateUrl('admin_articulos_show', array('id' => $record['id'])).
-                    '"><i class="fa fa-search fa-fw"></i> </a>';
             
-            $row[] = $editar." ".$consultar;
+            
+            $enlaces = call_user_func(array($this, $fnEnlaces), $record);
+            
+            $row[] = $enlaces;
             
 
             $out[] = $row;
@@ -131,6 +132,32 @@ class ArticulosManager
     }
     
     //Fin funciones dataTables
+    
+    public function enlacesIndex($record)
+    {
+        
+        $editar = '<a data-toggle="tooltip" title="Editar" class="btn btn-primary btn-xs" href="'.
+                    $this->base->generateUrl('admin_articulos_edit', array('id' => $record['id'])).
+                    '"><i class="fa fa-edit fa-fw"></i> </a>';
+        $consultar = '<a data-toggle="tooltip" title="Consultar" class="btn btn-default btn-xs" href="'.
+                $this->base->generateUrl('admin_articulos_show', array('id' => $record['id'])).
+                '"><i class="fa fa-search fa-fw"></i> </a>';
+
+        $enlaces =  $editar." ".$consultar;
+        
+        return $enlaces;
+    }
+    
+    public function enlacesPopupIndex($record)
+    {
+        
+        $editar = '<button data-toggle="tooltip" title="Editar" class="btn btn-primary btn-xs btn-seleccionar" articulo-clave="'.$record['clave'].'" ><i class="fa fa-check-circle fa-fw"></i> </button>';
+        
+
+        $enlaces =  $editar;
+        
+        return $enlaces;
+    }
     
     /**
      * 

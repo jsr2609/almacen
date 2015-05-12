@@ -32,3 +32,11 @@ admin_articulos_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Admin/Articulos:delete" }
     requirements: { _method: post|delete }
+
+admin_articulos_popup_buscar:
+    path:     /popup_buscar
+    defaults: { _controller: "AppBundle:Admin/Articulos:popupBuscar" }
+
+admin_articulos_popup_buscar_index:
+    path:     /popup_buscar_index
+    defaults: { _controller: "AppBundle:Admin/Articulos:popupBuscarIndex" }

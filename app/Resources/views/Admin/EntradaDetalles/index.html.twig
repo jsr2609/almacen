@@ -52,7 +52,7 @@
                                 </a>                                
                             </div>
                             <!-- Contenido -->
-                            <table id="lista-articulos" class="table">
+                            <table id="lista-detalles" class="table">
                                 <thead>
                                     <tr>
                                         <th>Clave</th>
@@ -89,6 +89,7 @@
                                 </tbody>
                             </table>
                             <div id="contenedor-modales"></div>
+                            <div id="contenedor-modal-popup-buscar-articulo"></div>
                         </div>
                     </div>
                 </div>
@@ -100,7 +101,7 @@
 {% block javascript_page %}
     <script type="text/javascript">
         $(document).ready(function(){
-            dtListaArticulos = createDataTable("minimal", "lista-articulos", {
+            dtListaArticulos = createDataTable("minimal", "lista-detalles", {
                 "columns": [
                     {  },
                     {  },
@@ -139,7 +140,7 @@
             }); //Fin click agregar artículo
             
             //Inicio click editar artículo
-            $("#lista-articulos").on("click", ".btn-editar-articulo", function(e){
+            $("#lista-detalles").on("click", ".btn-editar-articulo", function(e){
                 detalleId = parseInt($(this).attr("detalle-id"));
                 rowDT = getDataRowDT(dtListaArticulos, $(this));
                 
@@ -169,7 +170,7 @@
             }); //Fin click editar articulo
             
             //Inicia consultar detalle
-            $("#lista-articulos").on("click", ".btn-consultar-detalle", function(){
+            $("#lista-detalles").on("click", ".btn-consultar-detalle", function(){
                 detalleId = $(this).attr('detalle-id');
                 $.ajax({
                     url: "{{ path('admin_entradadetalles_show') }}",

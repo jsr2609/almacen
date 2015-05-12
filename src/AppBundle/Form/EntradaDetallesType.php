@@ -26,6 +26,10 @@ class EntradaDetallesType extends AbstractType
                     'hidden' => false,
                     'horizontal_label_class' => $widthLabel,
                     'horizontal_input_wrapper_class' => $withInput,
+                    'attr' => array(
+                        'data-toggle' => 'tooltip',
+                        'title' => 'Ingrese la clave o de click en el botón para buscar un artículo.'
+                    )
                 ));
         }
         $builder
