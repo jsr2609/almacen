@@ -17,6 +17,14 @@ app_admin_programas:
 app_admin_entradas:
     resource: "@AppBundle/Resources/config/routing/Admin/entradas.yml"
     prefix:   /admin/entradas
+    
+app_admin_salidas:
+    resource: "@AppBundle/Resources/config/routing/Admin/salidas.yml"
+    prefix:   /admin/salidas
+
+app_admin_salidadetalles:
+    resource: "@AppBundle/Resources/config/routing/Admin/salidadetalles.yml"
+    prefix:   /admin/salidadetalles
 
 app_admin_almacenes:
     resource: "@AppBundle/Resources/config/routing/Admin/almacenes.yml"

@@ -1,0 +1,157 @@
+{% extends '::/Admin/layout.html.twig' %}
+{% block title_page %}
+    <i class="fa fa-list fa-list "></i>
+    Salidas <span>> Lista</span>
+{% endblock %}
+{% block content -%}
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div id="wid-id-0" class="jarviswidget" 
+                     data-widget-deletebutton="true" data-widget-colorbutton="true" data-widget-editbutton="true">
+                    <header>
+
+
+                        <span class="widget-icon"> <i class="fa fa-list"></i> </span>
+                        <h2>Lista</h2>
+
+                    </header>
+
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <input class="form-control" type="text">
+
+                        </div>
+                        <div class="widget-body ">
+                            <!-- Contenido -->
+                            <div class="widget-header">                        
+                                <a href="{{ path('admin_salidas_new', {}) }}" class="btn btn-primary">
+                                    <i class="fa fa-plus-circle fa-fw"></i> Nueva
+                                </a>
+                            </div>
+                            <!-- Contenido -->
+                            <table id="lista-salidas" class="table">
+                                <thead>
+                                    <tr>                                        
+                                        <th>Folio</th>
+                                        <th>Fecha</th>
+                                        
+                                        <th>Pedido</th>
+                                        <th>Factura</th>     
+                                        <th>Tipo</th>
+                                        <th class="text-right">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>
+                                            <input class="form-control" placeholder="Folio..." name="folio" type="text"/>
+                                        </th>
+                                        <th>
+                                            <input class="form-control" placeholder="Fecha..." name="fecha" type="text"/>
+                                        </th>
+                                        <th>
+                                            <input class="form-control" placeholder="Pedido..." name="pedido" type="text"/>
+                                        </th>
+                                        <th>
+                                            <input class="form-control" placeholder="Factura..." name="factura" type="text"/>
+                                        </th>
+                                        <th>
+                                            <select class="form-control">
+                                                <option value="">...</option>
+                                                {% for index, tipo in salidasTipos %}
+                                                    <option value="{{index}}">{{tipo}}</option>
+                                                 {% endfor %}
+                                            </select>
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+{% endblock %}
+{% block javascript_page %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            noOrdenar = [5];
+            dtListaSalidas = createDataTable("complete", "lista-salidas", {
+                "processing": true,
+                "autoWidth": false,
+                "serverSide": true,
+                "order": [[ 0, 'desc' ]],
+                "ajax": {
+                    "url": "{{ path('admin_salidas_ajax') }}",
+                    "data": function(d) {
+                        //d.formFilter = $("#NombreForm").serializeJSON();
+                    }
+                },
+                "columnDefs": [
+                    { "sortable": false, "targets": noOrdenar }
+                ],
+                "columns": [
+                    { "width": "10%" },
+                    { "width": "10%" },
+                    { "width": "15%" },
+                    { "width": "15%" },
+                    { "width": "20%" },
+                    { "width": "30%", "className": "text-right" },
+                    
+                ],
+
+
+                "initComplete": function(oSettings, json) {
+                    this.fnSetFilteringDelay(500);
+                    //dtListaSalidas.columns.adjust().draw();
+                }
+            });
+            
+            //Aplicando filtros por columnas
+        var search_timeout = undefined; 
+        
+        function setDelayColumn(item, colIdx)
+        {
+            if(search_timeout != undefined) {
+                clearTimeout(search_timeout);
+            }
+            
+            $this = item;
+            search_timeout = setTimeout(function() {
+              search_timeout = undefined;
+
+
+
+              dtListaSalidas.column(colIdx).search( $this.value ).draw();
+
+            }, 500);
+        }
+        
+        //Funciona sólo con  inputs
+        dtListaSalidas.columns().eq( 0 ).each( function ( colIdx ) {
+            //Interceptando el los filtros
+            
+            
+            $( 'input', dtListaSalidas.column( colIdx ).footer() ).on( 'keyup', function () {
+                setDelayColumn(this, colIdx);
+            } );
+            
+            $( 'select', dtListaSalidas.column( colIdx ).footer() ).on( 'change', function () {
+                setDelayColumn(this, colIdx);
+            } );
+        });
+            
+            
+        });
+    </script>
+{% endblock %}

@@ -46,4 +46,21 @@ services:
         arguments: ['@ssa_utilidades.base']
         
         
+    #Listeners Salidas y Varios de DTD
+    app.listener.salidas_asignar_folio:
+        class: AppBundle\EventListener\SalidasAsignarFolioListener
+        arguments: ['@doctrine', '@session']
+        tags:
+            - { name: "kernel.event_listener" , event: "salidas.submitted", method: "onSalidasSubmitted", priority: 1 }
+    
+    app.listener.salidas_asignar_ejercicio:
+        class: AppBundle\EventListener\SalidasAsignarEjercicioListener
+        arguments: ['@doctrine', '@session']
+        tags:
+            - { name: "kernel.event_listener" , event: "salidas.submitted", method: "onSalidasSubmitted", priority: 2 }
+    
+    app.salidas:
+        class: AppBundle\Manager\SalidasManager
+        arguments: ['@ssa_utilidades.base']
+
         

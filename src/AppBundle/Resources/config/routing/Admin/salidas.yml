@@ -1,0 +1,42 @@
+admin_salidas:
+    path:     /
+    defaults: { _controller: "AppBundle:Admin/Salidas:index" }
+
+admin_salidas_ajax:
+    path:     /ajax
+    defaults: { _controller: "AppBundle:Admin/Salidas:indexAjax" }
+
+admin_salidas_show:
+    path:     /show
+    defaults: { _controller: "AppBundle:Admin/Salidas:show" }
+
+admin_salidas_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Admin/Salidas:new" }
+
+admin_salidas_create:
+    path:     /create
+    defaults: { _controller: "AppBundle:Admin/Salidas:create" }
+    requirements: { _method: post }
+
+admin_salidas_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Admin/Salidas:edit" }
+
+admin_salidas_update:
+    path:     /{id}/update
+    defaults: { _controller: "AppBundle:Admin/Salidas:update" }
+    requirements: { _method: post|put }
+
+admin_salidas_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Admin/Salidas:delete" }
+    requirements: { _method: post|delete }
+
+admin_salidas_mostrar_con_articulos:
+    path:     /{id}/mostrar_con_articulos
+    defaults: { _controller: "AppBundle:Admin/Salidas:mostrarConArticulos" }
+
+admin_salidas_pdf:
+    path:     /{id}/pdf
+    defaults: { _controller: "AppBundle:Admin/Salidas:pdf" }

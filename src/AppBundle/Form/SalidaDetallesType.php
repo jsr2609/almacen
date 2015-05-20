@@ -5,9 +5,9 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use AppBundle\Entity\SalidaDetalles; 
+use AppBundle\Entity\EntradaDetalles; 
 
-class SalidaDetallesType extends AbstractType
+class EntradaDetallesType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -93,6 +93,6 @@ class SalidaDetallesType extends AbstractType
      */
     public function getName()
     {
-        return 'salida_detalles_type';
+        return 'entrada_detalles_type';
     }
 }

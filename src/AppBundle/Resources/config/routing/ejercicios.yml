@@ -1,0 +1,30 @@
+admin_ejercicios:
+    path:     /
+    defaults: { _controller: "AppBundle:Ejercicios:index" }
+
+admin_ejercicios_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Ejercicios:show" }
+
+admin_ejercicios_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Ejercicios:new" }
+
+admin_ejercicios_create:
+    path:     /create
+    defaults: { _controller: "AppBundle:Ejercicios:create" }
+    requirements: { _method: post }
+
+admin_ejercicios_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Ejercicios:edit" }
+
+admin_ejercicios_update:
+    path:     /{id}/update
+    defaults: { _controller: "AppBundle:Ejercicios:update" }
+    requirements: { _method: post|put }
+
+admin_ejercicios_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Ejercicios:delete" }
+    requirements: { _method: post|delete }

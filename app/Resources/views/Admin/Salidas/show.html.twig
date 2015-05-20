@@ -1,0 +1,36 @@
+<div id="modal-consultar-entrada" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Datos de la Entrada</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="list-inline">
+                
+                    <li>
+                        <a href="{{ path('admin_entradas_edit', { 'id': entity.id }) }}" target="_blanck" class="btn btn-primary">
+                            <i class="fa fa-edit fa-fw"></i>
+                            Editar
+                        </a>
+                    </li>
+                    <li></li>
+                </ul>
+                {{include("Admin/Entradas/datos_generales.html.twig", {'entity': entity})}}
+                    
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
+                </button>
+                
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript">
+    $("#modal-consultar-entrada").modal("show");
+</script>
+   
+
+    

@@ -1,0 +1,53 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#salidas_type_fecha").focus();
+        $("#salidas_type").validate();
+        //Peticion para buscar el programa
+        $("#salidas_type_programa .input-group-addon").click(function(){
+            $.ajax({
+                url: "{{ path('admin_programas_popup_buscar') }}",
+                type: 'GET',             
+                dataType: "JSON",
+                data: {
+                    acciones: "/Admin/Salidas/acciones_buscar_programa.html.twig"
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $("#contenedor-modales").html(data.html);
+
+                    } else {
+                        
+
+                    }
+                },
+                error: function (request, text, error) {
+
+                }
+            });
+        });
+        //Petición para buscar el proveedor
+        $("#salidas_type_proveedor .input-group-addon").click(function(){
+            
+            $.ajax({
+                url: "{{ path('admin_proveedores_popup_buscar') }}",
+                type: 'GET',             
+                dataType: "JSON",
+                data: {
+                    acciones: "/Admin/Salidas/acciones_buscar_proveedor.html.twig"
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $("#contenedor-modales").html(data.html);
+
+                    } else {
+                        
+
+                    }
+                },
+                error: function (request, text, error) {
+
+                }
+            });
+        });
+    });
+</script>

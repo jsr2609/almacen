@@ -1,0 +1,125 @@
+{% extends '::/Admin/layout.html.twig' %}
+{% block title_page %}
+    <i class="fa fa-list fa-search "></i>
+    Entrada <span>> Consultar</span>
+{% endblock %}
+{% block content -%}
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div id="wid-id-0" class="jarviswidget" 
+                     data-widget-deletebutton="true" data-widget-colorbutton="true" data-widget-editbutton="true">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-search"></i> </span>
+                        <h2>Consultar</h2>
+                    </header>
+
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <input class="form-control" type="text">
+
+                        </div>
+                        <div class="widget-body ">
+                            <!-- Contenido -->
+                            <div class="widget-header">                        
+                                <!-- Botones de Accion -->
+                                <ul class="list-inline">
+                                    <li>
+                                        <a href="{{ path('admin_entradas', {}) }}" class="btn btn-primary">
+                                            <i class="fa fa-list fa-fw"></i> Lista de Entradas
+                                        </a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="{{ path('admin_entradadetalles', {'id': entity.id}) }}" class="btn btn-default">
+                                            <i class="fa fa-list fa-fw"></i> Lista de Artículos
+                                        </a>
+                                    </li>
+                                    <li>{#{{ form(delete_form) }}#}</li>
+                                </ul>
+                            </div>
+                            <!-- Contenido -->
+                            {{include("Admin/Entradas/datos_generales.html.twig", {'entity': entity})}}
+                            <div class="entrada-articulos">
+                                <h2>Lista de Articulos</h2>
+                                <div class="table-responsive">
+                                    <table id="lista-detalles" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Clave</th>
+                                                <th>Nombre</th>
+                                                <th>Cantidad</th>
+                                                <th>Precio</th>
+                                                <th>Total</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for detalle in detalles %}
+                                                <tr>
+                                                    <td>{{ detalle.articuloClave }}</td>
+                                                    <td>{{ detalle.articuloNombre }}</td>
+                                                    <td class="text-right">{{ detalle.cantidad | number_format(0, '.', ',') }}</td>
+                                                    <td class="text-right">{{ detalle.precio | number_format(2, '.', ',') }}</td>
+                                                    <td class="text-right">
+                                                        {{ (detalle.cantidad * detalle.precio) | number_format(2, '.', ',') }}
+                                                    </td>
+
+                                                    <td>
+
+                                                        <button detalle-id="{{detalle.id}}" type="button" class="btn btn-xs btn-default btn-consultar-detalle" data-toggle="tooltip" title="Consultar">
+                                                            <span class="glyphicon glyphicon-search"></span> 
+
+                                                        </button>
+
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="contenedor-modales"></div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+{% endblock %}
+{% block javascript_page %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            dtListaArticulos = createDataTable("minimal", "lista-articulos");
+            //Inicia consultar detalle
+            $("#lista-detalles").on("click", ".btn-consultar-detalle", function(){
+                detalleId = $(this).attr('detalle-id');
+                $.ajax({
+                    url: "{{ path('admin_entradadetalles_show') }}",
+                    type: 'GET',
+                    dataType: "JSON",
+                    //data: $("#people_type").serialize()+"&valor=10",
+                    data: {
+                        detalleId: detalleId
+                    },
+                    success: function(data) {
+                        if(data.code == 200) {
+                            $("#contenedor-modales").html(data.html);
+
+                        } else {
+                            createAlert("danger", null, data.message)
+
+                        }
+                    },
+                    error: function(request, text, error) {
+                        //$("#loader").modal("hide");
+                        createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+                    }
+                });
+            }); //Termina consultar detalle
+        });
+    </script>
+{% endblock %}

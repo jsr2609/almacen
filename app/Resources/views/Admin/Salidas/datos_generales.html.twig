@@ -1,0 +1,50 @@
+<div id="entrada-datos-generales">
+    <div class="row">
+        <div class="col-sm-3 col-lg-3 cell">
+            <strong>Folio</strong><br/>{{entity.folio}}
+        </div>
+        <div class="col-sm-3 col-lg-3 cell">
+            <strong>Fecha</strong><br/>{{entity.fecha | date('d/m/Y')}}
+        </div>
+        <div class="col-sm-3 col-lg-3 cell">
+            <strong>Tipo</strong><br/>{{entity.tipoEntradaNombre}}
+        </div>
+        <div class="col-sm-3 col-lg-3 cell">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-sm-12 col-md-6  cell">
+                    <strong>Programa</strong><br/>
+                        {{entity.programa.clave}} - {{entity.programa.nombre}}
+                </div>
+                <div class="col-sm-12 col-md-6 cell">
+                    <strong>Proveedor</strong><br/>
+                        {{entity.proveedor.rfc}} - {{entity.proveedor.nombre}}
+                </div>
+            </div>                                        
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 col-lg-3 cell">
+            <strong>No. Factura</strong><br/>
+            {{entity.facturaNumero}}
+        </div>
+        <div class="col-sm-3 col-lg-3 cell">
+            <strong>F. Factura</strong><br/>
+            {% if entity.facturaFecha %}
+                {{entity.facturaFecha | date('d/m/Y')}}
+            {% endif %}
+        </div>
+        <div class="col-sm-3 col-lg-3 cell">
+            <strong>No. Pedido</strong><br/>
+            {{entity.pedidoNumero}}
+        </div>
+        <div class="col-sm-3 col-lg-3 cell">
+            <strong>Tipo de Pedido</strong><br/>
+            {{entity.pedidoTipoNombre}}
+        </div>
+    </div>                                
+</div> 

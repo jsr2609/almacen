@@ -1,0 +1,34 @@
+admin_salidadetalles:
+    path:     /entrada/{id}
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:index" }
+
+admin_salidadetalles_show:
+    path:     /show
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:show" }
+
+admin_salidadetalles_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:new" }
+
+admin_salidadetalles_create:
+    path:     /create
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:create" }
+    requirements: { _method: post }
+
+admin_salidadetalles_edit:
+    path:     /edit
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:edit" }
+
+admin_salidadetalles_update:
+    path:    /update
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:update" }
+    requirements: { _method: post|put }
+
+admin_salidadetalles_delete:
+    path:     /delete
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:delete" }
+    requirements: { _method: post|delete }
+    
+admin_salidadetalles_buscar_articulo:
+    path:     /buscar_articulo
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:buscarArticulo" }
