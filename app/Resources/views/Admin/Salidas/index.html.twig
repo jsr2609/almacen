@@ -36,10 +36,7 @@
                                     <tr>                                        
                                         <th>Folio</th>
                                         <th>Fecha</th>
-                                        
-                                        <th>Pedido</th>
-                                        <th>Factura</th>     
-                                        <th>Tipo</th>
+                                        <th>Recibio</th>
                                         <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
@@ -55,19 +52,16 @@
                                             <input class="form-control" placeholder="Fecha..." name="fecha" type="text"/>
                                         </th>
                                         <th>
-                                            <input class="form-control" placeholder="Pedido..." name="pedido" type="text"/>
+                                            <input class="form-control" placeholder="Recibio..." name="pedido" type="text"/>
                                         </th>
-                                        <th>
-                                            <input class="form-control" placeholder="Factura..." name="factura" type="text"/>
-                                        </th>
-                                        <th>
+                                        <!--<th>
                                             <select class="form-control">
                                                 <option value="">...</option>
                                                 {% for index, tipo in salidasTipos %}
                                                     <option value="{{index}}">{{tipo}}</option>
                                                  {% endfor %}
                                             </select>
-                                        </th>
+                                        </th>-->
                                         <th>
                                         </th>
                                     </tr>
@@ -85,7 +79,7 @@
 {% block javascript_page %}
     <script type="text/javascript">
         $(document).ready(function(){
-            noOrdenar = [5];
+            noOrdenar = [3];
             dtListaSalidas = createDataTable("complete", "lista-salidas", {
                 "processing": true,
                 "autoWidth": false,
@@ -101,10 +95,8 @@
                     { "sortable": false, "targets": noOrdenar }
                 ],
                 "columns": [
-                    { "width": "10%" },
-                    { "width": "10%" },
-                    { "width": "15%" },
-                    { "width": "15%" },
+                    { "width": "20%" },
+                    { "width": "30%" },
                     { "width": "20%" },
                     { "width": "30%", "className": "text-right" },
                     

@@ -14,6 +14,11 @@
                             Editar
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ path('admin_entradas_pdf', {'id': entity.id}) }}" class="btn btn-default" data-toggle="tooltip" title="PDF">
+                           <i class="fa fa-file-pdf-o fa-fw"></i> Generar PDF
+                       </a>
+                   </li>
                     <li></li>
                 </ul>
                 {{include("Admin/Entradas/datos_generales.html.twig", {'entity': entity})}}

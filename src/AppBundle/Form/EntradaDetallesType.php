@@ -5,9 +5,9 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use AppBundle\Entity\SalidaDetalles; 
+use AppBundle\Entity\EntradaDetalles; 
 
-class SalidaDetallesType extends AbstractType
+class EntradaDetallesType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -26,6 +26,10 @@ class SalidaDetallesType extends AbstractType
                     'hidden' => false,
                     'horizontal_label_class' => $widthLabel,
                     'horizontal_input_wrapper_class' => $withInput,
+                    'attr' => array(
+                        'data-toggle' => 'tooltip',
+                        'title' => 'Ingrese la clave o de click en el botón para buscar un artículo.'
+                    )
                 ));
         }
         $builder
@@ -36,6 +40,17 @@ class SalidaDetallesType extends AbstractType
             ->add('precio', 'text', array(                
                 'horizontal_label_class' => $widthLabel,
                 'horizontal_input_wrapper_class' => $withInput,
+            ))
+            ->add('aplicaIva', 'choice', array(
+                'required' => true,
+                'multiple' => false,
+                'expanded' => true,
+                'choices' => EntradaDetalles::$aplicaIvaOpciones,
+                'widget_type'  => 'inline',
+                'help_block' => 'Marque si se aplica el IVA al precio',                
+                'horizontal_label_class' => $widthLabel,
+                'horizontal_input_wrapper_class' => $withInput,
+              
             ))
             ->add('fechaCaducidad', 'date', array(
                 'widget' => 'single_text',
@@ -51,17 +66,12 @@ class SalidaDetallesType extends AbstractType
                 'label' => 'Caducidad',
                 'required' => false,
             ))
-            ->add('aplicaIva', 'choice', array(
-                'required' => true,
-                'multiple' => false,
-                'expanded' => true,
-                'choices' => EntradaDetalles::$aplicaIvaOpciones,
-                'widget_type'  => 'inline',
-                'help_block' => 'Marque si se aplica el IVA al precio',                
+            ->add('lote', 'text', array(
                 'horizontal_label_class' => $widthLabel,
                 'horizontal_input_wrapper_class' => $withInput,
-              
+                'required' => false
             ))
+            
             ->add('observaciones', 'textarea', array(                
                 'horizontal_label_class' => $widthLabel,
                 'horizontal_input_wrapper_class' => $withInput,
@@ -93,6 +103,6 @@ class SalidaDetallesType extends AbstractType
      */
     public function getName()
     {
-        return 'salida_detalles_type';
+        return 'entrada_detalles_type';
     }
 }

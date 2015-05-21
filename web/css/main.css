@@ -41,3 +41,15 @@ and open the template in the editor.
 .modal-lg {
     width: 90%;
 }
+
+/*
+ * Soluciona el problema de ocultar el scrollbar al abrir 2 modales
+ */
+.modal {
+ overflow-y: auto;
+}
+
+.modal-open {
+ overflow: auto;
+}
+

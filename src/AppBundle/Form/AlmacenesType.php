@@ -17,6 +17,7 @@ class AlmacenesType extends AbstractType
         $builder
             ->add('nombre')
             ->add('domicilio')
+            ->add('telefonos')
             ->add('nombreResponsableAlmacen')
             ->add('cargoResponsableAlmacen')
             ->add('nombreRecursosMateriales')

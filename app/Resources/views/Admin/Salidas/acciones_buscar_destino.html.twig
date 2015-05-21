@@ -1,0 +1,8 @@
+<script type="text/javascript">
+    $("#lista-destinos").on("click", "button.seleccionar-destino", function(){
+        row = getDataRowDT(dtDestinos, $(this));
+        $("#salidas_type_destino_key").val(row.data[1]);
+        $("#salidas_type_destino_description").val(row.data[2]);
+        $("#modal-buscar-destino").modal('hide');
+    });
+</script>

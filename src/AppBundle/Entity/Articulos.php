@@ -33,12 +33,14 @@ class Articulos
     private $clave;
 
     /**
-     * @ORM\Column(name="Nombre", type="string", length=45, nullable=false)
+     * @ORM\Column(name="Nombre", type="text", nullable=false)
      */
     private $nombre;
 
+    
     /**
-     * @ORM\Column(name="PresentacionId", type="integer", length=2, nullable=false)
+     * @ORM\ManyToOne(targetEntity="Presentaciones", cascade={})
+     * @ORM\JoinColumn(name="PresentacionId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
      */
     private $presentacion;
 
@@ -294,5 +296,51 @@ class Articulos
     public function getPartida()
     {
         return $this->partida;
+    }
+
+    /**
+     * Set partidaClave
+     *
+     * @param string $partidaClave
+     * @return Articulos
+     */
+    public function setPartidaClave($partidaClave)
+    {
+        $this->partidaClave = $partidaClave;
+
+        return $this;
+    }
+
+    /**
+     * Get partidaClave
+     *
+     * @return string 
+     */
+    public function getPartidaClave()
+    {
+        return $this->partidaClave;
+    }
+
+    /**
+     * Set presentacionNombre
+     *
+     * @param string $presentacionNombre
+     * @return Articulos
+     */
+    public function setPresentacionNombre($presentacionNombre)
+    {
+        $this->presentacionNombre = $presentacionNombre;
+
+        return $this;
+    }
+
+    /**
+     * Get presentacionNombre
+     *
+     * @return string 
+     */
+    public function getPresentacionNombre()
+    {
+        return $this->presentacionNombre;
     }
 }

@@ -23,8 +23,9 @@ class EntradaDetallesController extends Controller
     public function indexAction($id)
     {
         $em = $this->getDoctrine()->getManager();
+        $entradasManager = $this->get('app.entradas');
+        $entrada = $entradasManager->buscar($id);
         
-        $entrada = $em->getRepository("AppBundle:Entradas")->find($id);
         $ejerciciosManager = $this->get('app.ejercicios');
         $iva = $ejerciciosManager->obtenerIVAPorAlmacenYPeriodo();
         $detallesManager = $this->get('app.entrada_detalles');

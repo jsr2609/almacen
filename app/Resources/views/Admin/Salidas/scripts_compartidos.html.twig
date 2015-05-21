@@ -25,22 +25,22 @@
                 }
             });
         });
-        //Petición para buscar el proveedor
-        $("#salidas_type_proveedor .input-group-addon").click(function(){
+        //Petición para buscar el Destino
+        $("#salidas_type_destino .input-group-addon").click(function(){
             
             $.ajax({
-                url: "{{ path('admin_proveedores_popup_buscar') }}",
+                url: "{{ path('admin_destinos_popup_buscar') }}",
                 type: 'GET',             
                 dataType: "JSON",
                 data: {
-                    acciones: "/Admin/Salidas/acciones_buscar_proveedor.html.twig"
+                    acciones: "/Admin/Salidas/acciones_buscar_destino.html.twig"
                 },
                 success: function (data) {
+                    
                     if (data.code == 200) {
                         $("#contenedor-modales").html(data.html);
 
                     } else {
-                        
 
                     }
                 },

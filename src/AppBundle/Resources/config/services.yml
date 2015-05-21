@@ -44,6 +44,10 @@ services:
     app.ejercicios:
         class: AppBundle\Manager\EjerciciosManager
         arguments: ['@ssa_utilidades.base']
+    
+    app.articulos:
+        class: AppBundle\Manager\ArticulosManager
+        arguments: ['@ssa_utilidades.base']
         
         
     #Listeners Salidas y Varios de DTD
@@ -63,4 +67,6 @@ services:
         class: AppBundle\Manager\SalidasManager
         arguments: ['@ssa_utilidades.base']
 
-        
+    app.salida_detalles:
+        class: AppBundle\Manager\SalidaDetallesManager
+        arguments: ['@ssa_utilidades.base']

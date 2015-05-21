@@ -5,14 +5,14 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SalidasRepository")
  * @ORM\Table(
  *     name="Salidas")
  */
 class Salidas
 {
     
-     public static $salidasTipos = array(
+    public static $salidasTipos = array(
         1 => 'Directa',
         2 => 'Donación',
         3 => 'Licitación',
@@ -57,7 +57,7 @@ class Salidas
     /**
      * @ORM\Column(name="TipoEntradaId", type="smallint", nullable=false)
      */
-    private $tipoSalida;
+    private $tipoEntrada;
 
     /**
      * @ORM\Column(name="NombreQuienRecibe", type="string", length=150, nullable=false)
@@ -95,12 +95,6 @@ class Salidas
         $this->fechaActualizacion = new \DateTime();
     }
     
-    public function getTipoSalidaNombre()
-    {
-        return self::$salidaTipos[$this->tipoSalida];
-    }
-    
-
     /**
      * Set id
      *
@@ -176,21 +170,21 @@ class Salidas
      * @param integer $tipoEntrada
      * @return Salidas
      */
-    public function setTipoSalida($tipoSalida)
+    public function setTipoEntrada($tipoEntrada)
     {
-        $this->tipoSalida = $tipoSalida;
+        $this->tipoEntrada = $tipoEntrada;
 
         return $this;
     }
 
     /**
-     * Get tipoSalida
+     * Get tipoEntrada
      *
      * @return integer 
      */
-    public function getTipoSalida()
+    public function getTipoEntrada()
     {
-        return $this->tipoSalida;
+        return $this->tipoEntrada;
     }
 
     /**

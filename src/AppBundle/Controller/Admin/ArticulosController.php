@@ -1,12 +1,13 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use AppBundle\Entity\Articulos;
 use AppBundle\Form\ArticulosType;
+
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Articulos controller.
@@ -23,11 +24,33 @@ class ArticulosController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:Articulos')->findAll();
+        //$entities = $em->getRepository('AppBundle:Articulos')->findAll();
 
-        return $this->render('AppBundle:Articulos:index.html.twig', array(
-            'entities' => $entities,
+        return $this->render('/Admin/Articulos/index.html.twig', array(
+            //'entities' => $entities,
         ));
+    }
+    
+    public function indexAjaxAction(Request $request)
+    {
+        $columnas = array(
+            array('dt' => 0, 'db' => 'clave'),
+            array('dt' => 1, 'db' => 'nombre'),
+            array('dt' => 2, 'db' => 'presentacionNombre'),
+            array('dt' => 3, 'db' => 'partidaClave')
+        );
+        
+        $dtManager = $this->get('ssa_utilidades.dataTables');
+        
+        $articulosManager = $this->get('app.articulos');
+        
+        $datos = $articulosManager->obtenerRegistrosDT($dtManager, 'AppBundle:VwArticulos', 
+            $request->query->all(), $columnas
+        );
+        
+        $respuesta = new JSONResponse($datos);
+        
+        return $respuesta;        
     }
     /**
      * Creates a new Articulos entity.
@@ -47,7 +70,7 @@ class ArticulosController extends Controller
             return $this->redirect($this->generateUrl('admin_articulos_show', array('id' => $entity->getId())));
         }
 
-        return $this->render('AppBundle:Articulos:new.html.twig', array(
+        return $this->render('/Admin/Articulos/new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -81,7 +104,7 @@ class ArticulosController extends Controller
         $entity = new Articulos();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('AppBundle:Articulos:new.html.twig', array(
+        return $this->render('/Admin/Articulos/new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -103,7 +126,7 @@ class ArticulosController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('AppBundle:Articulos:show.html.twig', array(
+        return $this->render('/Admin/Articulos/show.html.twig', array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -126,7 +149,7 @@ class ArticulosController extends Controller
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('AppBundle:Articulos:edit.html.twig', array(
+        return $this->render('/Admin/Articulos/edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -175,7 +198,7 @@ class ArticulosController extends Controller
             return $this->redirect($this->generateUrl('admin_articulos_edit', array('id' => $id)));
         }
 
-        return $this->render('AppBundle:Articulos:edit.html.twig', array(
+        return $this->render('/Admin/Articulos/edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -221,4 +244,44 @@ class ArticulosController extends Controller
             ->getForm()
         ;
     }
+    
+   /**
+    * Popup para buscar un artículo
+    */ 
+    public function popupBuscarAction(Request $request)
+    {
+        $acciones = $request->query->get('acciones');
+                
+        $html = $this->renderView("/Admin/Articulos/popup_buscar.html.twig", array(
+            'acciones' => $acciones,
+        ));
+        
+        $data = array('code' => 200, 'html' => $html, 'message' => '');
+        $response = new JsonResponse($data);
+        return $response;
+        
+    }
+    
+    public function popupBuscarIndexAction(Request $request)
+    {
+        $columnas = array(
+            array('dt' => 0, 'db' => 'clave'),
+            array('dt' => 1, 'db' => 'nombre'),
+            array('dt' => 2, 'db' => 'presentacionNombre'),
+            array('dt' => 3, 'db' => 'partidaClave')
+        );
+        
+        $dtManager = $this->get('ssa_utilidades.dataTables');
+        
+        $articulosManager = $this->get('app.articulos');
+        
+        $datos = $articulosManager->obtenerRegistrosDT($dtManager, 'AppBundle:VwArticulos', 
+            $request->query->all(), $columnas, null, null, null, "enlacesPopupIndex"
+        );
+        
+        $respuesta = new JSONResponse($datos);
+        
+        return $respuesta;        
+    }
+    
 }

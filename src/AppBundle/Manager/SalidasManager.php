@@ -126,16 +126,16 @@ class SalidasManager
             /*
             $configuracion = "<a data-toggle='tooltip' title='Configuración' class='btn btn-primary btn-xs' href='".
                     $this->base->generateUrl('admin_avales_configuracion', array('id' => $record['id'])).
-                    "'><i class='fa fa-cog fa-fw'></i></a>";
+                    "'><i class='fa fa-cog fa-fw'></i></a>";*/
              
-             */
+             
             $editar = '<a class="btn btn-primary btn-xs" href="'.
                     $this->base->generateUrl('admin_salidas_edit', array('id' => $record['id'])).
                     '"><i class="fa fa-edit fa-fw"></i> Editar</a>';
             $articulos = '<a class="btn btn-default btn-xs" href="'.
                     $this->base->generateUrl('admin_salidadetalles', array('id' => $record['id'])).
                     '"><i class="fa fa-list fa-fw"></i> Articulos</a>';
-            $row[] = $editar.' '.$articulos;
+            $row[] = $editar.' '.$articulos; 
             
 
             $out[] = $row;
@@ -148,7 +148,7 @@ class SalidasManager
     public function agregarFiltrosExtraQBDT(QueryBuilder $qb, $ejercicioId, $activo = true) 
     {      
         $root = $qb->getRootAliases()[0];
-        $qb->andWhere($root.".activa = :activo");        
+        $qb->andWhere($root.".activo = :activo");        
         $qb->setParameter("activo", $activo);
         
         $qb->andWhere($root.".ejercicio = :ejercicio");        

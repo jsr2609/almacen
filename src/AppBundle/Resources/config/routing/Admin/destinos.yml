@@ -1,0 +1,3 @@
+admin_destinos_popup_buscar:
+    path:     /popup_buscar
+    defaults: { _controller: "AppBundle:Admin/Destinos:popupBuscar" }

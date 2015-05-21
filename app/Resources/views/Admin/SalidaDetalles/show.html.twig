@@ -1,0 +1,67 @@
+<div id="modal-consultar-detalle" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Consulta Detalle</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4 col-md-6 col-lg-6">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>Cantidad</th>
+                                    <td>{{ entity.cantidad | number_format(0, '.', ',') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Precio</th>
+                                    <td>{{ entity.precio | number_format(2, '.', ',') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Aplicaiva</th>
+                                    <td>{{ entity.aplicaIvaTexto }}</td>
+                                </tr>
+                                <tr>
+                                    <th>F. Caducidad</th>
+                                    <td>
+                                        {% if entity.fechaCaducidad %}
+                                            {{ entity.fechaCaducidad | date('d/m/Y') }}
+                                        {% else %}
+                                            N. C.
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Observaciones</th>
+                                    <td>{{ entity.observaciones }}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    
+                    </div>
+                    <div class="col-sm-8 col-md-6 col-lg-6">
+                        <h2 class="margin-top-0">Descripción de Artículo</h2>
+                        {{include("/Admin/Articulos/show.html.twig", {'entity': entity.articulo})}}                        
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{{include("/Admin/flash_messages.html.twig")}}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#modal-consultar-detalle").modal("show");
+    });
+</script>
+    
+

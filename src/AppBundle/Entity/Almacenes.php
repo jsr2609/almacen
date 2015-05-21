@@ -26,6 +26,11 @@ class Almacenes
      * @ORM\Column(name="Domicilio", type="string", length=255, nullable=false)
      */
     private $domicilio;
+    
+    /**
+     * @ORM\Column(name="Telefonos", type="string", length=50, nullable=true)
+     */
+    private $telefonos;
 
     /**
      * @ORM\Column(name="NombreResponsableAlmacen", type="string", length=150, nullable=false)
@@ -348,5 +353,28 @@ class Almacenes
     public function getActivo()
     {
         return $this->activo;
+    }
+
+    /**
+     * Set telefonos
+     *
+     * @param string $telefonos
+     * @return Almacenes
+     */
+    public function setTelefonos($telefonos)
+    {
+        $this->telefonos = $telefonos;
+
+        return $this;
+    }
+
+    /**
+     * Get telefonos
+     *
+     * @return string 
+     */
+    public function getTelefonos()
+    {
+        return $this->telefonos;
     }
 }

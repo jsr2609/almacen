@@ -1,0 +1,14 @@
+<script type="text/javascript">
+    
+        $("#lista-articulos ").on("click", ".btn-seleccionar", function(){
+            clave = $(this).attr("articulo-clave");
+            $("#entrada_detalles_type_articulo").val(clave);
+            $("#entrada_detalles_type_cantidad").focus();
+            mostrarInfoArticulo(clave);
+            $("#modal-popup-buscar-articulo").modal("hide");
+            
+        });
+        
+        
+    
+</script>

@@ -33,8 +33,8 @@ class SalidasType extends AbstractType
                 ),
                 'widget_addon_prepend' => array('icon' => 'calendar'),
             ))
-            ->add('tipoSalida', 'choice', array(
-                'label' => 'Tipo de Salida',
+            ->add('tipoEntrada', 'choice', array(
+                'label' => 'Tipo de Entrada',
                 'choices' => Salidas::$salidasTipos,
                 'expanded' => true,
                 'widget_type'  => 'inline'
@@ -44,12 +44,17 @@ class SalidasType extends AbstractType
                 'property_key' => 'clave',
                 'property_description' => 'nombre'
             ))
-            ->add('nombreQuienRecibe', 'text',array(
-                'label' => 'Nombre de quien Recibe',
+           ->add('destino', 'search_key',array(
+                'class' => 'AppBundle:Destinos',
+                'property_key' => 'clave',
+                'property_description' => 'nombre'
+            ))
+            ->add('areaQueRecibe','text',array(
+                'label' => 'Area que Recibe',
                 'required' => true,
             ))
-            ->add('areaQueRecibe', 'text',array(
-                'label' => 'Destino',
+            ->add('nombreQuienRecibe', 'text',array(
+                'label' => 'Nombre de quien Recibe',
                 'required' => true,
             ))
         ;

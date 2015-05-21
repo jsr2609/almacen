@@ -47,20 +47,14 @@ class SalidasController extends Controller
                     return $d->format('d/m/Y');
                 }
             ),
-            array('db' => 'pedidoNumero', 'dt' => 2),
-            array('db' => 'facturaNumero', 'dt' => 3),
-            array('db' => 'tipoEntrada', 'dt' => 4,
-                'formatter' => function($d, $record) {
-                    return Salidas::$salidaTipos[$d];
-                }
-            ),
+            array('db' => 'nombreQuienRecibe', 'dt' => 2),
             
         );
         $dtManager = $this->get('ssa_utilidades.dataTables');
-        $entradasManager = $this->get('app.salidas');
+        $salidasManager = $this->get('app.salidas');
         $ejerciciosManager = $this->get('app.ejercicios');
         $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo("id");
-        $datos = $entradasManager->obtenerRegistrosDT($ejercicio['id'], $dtManager, 'AppBundle:VwEntradas', 
+        $datos = $salidasManager->obtenerRegistrosDT($ejercicio['id'], $dtManager, 'AppBundle:VwSalidas', 
             $request->query->all(), $columnas
         );
         

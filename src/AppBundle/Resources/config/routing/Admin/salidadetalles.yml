@@ -1,5 +1,5 @@
 admin_salidadetalles:
-    path:     /entrada/{id}
+    path:     /salida/{id}
     defaults: { _controller: "AppBundle:Admin/SalidaDetalles:index" }
 
 admin_salidadetalles_show:
