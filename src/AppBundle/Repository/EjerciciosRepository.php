@@ -11,18 +11,17 @@ class EjerciciosRepository extends EntityRepository
     
     public function buscarPorAlmacenYPeriodo($almacen, $periodo, $select = null, $hydrationMode = 'HYDRATE_OBJECT', $root = null)
     {   
-        if(!$root) { 
-            $root = $this->root;
-        }
-        
-        $qb = $this->createQueryBuilder($root);
+        $qb = $this->createQueryBuilder('ecs');
         
         if($select) {
             $qb->select($select);
+        } else {
+            $qb->select('ecs, ams');
         }
         
-        $qb->andWhere($root.".almacen = :almacen")
-            ->andWhere($root.'.periodo = :periodo')
+        $qb->andWhere("ecs.almacen = :almacen")
+            ->andWhere('ecs.periodo = :periodo')
+            ->innerJoin('ecs.almacen', 'ams')
             ->setParameters(array(
                 'almacen' => $almacen,
                 'periodo' => $periodo

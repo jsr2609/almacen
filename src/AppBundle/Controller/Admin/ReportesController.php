@@ -31,6 +31,9 @@ class ReportesController extends Controller
             
             $pdf = $tcpdfManager->create();
             $reportesManager = $this->get('app.reportes');
+            $ejerciciosManager = $this->get('app.ejercicios');
+            $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null, null, 'HYDRATE_ARRAY');
+            
             $reportesManager->kardex($pdf);
             $pdf->output('entrada.pdf', 'D');   
         } 
