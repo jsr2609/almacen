@@ -332,6 +332,7 @@ class EntradasController extends Controller
         $entrada = $entradasManager->buscar($id, $select, false, 'HYDRATE_ARRAY');
         
         $pdf = $entradasManager->generarPDF($pdf, $entrada);
+        
         $pdf->output('entrada.pdf', 'D');
     }
     

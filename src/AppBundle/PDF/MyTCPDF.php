@@ -40,7 +40,7 @@ class MyTCPDF extends \TCPDF
         } else {
                 $this->x = $this->original_lMargin;
         }
-        
+       
         $this->Image(K_PATH_IMAGES.$headerdata['logo'], '', '', $headerdata['logo_width']);
         $imgly = $this->getImageRBY();
         $cell_height = $this->getCellHeight($headerfont[2] / $this->k);

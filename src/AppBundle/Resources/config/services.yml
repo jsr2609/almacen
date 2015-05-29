@@ -36,6 +36,10 @@ services:
     app.entradas:
         class: AppBundle\Manager\EntradasManager
         arguments: ['@ssa_utilidades.base']
+        
+    app.reportes:
+        class: AppBundle\Manager\ReportesManager
+        arguments: ['@ssa_utilidades.base']
     
     app.entrada_detalles:
         class: AppBundle\Manager\EntradaDetallesManager

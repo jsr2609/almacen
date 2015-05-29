@@ -1,0 +1,10 @@
+admin_reportes_kardex_form:
+    path:     /kardex_form
+    defaults: { _controller: "AppBundle:Admin/Reportes:kardexForm" }
+    requirements: { _method: GET }
+
+admin_reportes_kardex_pdf:
+    path:     /kardex_pdf
+    defaults: { _controller: "AppBundle:Admin/Reportes:kardexPdf" }
+    requirements: { _method: POST }
+    

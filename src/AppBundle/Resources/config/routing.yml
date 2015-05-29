@@ -1,3 +1,7 @@
+app_admin_reportes:
+    resource: "@AppBundle/Resources/config/routing/Admin/reportes.yml"
+    prefix:   /admin/reportes
+
 app_admin_articulos:
     resource: "@AppBundle/Resources/config/routing/Admin/articulos.yml"
     prefix:   /admin/articulos
