@@ -52,7 +52,7 @@ class EntradaDetallesController extends Controller
                 $em = $this->getDoctrine()->getManager();            
                 
                 $ejerciciosManager = $this->get('app.ejercicios');
-                $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo('iva, tipoInventario', 'HYDRATE_ARRAY');
+                $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null, 'ecs.iva, ecs.tipoInventario', 'HYDRATE_ARRAY');
                 //Iniciando la transacción para crear el detalle y aumentar la existencia
                 //Consultar http://doctrine-orm.readthedocs.org/en/latest/reference/transactions-and-concurrency.html#approach-2-explicitly
                 $em->getConnection()->beginTransaction();
@@ -276,7 +276,7 @@ class EntradaDetallesController extends Controller
                 //Iniciando la transaccion
                 // $em instanceof EntityManager
                 $ejerciciosManager = $this->get('app.ejercicios');
-                $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo('iva, tipoInventario', 'HYDRATE_ARRAY');
+                $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null, 'ecs.iva, ecs.tipoInventario', 'HYDRATE_ARRAY');
                 
                 $em->getConnection()->beginTransaction(); // suspend auto-commit
                 try {
@@ -336,7 +336,7 @@ class EntradaDetallesController extends Controller
                 
                 $existenciasManager = $this->get('app.existencias');
                 $ejerciciosManager = $this->get('app.ejercicios');
-                $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo('iva, tipoInventario', 'HYDRATE_ARRAY');                
+                $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null, 'ecs.iva, ecs.tipoInventario', 'HYDRATE_ARRAY');                
                 //Inicio de la transaccion
                 // $em instanceof EntityManager
                 $em->getConnection()->beginTransaction(); // suspend auto-commit

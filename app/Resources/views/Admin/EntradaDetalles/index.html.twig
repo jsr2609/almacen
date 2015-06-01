@@ -101,7 +101,7 @@
 {% block javascript_page %}
     <script type="text/javascript">
         $(document).ready(function(){
-            dtListaArticulos = createDataTable("minimal", "lista-detalles", {
+            dtListaDetalles = createDataTable("minimal", "lista-detalles", {
                 "columns": [
                     {  },
                     {  },
@@ -142,7 +142,7 @@
             //Inicio click editar artículo
             $("#lista-detalles").on("click", ".btn-editar-articulo", function(e){
                 detalleId = parseInt($(this).attr("detalle-id"));
-                rowDT = getDataRowDT(dtListaArticulos, $(this));
+                rowDT = getDataRowDT(dtListaDetalles, $(this));
                 
                 $.ajax({
                     url: "{{ path('admin_entradadetalles_edit') }}",

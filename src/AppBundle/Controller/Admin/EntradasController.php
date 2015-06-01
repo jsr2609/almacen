@@ -57,7 +57,7 @@ class EntradasController extends Controller
         $dtManager = $this->get('ssa_utilidades.dataTables');
         $entradasManager = $this->get('app.entradas');
         $ejerciciosManager = $this->get('app.ejercicios');
-        $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo("id");
+        $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo("ecs.id");
         $datos = $entradasManager->obtenerRegistrosDT($ejercicio['id'], $dtManager, 'AppBundle:VwEntradas', 
             $request->query->all(), $columnas
         );
