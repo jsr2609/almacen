@@ -27,6 +27,8 @@ class ReportesController extends Controller
         $form = $this->crearKardexForm();
         $form->handleRequest($request);
         if($form->isValid()) {
+            $datos = $form->getData();
+            
             $tcpdfManager = $this->get('white_october.tcpdf');
             
             $pdf = $tcpdfManager->create();
@@ -34,7 +36,7 @@ class ReportesController extends Controller
             $ejerciciosManager = $this->get('app.ejercicios');
             $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null, null, 'HYDRATE_ARRAY');
             
-            $reportesManager->kardex($pdf);
+            $reportesManager->kardex($pdf, $ejercicio);
             $pdf->output('entrada.pdf', 'D');   
         } 
         

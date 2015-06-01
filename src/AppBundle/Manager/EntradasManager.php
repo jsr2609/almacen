@@ -27,6 +27,7 @@ use AppBundle\PDF\BasePDF;
 use AppBundle\PDF\Alta;
 
 
+
 class EntradasManager 
 {
     private $base; 

@@ -11,8 +11,22 @@ namespace AppBundle\PDF;
 
 class Kardex
 {
-    public function generar($pdf)
+    private $pdf;
+    
+    public function __construct(\TCPDF $pdf)
     {
+        $this->pdf = $pdf;
+    }
+    
+    public function generar()
+    {
+        $this->pdf->SetFont('helvetica', 'B', 13);
+        $this->pdf->Cell(0, 0, 'KARDEX', '', 1, 'C');
         
+        $this->pdf->SetFont('helvetica', '', 10);
+        $this->pdf->Ln(5);
+        
+        $this->pdf->Cell(0,0, 'Articulo: ');
+        return $this->pdf;
     }
 }

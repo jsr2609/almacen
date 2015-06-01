@@ -15,6 +15,7 @@ namespace AppBundle\Manager;
 
 use SSA\UtilidadesBundle\Manager\BaseManager;
 use AppBundle\PDF\BasePDF;
+use AppBundle\PDF\Kardex;
 
 
 class ReportesManager 
@@ -25,15 +26,16 @@ class ReportesManager
         $this->base = $base;
     }
     
-    public function kardex(\TCPDF $pdf)
+    public function kardex(\TCPDF $pdf, $ejercicio)
     {
         $bPDF = new BasePDF();
         $footerText = array(
-            'address' => $entrada['ejercicio']['almacen']['domicilio'],
-            'telephones' => $entrada['ejercicio']['almacen']['telefonos'],
+            'address' => $ejercicio['almacen']['domicilio'],
+            'telephones' => $ejercicio['almacen']['telefonos'],
         );
-        $bPDF->init($pdf, $entrada['ejercicio']['almacen']['nombre'], $footerText);
-        
+        $bPDF->init($pdf, $ejercicio['almacen']['nombre'], $footerText);
+        $kardex = new Kardex($pdf);
+        $kardex->generar();
         return $pdf;
     }
     

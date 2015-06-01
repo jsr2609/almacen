@@ -7,5 +7,9 @@ use Doctrine\ORM\NoResultException;
 
 class ArticulosRepository extends EntityRepository
 {
-    
+    public function buscar($valor, $select = null, $campo = "clave", $hydrationMode = 'HYDRATE_OBJECT')
+    {
+        $qb = $this->createQueryBuilder('ats');
+        
+    }
 }

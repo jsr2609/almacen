@@ -30,6 +30,14 @@ class ArticulosManager
         $this->base = $base;
     }
     
+    public function buscar($valor, $select = null, $campo = "clave", $hydrationMode = null) 
+    {
+        $repository = $this->getRepository();
+        $articulo = $repository->buscar();
+        
+        return $articulo;
+    }
+    
     //Inician funciones DataTables
     public function obtenerRegistrosDT(DataTablesManager $dt, $repositorio, $peticion, 
         $columnas, $cExtra = array(), $nombreFF = null, $cFiltros = null, $fnEnlaces = null
