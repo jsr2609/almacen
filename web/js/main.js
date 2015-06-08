@@ -68,7 +68,7 @@ function initDatePicker(options, element) {
 }
 
 /**
- * Crea un mensaje
+ * Crea una alerta
  */
 function createAlert(type, title, content, time, size)
 {
@@ -147,7 +147,7 @@ function createAlert(type, title, content, time, size)
         $.smallBox(optionsMessage);
     }
     
-} //Fin crear mensaje
+} //Fin crear alerta
 
 function getParent(element, selector) {
     if(element == null) {

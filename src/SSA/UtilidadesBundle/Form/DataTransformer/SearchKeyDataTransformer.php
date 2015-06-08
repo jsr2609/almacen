@@ -49,13 +49,13 @@ class SearchKeyDataTransformer implements DataTransformerInterface
      */
     public function transform($value) 
     {
-        
         if($value == null) {
-            return array();
+            return array('key' => null, 'description' => null);
         }
         
         $propertyAccessor = new PropertyAccessor();
         $description = $propertyAccessor->getValue($value, $this->propertyDescription);
+        
         return array('key' => $value, 'description' => $description);
     }
 

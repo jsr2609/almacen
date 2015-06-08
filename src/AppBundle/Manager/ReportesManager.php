@@ -26,7 +26,7 @@ class ReportesManager
         $this->base = $base;
     }
     
-    public function kardex(\TCPDF $pdf, $ejercicio)
+    public function kardex(\TCPDF $pdf, $ejercicio, $datos, $articulo)
     {
         $bPDF = new BasePDF();
         $footerText = array(
@@ -35,7 +35,7 @@ class ReportesManager
         );
         $bPDF->init($pdf, $ejercicio['almacen']['nombre'], $footerText);
         $kardex = new Kardex($pdf);
-        $kardex->generar();
+        $kardex->generar($datos, $articulo);
         return $pdf;
     }
     

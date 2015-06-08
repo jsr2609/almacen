@@ -36,7 +36,10 @@ class ReportesController extends Controller
             $ejerciciosManager = $this->get('app.ejercicios');
             $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null, null, 'HYDRATE_ARRAY');
             
-            $reportesManager->kardex($pdf, $ejercicio);
+            $articulosManager = $this->get('app.articulos');
+            $articulo = $articulosManager->buscar($datos['articulo'], null, null, 'HYDRATE_ARRAY');
+            
+            $reportesManager->kardex($pdf, $ejercicio, $datos, $articulo);
             $pdf->output('entrada.pdf', 'D');   
         } 
         

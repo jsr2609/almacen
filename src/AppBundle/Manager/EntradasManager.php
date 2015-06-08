@@ -158,8 +158,6 @@ class EntradasManager
         $qb->andWhere($root.".ejercicio = :ejercicio");        
         $qb->setParameter("ejercicio", $ejercicioId);
         
-        
-        
         return $qb;
     }
     
@@ -177,6 +175,7 @@ class EntradasManager
     public function recuperarInformacionFiltrosDT($ejercicioId, $activo = true) 
     {
         $qb = $this->dataTable->applyActionsQB();
+        
         $root = $qb->getRootAliases()[0];
         $this->agregarFiltrosExtraQBDT($qb, $ejercicioId, $activo); 
         //Agregar Filtros extra si se necesitan    

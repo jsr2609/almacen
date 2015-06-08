@@ -30,10 +30,18 @@ class ArticulosManager
         $this->base = $base;
     }
     
-    public function buscar($valor, $select = null, $campo = "clave", $hydrationMode = null) 
-    {
+    public function buscar($valor, $select = null, $campo = null, 
+        $hydrationMode = null, $acceptNull = false) 
+    {        
+        $hydrationMode =  ($hydrationMode == null) ? 'HYDRATE_OBJECT' : $hydrationMode;
+        $campo = ($campo == null) ? 'clave' : $campo;
+        
         $repository = $this->getRepository();
-        $articulo = $repository->buscar();
+        $articulo = $repository->buscar($valor, $select, $campo, $hydrationMode);
+        
+        if(!$articulo && !$acceptNull) {
+            throw $this->base->createNotFoundException("No se encontró un articulo con el valor $valor");
+        }
         
         return $articulo;
     }

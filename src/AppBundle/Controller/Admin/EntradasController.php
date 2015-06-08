@@ -26,6 +26,8 @@ class EntradasController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AppBundle:Entradas')->findAll();
+        
+    
 
         return $this->render('::/Admin/Entradas/index.html.twig', array(
             'entities' => $entities,
@@ -57,7 +59,7 @@ class EntradasController extends Controller
         $dtManager = $this->get('ssa_utilidades.dataTables');
         $entradasManager = $this->get('app.entradas');
         $ejerciciosManager = $this->get('app.ejercicios');
-        $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo("ecs.id");
+        $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null, "ecs.id");
         $datos = $entradasManager->obtenerRegistrosDT($ejercicio['id'], $dtManager, 'AppBundle:VwEntradas', 
             $request->query->all(), $columnas
         );
