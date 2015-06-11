@@ -145,4 +145,37 @@ class EntradaDetallesRepository extends EntityRepository
         
         return $query->getSingleScalarResult();
     }
+    
+    public function buscarPorArticulo($articulo, $select = null, $programa = null, $fInicial = null, $fFinal = null)
+    {
+        $qb = $this->createQueryBuilder('eds');        
+        $qb->innerJoin('eds.entrada', 'ets');        
+        $select = ($select === null) ? 'eds, ets' : $select;
+        $qb->select($select)
+            ->andWhere('eds.articulo = :articulo')
+            ->setParameter('articulo', $articulo)
+        ;
+        
+        if($programa) {
+            $qb->andWhere('eds.programa = :programa')
+                ->setParameter('programa', $programa);
+        }
+        
+        if($fInicial) {
+            $qb->andWhere('ets.fecha > :fInicial')
+                ->setParameter('fInicial', $fInicial);
+        }
+        
+        if($fInicial) {
+            $qb->andWhere('ets.fecha < :fInicial')
+                ->setParameter('fInicial', $fInicial);
+        }
+        
+        if($fFinal) {
+            $qb->andWhere('ets.fecha > :fFinal')
+                ->setParameter('fFinal', $fFinal);
+        }
+        
+        return $qb->getQuery()->getArrayResult();
+    }
 }

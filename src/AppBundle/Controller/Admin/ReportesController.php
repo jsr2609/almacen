@@ -31,7 +31,9 @@ class ReportesController extends Controller
             
             $tcpdfManager = $this->get('white_october.tcpdf');
             
-            $pdf = $tcpdfManager->create();
+            $pdf = $tcpdfManager->create(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT);
+            
+            
             $reportesManager = $this->get('app.reportes');
             $ejerciciosManager = $this->get('app.ejercicios');
             $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null, null, 'HYDRATE_ARRAY');

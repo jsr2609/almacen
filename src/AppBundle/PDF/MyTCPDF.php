@@ -130,4 +130,10 @@ class MyTCPDF extends \TCPDF
                 
 	}
     
+    public function getFullPageWidth() {
+        $margins = $this->getMargins();
+        
+        return $this->getPageWidth() - $margins['left'] - $margins['right'];
+    }
+    
 }

@@ -20,6 +20,7 @@ use AppBundle\PDF\Kardex;
 
 class ReportesManager 
 {
+    private $base;
     
     public function __construct(BaseManager $base)
     {
@@ -33,9 +34,14 @@ class ReportesManager
             'address' => $ejercicio['almacen']['domicilio'],
             'telephones' => $ejercicio['almacen']['telefonos'],
         );
+        $edsRepository = $this->base->getRepository("AppBundle:EntradaDetalles");
+        $sEntradas = 'ets.fecha, ets.folio, eds.cantidad, eds.precio';
+        $entradas = $edsRepository->buscarPorArticulo($articulo['id'], $sEntradas);
+        
         $bPDF->init($pdf, $ejercicio['almacen']['nombre'], $footerText);
-        $kardex = new Kardex($pdf);
-        $kardex->generar($datos, $articulo);
+        $kardex = new Kardex($pdf, $datos, $articulo, $entradas);
+        
+        $kardex->generar();
         return $pdf;
     }
     
