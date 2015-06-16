@@ -19,3 +19,9 @@ services:
         arguments: ['@doctrine']
         tags:
             - { name: form.type, alias: search_key }
+    
+    ssa_utilidades.session_expiry:
+        class: SSA\UtilidadesBundle\Listener\SessionExpiryListener
+        arguments: ['@session', %session_max_idle_time%]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 100 }

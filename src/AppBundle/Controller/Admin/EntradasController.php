@@ -328,7 +328,7 @@ class EntradasController extends Controller
     {
         $tcpdfManager = $this->get('white_october.tcpdf');
         
-        $pdf = $tcpdfManager->create();
+        $pdf = $tcpdfManager->create(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT);
         $entradasManager = $this->get('app.entradas');
         $select = "ets, partial pgs.{id, clave, nombre}, partial pvs.{id, rfc, nombre},partial ecs.{id, iva}, ams";
         $entrada = $entradasManager->buscar($id, $select, false, 'HYDRATE_ARRAY');

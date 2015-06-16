@@ -42,7 +42,7 @@ class ReportesController extends Controller
             $articulo = $articulosManager->buscar($datos['articulo'], null, null, 'HYDRATE_ARRAY');
             
             $reportesManager->kardex($pdf, $ejercicio, $datos, $articulo);
-            $pdf->output('entrada.pdf', 'D');   
+            $pdf->output('kardex.pdf', 'D');   
         } 
         
         return $this->render("/Admin/Reportes/kardex_form.html.twig", array(
