@@ -40,3 +40,8 @@ admin_entradas_mostrar_con_articulos:
 admin_entradas_pdf:
     path:     /{id}/pdf
     defaults: { _controller: "AppBundle:Admin/Entradas:pdf" }
+
+admin_entradas_crear_de_pedido_form:
+    path: /crear_de_pedido
+    defaults: { _controller: "AppBundle:Admin/Entradas:crearDePedidoForm" }
+    

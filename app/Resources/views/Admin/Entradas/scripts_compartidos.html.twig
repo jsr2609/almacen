@@ -49,5 +49,65 @@
                 }
             });
         });
+        
+        //Buscar el programa al abandonar el campo
+        $("#entradas_type_programa_key").blur(function(){
+            programaClave = $(this).val().toUpperCase();
+            $(this).val(programaClave);
+            if(!isEmpty(programaClave)) {
+                $.ajax({
+                    url: "{{ path('admin_programas_buscar_ajax') }}",
+                    type: 'GET',                    
+                    dataType: "JSON",
+                    //data: $("#people_type").serialize()+"&valor=10",
+                    data: {
+                        valor: programaClave
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            $("#entradas_type_programa_description").val(data.programa.nombre);
+
+                        } else {
+                            createAlert("danger", null, data.message);
+                        }
+                    },
+                    error: function (request, text, error) {
+                        //$("#loader").modal("hide");
+                        createAlert("danger", null, "El servidor ha regresado el mensaje: " + text);
+
+                    }
+                });
+            }
+        });
+        
+        //Buscar el proveedor al abandonar el campo
+        $("#entradas_type_proveedor_key").blur(function(){
+            proveedorClave = $(this).val().toUpperCase();
+            $(this).val(proveedorClave);
+            if(!isEmpty(proveedorClave)) {
+                $.ajax({
+                    url: "{{ path('admin_proveedores_buscar_ajax') }}",
+                    type: 'GET',                    
+                    dataType: "JSON",
+                    //data: $("#people_type").serialize()+"&valor=10",
+                    data: {
+                        valor: proveedorClave
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            $("#entradas_type_proveedor_description").val(data.proveedor.nombre);
+
+                        } else {
+                            createAlert("danger", null, data.message);
+                        }
+                    },
+                    error: function (request, text, error) {
+                        //$("#loader").modal("hide");
+                        createAlert("danger", null, "El servidor ha regresado el mensaje: " + text);
+
+                    }
+                });
+            }
+        });
     });
 </script>

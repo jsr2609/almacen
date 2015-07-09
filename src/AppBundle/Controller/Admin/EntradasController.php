@@ -9,6 +9,7 @@ use AppBundle\Entity\Entradas;
 use AppBundle\Form\EntradasType;
 use AppBundle\Event\EntradasEvent;
 use AppBundle\EntradasEvents;
+use AppBundle\Form\DatosPedidoType;
 
 /**
  * Entradas controller.
@@ -96,8 +97,6 @@ class EntradasController extends Controller
             return $this->redirect($this->generateUrl('admin_entradadetalles', array('id' => $entity->getId())));
             
         }
-        
-        
 
         return $this->render('::/Admin/Entradas/new.html.twig', array(
             'entity' => $entity,
@@ -339,9 +338,23 @@ class EntradasController extends Controller
     }
     
     private function addFlash($type, $message) {
+        
         $this->getRequest()->getSession()->getFlashBag()->add(
             $type,
             $message
         );
+    }
+    
+    public function crearDePedidoFormAction(Request $request)
+    {
+        $form = $this->createForm(new DatosPedidoType());
+        return $this->render('Admin/Entradas/crear_de_pedido_form.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+    
+    public function procesarCrearDePedidoAction(Request $request)
+    {
+        
     }
 }

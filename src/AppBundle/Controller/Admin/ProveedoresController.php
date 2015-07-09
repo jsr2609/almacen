@@ -236,4 +236,41 @@ class ProveedoresController extends Controller
         $response = new JsonResponse($data);
         return $response;
     }
+    
+    public function buscarAjaxAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()) {
+            $campo = $request->query->get('campo');            
+            $valor = $request->query->get('valor');
+            $campo = ($campo === NULL) ? 'rfc' : $campo;
+            $repository = $this->getDoctrine()->getManager()->getRepository("AppBundle:Proveedores");
+            $proveedor = $repository->findOneBy(array(
+                $campo => $valor
+            ));
+            
+            if(!$proveedor) {
+                $code = 500;
+                $message = "El proveedor $valor no existe";
+                $datosProveedor = null;
+            } else {
+                $code = 200;
+                $datosProveedor = array(
+                    'id' => $proveedor->getId(), 
+                    'rfc' => $proveedor->getRfc(),
+                    'nombre' => $proveedor->getNombre(),
+                );
+                $message = null;
+            }
+            
+            $data = array(
+                'code' => $code,
+                'proveedor' => $datosProveedor,
+                'message' => $message,
+            );
+            
+            $response = new JsonResponse($data);
+            
+            return $response;        
+        }
+    }
 }

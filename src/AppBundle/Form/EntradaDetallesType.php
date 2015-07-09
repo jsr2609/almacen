@@ -33,16 +33,19 @@ class EntradaDetallesType extends AbstractType
                 ));
         }
         $builder
-            ->add('cantidad', 'number', array(                
+            ->add('cantidad', 'integer', array(                
                 'horizontal_label_class' => $widthLabel,
                 'horizontal_input_wrapper_class' => $withInput,
+                'required' => true,
             ))
-            ->add('precio', 'text', array(                
+            ->add('precio', 'money', array(  
+                'currency' => 'MXN',
                 'horizontal_label_class' => $widthLabel,
                 'horizontal_input_wrapper_class' => $withInput,
             ))
             ->add('aplicaIva', 'choice', array(
                 'required' => true,
+                'label' => 'Aplica IVA',
                 'multiple' => false,
                 'expanded' => true,
                 'choices' => EntradaDetalles::$aplicaIvaOpciones,

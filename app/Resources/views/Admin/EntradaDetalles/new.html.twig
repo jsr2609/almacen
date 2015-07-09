@@ -32,7 +32,19 @@
 </div><!-- /.modal -->
 <script type="text/javascript">
     initDatePicker();
-    $('#entrada_detalles_type').validate();
+    //$("#entrada_detalles_type_fechaCaducidad").mask();
+    $('#entrada_detalles_type').validate({
+        rules: {
+            "entrada_detalles_type[cantidad]": {
+                "number": true,
+                "required": true
+            },
+            "entrada_detalles_type[precio]": {
+                "number": true,
+                "required": true
+            }
+        }
+    });
     
     
     $("#entrada_detalles_type_articulo").tooltip();
