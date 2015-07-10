@@ -347,14 +347,106 @@ class EntradasController extends Controller
     
     public function crearDePedidoFormAction(Request $request)
     {
-        $form = $this->createForm(new DatosPedidoType());
+        $form = $this->createForm(new DatosPedidoType(), null, array(
+            
+        ));
+        
+         $form->add('submit', 'submit', array(
+            'label' => 'Buscar',
+            'attr' => array('class' => 'btn-primary'),
+            'icon' => 'search',
+        ));
         return $this->render('Admin/Entradas/crear_de_pedido_form.html.twig', array(
             'form' => $form->createView(),
         ));
     }
     
-    public function procesarCrearDePedidoAction(Request $request)
+    public function buscarPedidoAction(Request $request)
     {
+        $form = $this->createForm(new DatosPedidoType());
+        $form->handleRequest($request);
+        if($form->isValid()) {
+            $datos = $form->getData();
+            $adquisicionesManager = $this->get('app.adquisiciones');
+            $pedido = $adquisicionesManager->obtenerPedido($datos['pedidoNumero']);
+            if(!$pedido) {
+                $code = 500;
+                $message = "No se encontró un pedido con la clave ".$datos['pedidoNumero'];
+                $html = null;
+            } else {
+                $articulos = $adquisicionesManager->obtenerArticulosPedido($datos['pedidoNumero']);
+                
+                $code = 200;
+                $html = $this->renderView("Admin/Entradas/consultar_pedido.html.twig", array(
+                    'pedido' => $pedido,
+                    'articulos' => $articulos,
+                ));
+                $message = "Confirma que el pedido es correcto";
+            }
+        } else {
+            $code = 500; $html = null; $message = "Se encontraron errores al procesar el formulario";
+        }
+        
+        $data = array('code' => $code, 'html' => $html, 'message' => $message);
+        $response = new JsonResponse($data);
+        
+        return $response;
+    }
+    
+    public function procesarDePedidoAction(Request $request, $pedidonumero)
+    {   
+        $adquisicionesManager = $this->get('app.adquisiciones');
+        $pedido = $adquisicionesManager->obtenerPedido($pedidonumero);
+        $articulos = $adquisicionesManager->obtenerArticulosPedido($pedidonumero);
+        
+        $entradasManager = $this->get('app.entradas');
+        $em = $this->getDoctrine()->getManager();
+        //Iniciando la transaccion
+        // $em instanceof EntityManager
+        $em->getConnection()->beginTransaction(); // suspend auto-commit
+        try {
+            $proveedoresManager = $this->get('app.proveedores');
+            $datosProveedor = array(
+                'rfc' => $pedido['proveedorclave'],
+                'nombre' => $pedido['proveedornombre'],
+            );
+            $proveedor = $proveedoresManager->comprobarExistencia($pedido['proveedorclave'], $datosProveedor);
+            $programasManager = $this->get('app.programas');
+            $datosPrograma = array(
+                'clave' => $pedido['programaclave'],
+                'nombre' => $pedido['programanombre'],
+            );
+            $programa = $programasManager->comprobarExistencia($pedido['programaclave'], $datosPrograma);
+            $ejerciciosManager = $this->get('app.ejercicios');
+            $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo();
+            $entrada = $entradasManager->procesarDePedido($pedido, $proveedor, $programa, $ejercicio);
+            $entradasEvent = new EntradasEvent($entrada);
+            $entradasEvent = $this->container->get('event_dispatcher')->dispatch(EntradasEvents::SUBMITTED, $entradasEvent);
+            
+            if ($entradasEvent->isPropagationStopped()) {
+                
+                throw new \LogicException("Ha ocurrido un error al procesar la entrada");
+            }
+            $em->persist($entrada);
+            //Almacenar artículos
+            $articulosManager = $this->get('app.articulos');
+            $articulosManager->comprobarExistencias($articulos);
+            $edsManager = $this->get('app.entrada_detalles');
+            $existenciasManager = $this->get('app.existencias');
+            $edsManager->procesarArticulosDePedido($articulos, $entrada, $existenciasManager);
+            $em->flush();
+            
+            $em->getConnection()->commit();
+        } catch (Exception $e) {
+            $em->getConnection()->rollback();
+            throw $e;
+        }
+        //Fin de la transaccion
+        
+        return $this->redirect(
+            $this->generateUrl('admin_entradadetalles', array('id' => $entrada->getId()))
+        );
+        
         
     }
 }

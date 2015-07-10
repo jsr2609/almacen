@@ -44,4 +44,13 @@ admin_entradas_pdf:
 admin_entradas_crear_de_pedido_form:
     path: /crear_de_pedido
     defaults: { _controller: "AppBundle:Admin/Entradas:crearDePedidoForm" }
+
+admin_entradas_buscar_pedido:
+    path: /buscar_pedido
+    defaults: { _controller: "AppBundle:Admin/Entradas:buscarPedido" }
+    
+admin_entradas_procesar_de_pedido:
+    path: /procesar_de_pedido/{pedidonumero}/
+    defaults: { _controller: "AppBundle:Admin/Entradas:procesarDePedido" }
+    
     

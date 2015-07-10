@@ -70,11 +70,20 @@ services:
     app.salidas:
         class: AppBundle\Manager\SalidasManager
         arguments: ['@ssa_utilidades.base']
+    
+    app.proveedores:
+        class: AppBundle\Manager\ProveedoresManager
+        arguments: ['@ssa_utilidades.base']
+    
+    app.programas:
+        class: AppBundle\Manager\ProgramasManager
+        arguments: ['@ssa_utilidades.base']
+
 
     app.salida_detalles:
         class: AppBundle\Manager\SalidaDetallesManager
         arguments: ['@ssa_utilidades.base']
         
-    app.pedidos:
+    app.adquisiciones:
         class: AppBundle\Manager\AdquisicionesManager
         arguments: ['@doctrine']

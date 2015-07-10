@@ -16,6 +16,8 @@ namespace AppBundle\Manager;
 use SSA\UtilidadesBundle\Manager\BaseManager;
 use SSA\UtilidadesBundle\Manager\DataTablesManager;
 use Doctrine\ORM\QueryBuilder;
+use AppBundle\Repository\ArticulosRepository;
+use AppBundle\Entity\Articulos;
 
 
 
@@ -182,6 +184,31 @@ class ArticulosManager
     public function getRepository()
     {
         return $repository = $this->base->getRepository($this->repository);
+    }
+    
+    public function comprobarExistencias($articulos, $campo = 'clave')
+    {
+        $repository = $this->getRepository();
+        $em = $this->base->getManager();
+        
+        foreach($articulos as $articulo) {
+            $articuloObj = $repository->findOneBy(array(
+                $campo => $articulo['clave'],
+            ));
+            if(!$articuloObj) {
+                $articuloObj = new Articulos();
+                $articuloObj->setClave($articulo['clave']); 
+                $articuloObj->setNombre($articulo['nombre']);
+                $articuloObj->setNombre($articulo['nombre']);
+                $articuloObj->setPresentacion($em->getReference("AppBundle:Presentaciones", 1));
+                $articuloObj->setPartida($em->getReference("AppBundle:Partidas", 16));
+                $articuloObj->setPartidaClave($articulo['partida']);
+                $em->persist($articuloObj);
+                
+            }
+        }
+        
+        $em->flush();
     }
     
     

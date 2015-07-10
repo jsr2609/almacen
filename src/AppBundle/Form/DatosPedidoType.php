@@ -15,7 +15,10 @@ class DatosPedidoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('pedidoNumero', 'text', array());
+        $builder->add('pedidoNumero', 'text', array(
+            'attr' => array('data-toggle' => 'tooltip', 'title' => 'Ingrese el número de pedido'),
+            'label' => 'Numero de Pedido'
+        ));
     }
     
     /**
@@ -36,6 +39,6 @@ class DatosPedidoType extends AbstractType
      */
     public function getName()
     {
-        return 'entradas_type';
+        return 'crear_de_pedido_type';
     }
 }
