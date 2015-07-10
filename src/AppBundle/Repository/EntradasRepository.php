@@ -48,9 +48,7 @@ class EntradasRepository extends EntityRepository
         
         
     }
-    
-    
-    
+        
     public function contarEnSalidas($entradaId)
     {
         $dql = "SELECT COUNT(sds.id) FROM AppBundle:SalidaDetalles AS sds "
@@ -63,4 +61,17 @@ class EntradasRepository extends EntityRepository
         
         return $q->getSingleScalarResult();
     }
+    
+    
+    public function recuperarListaEntradasDirectas($select = null)
+    {
+        $qb = $this->createQueryBuilder('pgs');
+        if($select) {
+            $qb->select();
+        }
+        
+        return $qb->getQuery()->getResult();
+        
+    }
+    
 }

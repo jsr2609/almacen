@@ -1,0 +1,9 @@
+<script type="text/javascript">
+    $("#lista-entradas").on("click", "button.seleccionar-entrada", function(){
+        row = getDataRowDT(dtEntradas, $(this));
+        $("#salidas_type_programaDescriptivo").val(row.data[4]+'-'+row.data[5]);
+        $("#salidas_type_programaIdentificador").val(row.data[4]);
+        $("#salidas_type_pedido").val(row.data[2]);
+        $("#modal-buscar-entrada").modal('hide');
+    });
+</script>

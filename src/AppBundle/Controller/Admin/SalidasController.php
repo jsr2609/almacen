@@ -6,7 +6,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\Salidas;
+use AppBundle\Entity\SalidaDetalles;
 use AppBundle\Form\SalidasType;
+
 use AppBundle\Event\SalidasEvent;
 use AppBundle\SalidasEvents;
 
@@ -74,7 +76,6 @@ class SalidasController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            
             $em = $this->getDoctrine()->getManager();
             //Ejecutando eventos salidas.submitted
             $salidasEvent = new SalidasEvent($entity);
@@ -84,15 +85,52 @@ class SalidasController extends Controller
                 $this->addCommentToFlashBag('smtc_error', 'No se ha podido crear el comentario', $comment);
             }
             
+            $query = $em->createQuery("SELECT p FROM AppBundle:Programas p WHERE p.clave = :clave AND p.activo = :activo");                  
+            $query->setParameter("clave", $form->get('programaIdentificador')->getData());
+            $query->setParameter("activo", '1');
+            $programa = $query->getOneOrNullResult();
+            $form->getData()->setPrograma($programa);
             $em->persist($entity);
+            $em->flush();
+            
+             
+            
+            $entrada = $this ->getDoctrine()
+                   ->getRepository('AppBundle:Entradas')
+                   ->findOneBy(array('pedidoNumero' => $form->get('pedido')->getData()));
+            
+           
+            $entradaDetalles = $this ->getDoctrine()
+                   ->getRepository('AppBundle:EntradaDetalles')
+                   ->findBy(array('entrada' => $entrada->getId()));
+            
+            
+            
+            $ejerciciosManager = $this->get('app.ejercicios');
+            $iva = $ejerciciosManager->obtenerIVAPorAlmacenYPeriodo();
+            
+            //$detallesManager = $this->get('app.entrada_detalles');
+            //$entities = $detallesManager->listaArticulosPorEntrada($entradaS->getId(), $iva);
+            
+            
+            foreach ($entradaDetalles as $articuloSalida) {
+                $salidasDetalle = new SalidaDetalles();
+                $salidasDetalle->setActivo(1);
+                $salidasDetalle->setArticulo($em->getReference('AppBundle:Articulos',$articuloSalida->getId()));
+                $salidasDetalle->setCantidad($articuloSalida->getCantidad());
+                $salidasDetalle->setEntradaDetalle($em->getReference('AppBundle:EntradaDetalles',$articuloSalida->getId()));
+                $salidasDetalle->setSalida($em->getReference('AppBundle:Salidas',$entity->getId()));
+                $em->persist($salidasDetalle);
+            }
+            
+            
+           
             $em->flush();
             $this->addFlash('success', "La salida se creo satisfactoriamente.");
             return $this->redirect($this->generateUrl('admin_salidadetalles', array('id' => $entity->getId())));
             
         }
         
-        
-
         return $this->render('::/Admin/Salidas/new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -323,11 +361,11 @@ class SalidasController extends Controller
         $tcpdfManager = $this->get('white_october.tcpdf');
         
         $pdf = $tcpdfManager->create();
-        $entradasManager = $this->get('app.salidas');
-        $select = "ets, partial pgs.{id, clave, nombre}, partial pvs.{id, rfc, nombre},partial ecs.{id, iva}, ams";
-        $entrada = $entradasManager->buscar($id, $select, false, 'HYDRATE_ARRAY');
+        $salidasManager = $this->get('app.salidas');
+        $select = "sls, partial pgs.{id, clave, nombre}, partial ecs.{id, iva}, ams";
+        $salida = $salidasManager->buscar($id, $select, false, 'HYDRATE_ARRAY');
         
-        $pdf = $entradasManager->generarPDF($pdf, $salida);
+        $pdf = $salidasManager->generarPDF($pdf, $salida);
         $pdf->output('salida.pdf', 'D');
     }
     

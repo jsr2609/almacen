@@ -39,11 +39,21 @@ class SalidasType extends AbstractType
                 'expanded' => true,
                 'widget_type'  => 'inline'
             ))
-            ->add('programa', 'search_key', array(
-                'class' => 'AppBundle:Programas',
-                'property_key' => 'clave',
-                'property_description' => 'nombre'
-            ))
+           ->add('programa', 'hidden')
+           ->add('programaDescriptivo','text',array(
+                    'label' => 'Programa',
+                    'mapped' => false,
+                    'attr' => array(
+                         'readonly' => true
+                     )
+               )
+           )
+           ->add('pedido','hidden',array(
+                    'mapped' => false,
+               )
+           )
+           ->add('programaIdentificador','hidden',array('mapped' => false))
+           
            ->add('destino', 'search_key',array(
                 'class' => 'AppBundle:Destinos',
                 'property_key' => 'clave',

@@ -341,4 +341,21 @@ class EntradasController extends Controller
             $message
         );
     }
+    
+    
+     public function popupBuscarAction(Request $request)
+    {
+        $acciones = $request->query->get('acciones');
+        $em = $this->getDoctrine()->getManager();
+        $entradas = $em->getRepository("AppBundle:Entradas")->recuperarListaEntradasDirectas();
+        $html = $this->renderView('/Admin/Entradas/popup_buscar.html.twig', array(
+            'acciones' => $acciones,
+            'entradas' => $entradas,
+        ));
+        
+        $data = array('code' => 200, 'html' => $html, 'message' => 'El proceso se realizó correctamente');
+        $response = new JsonResponse($data);
+        return $response;
+    }
+        
 }

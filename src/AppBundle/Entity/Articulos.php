@@ -79,6 +79,7 @@ class Articulos
     {
         $this->fechaCreacion = new \DateTime();
         $this->fechaActualizacion = new \DateTime();
+        
     }
 
     /**

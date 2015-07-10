@@ -17,8 +17,8 @@
 
 
                         <span class="widget-icon"> <i class="fa fa-file"></i> </span>
-                        <h2>Folio de la Salida: <b>{{entrada.folio}}</b> / 
-                            <i class="fa fa-list fa-fw"></i> Programa {{entrada.programa.nombre}}
+                        <h2>Folio de la Salida: <b>{{salida.folio}}</b> / 
+                            <i class="fa fa-list fa-fw"></i> Programa {{salida.programa.nombre}}
                         </h2>
 
                     </header>
@@ -32,18 +32,17 @@
                         <div class="widget-body ">
                             <!-- Contenido -->
                             <div class="widget-header">                        
-                                <!-- Botones de Accion -->
+                                <!-- Botones de Accion 
                                 <button type="button" id="btn-agregar-articulo" class="btn btn-primary" data-toggle="tooltip" title="Agregar">
-                                    <i class="fa fa-plus-circle fa-fw"></i> Agregar Artículo
+                                    <i class="fa fa-plus-circle fa-fw"></i> Agregar Entrada
                                 </button>
-                                <button type="button" id="btn-consultar-entrada" class="btn btn-default" data-toggle="tooltip" title="Consultar">
-                                    <span class="glyphicon glyphicon-search"></span> 
-                                    Datos de la Entrada
-                                </button>
-                                
+                                -->
                                 <a href="{{ path('admin_salidas', {}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
                                     <i class="fa fa-list fa-fw"></i> Lista de Salidas
-                                </a>                                
+                                </a>
+                                <a href="{{ path('admin_salidas_pdf', {'id': salida.id}) }}" class="btn btn-default" data-toggle="tooltip" title="PDF">
+                                       <i class="fa fa-file-pdf-o fa-fw"></i> Generar PDF
+                                </a>
                             </div>
                             <!-- Contenido -->
                             <table id="lista-detalles" class="table">
@@ -69,9 +68,7 @@
                                         </td>
                                         
                                         <td>
-                                            <button type="button" detalle-id="{{entity.id}}" class="btn btn-xs btn-primary btn-editar-articulo" data-toggle="tooltip" title="Editar">
-                                                <i class="fa fa-edit fa-fw"></i> 
-                                            </button>     
+                                            
                                                 <button type="button" detalle-id="{{entity.id}}" class="btn btn-xs btn-default btn-consultar-detalle" data-toggle="tooltip" title="Consultar">
                                                     <span class="glyphicon glyphicon-search"></span> 
                                                     
@@ -109,12 +106,12 @@
             //Inicio click agregar artículo
             $("#btn-agregar-articulo").click(function(){
                 $.ajax({
-                    url: "{{ path('admin_entradadetalles_new') }}",
+                    url: "{{ path('admin_salidadetallesdirecta_new') }}",
                     type: 'GET',
                     dataType: "JSON",
-                    //data: $("#form_type").serialize()+"&valor=10",
+                    
                     data: {
-                        entradaId: "{{entrada.id}}"
+                        entradaId: "{{salida.id}}"
                     },
                     success: function(data) {
                         if(data.code == 200) {
@@ -133,90 +130,7 @@
                 });
             }); //Fin click agregar artículo
             
-            //Inicio click editar artículo
-            $("#lista-detalles").on("click", ".btn-editar-articulo", function(e){
-                detalleId = parseInt($(this).attr("detalle-id"));
-                rowDT = getDataRowDT(dtListaArticulos, $(this));
-                
-                $.ajax({
-                    url: "{{ path('admin_entradadetalles_edit') }}",
-                    type: 'GET',
-                    dataType: "JSON",
-                    //data: $("#people_type").serialize()+"&valor=10",
-                    data: {
-                        detalleId: detalleId
-                    },
-                    success: function(data) {
-                        if(data.code == 200) {
-                            $("#contenedor-modales").html(data.html);
-
-                        } else {
-                            createAlert("danger", null, data.message)
-
-                        }
-                    },
-                    error: function(request, text, error) {
-                        //$("#loader").modal("hide");
-                        createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
-
-                    }
-                });
-            }); //Fin click editar articulo
-            
-            //Inicia consultar detalle
-            $("#lista-detalles").on("click", ".btn-consultar-detalle", function(){
-                detalleId = $(this).attr('detalle-id');
-                $.ajax({
-                    url: "{{ path('admin_entradadetalles_show') }}",
-                    type: 'GET',
-                    dataType: "JSON",
-                    //data: $("#people_type").serialize()+"&valor=10",
-                    data: {
-                        detalleId: detalleId
-                    },
-                    success: function(data) {
-                        if(data.code == 200) {
-                            $("#contenedor-modales").html(data.html);
-
-                        } else {
-                            createAlert("danger", null, data.message)
-
-                        }
-                    },
-                    error: function(request, text, error) {
-                        //$("#loader").modal("hide");
-                        createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
-
-                    }
-                });
-            }); //Termina consultar detalle
-            
-            //Inicio consultar datos de la entrada
-            $("#btn-consultar-entrada").click(function(){
-                $.ajax({
-                    url: "{{ path('admin_entradas_show') }}",
-                    type: 'GET',
-                    dataType: "JSON",
-                    //data: $("#people_type").serialize()+"&valor=10",
-                    data: {
-                        entradaId: {{entrada.id}}
-                    },
-                    success: function(data) {
-                        if(data.code == 200) {
-                            $("#contenedor-modales").html(data.html);
-
-                        } else {
-                            createAlert("danger", null, data.message)
-
-                        }
-                    },
-                    error: function(request, text, error) {
-                        //$("#loader").modal("hide");
-                        createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
-
-                    }
-                });
-            });//Fin consultar datos de la entrada
+           
         });
     </script>
 {% endblock %}

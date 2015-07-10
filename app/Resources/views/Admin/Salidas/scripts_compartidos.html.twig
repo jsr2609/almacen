@@ -49,5 +49,31 @@
                 }
             });
         });
+        
+         //Petición para buscar la Entrada
+        $("#salidas_type_tipoEntrada_0").click(function(){
+            
+            $.ajax({
+                url: "{{ path('admin_entradas_popup_buscar') }}",
+                type: 'GET',             
+                dataType: "JSON",
+                data: {
+                    acciones: "/Admin/Salidas/acciones_buscar_entrada.html.twig"
+                },
+                success: function (data) {
+                    
+                    if (data.code == 200) {
+                        $("#contenedor-modales").html(data.html);
+
+                    } else {
+
+                    }
+                },
+                error: function (request, text, error) {
+
+                }
+            });
+        });
+        
     });
 </script>

@@ -40,3 +40,7 @@ admin_entradas_mostrar_con_articulos:
 admin_entradas_pdf:
     path:     /{id}/pdf
     defaults: { _controller: "AppBundle:Admin/Entradas:pdf" }
+
+admin_entradas_popup_buscar:
+    path:     /popup_buscar_entradas
+    defaults: { _controller: "AppBundle:Admin/Entradas:popupBuscar" }
