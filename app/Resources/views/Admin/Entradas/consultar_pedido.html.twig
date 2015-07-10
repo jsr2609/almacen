@@ -42,6 +42,7 @@
     <table id="detalle-pedido" width="100%" class="table table-striped table-hover">
         <thead>
             <tr>
+                <td>#</td>
                 <th>Clave</th>
                 <th>Nombre</th>
                 <th>Cantidad</th>
@@ -51,6 +52,7 @@
         <tbody>
             {% for articulo in articulos %}
                 <tr>
+                    <td>{{loop.index}}</td>
                     <td>{{articulo.clave}}</td>
                     <td>{{articulo.nombre}}</td>
                     <td>{{articulo.cantidad | number_format(0, '.', ',')}}</td>

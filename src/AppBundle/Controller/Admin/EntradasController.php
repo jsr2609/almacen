@@ -433,7 +433,9 @@ class EntradasController extends Controller
             $articulosManager->comprobarExistencias($articulos);
             $edsManager = $this->get('app.entrada_detalles');
             $existenciasManager = $this->get('app.existencias');
-            $edsManager->procesarArticulosDePedido($articulos, $entrada, $existenciasManager);
+            $ejerciciosManager = $this->get('app.ejercicios');
+            $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null, 'ecs.iva, ecs.tipoInventario', 'HYDRATE_ARRAY');
+            $edsManager->procesarArticulosDePedido($articulos, $entrada, $ejercicio, $existenciasManager);
             $em->flush();
             
             $em->getConnection()->commit();

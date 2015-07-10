@@ -136,7 +136,7 @@ class EntradaDetallesManager
         return $articulos;
     }
     
-    public function procesarArticulosDePedido($articulos, Entradas $entrada, ExistenciasManager $existenciasManager)
+    public function procesarArticulosDePedido($articulos, Entradas $entrada, $ejercicio, ExistenciasManager $existenciasManager)
     {
         $em = $this->base->getManager();
         $articulosRepository = $em->getRepository("AppBundle:Articulos");
@@ -154,6 +154,14 @@ class EntradaDetallesManager
             $eds->setExistencia($articulo['cantidad']);
             
             $em->persist($eds);
+            
+            $existenciasManager->aumentar($articuloObj, 
+                $eds->getEntrada()->getPrograma(),
+                $eds->getCantidad(), 
+                $eds->getPrecio(),
+                $ejercicio,
+                $eds->getAplicaIva()
+            );
             
             
             
