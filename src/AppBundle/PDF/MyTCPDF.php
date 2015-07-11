@@ -40,7 +40,7 @@ class MyTCPDF extends \TCPDF
         } else {
                 $this->x = $this->original_lMargin;
         }
-        
+       
         $this->Image(K_PATH_IMAGES.$headerdata['logo'], '', '', $headerdata['logo_width']);
         $imgly = $this->getImageRBY();
         $cell_height = $this->getCellHeight($headerfont[2] / $this->k);
@@ -129,5 +129,11 @@ class MyTCPDF extends \TCPDF
                 $this->Cell(0, 0, $this->footerText['telephones'], '', 1, '');
                 
 	}
+    
+    public function getFullPageWidth() {
+        $margins = $this->getMargins();
+        
+        return $this->getPageWidth() - $margins['left'] - $margins['right'];
+    }
     
 }

@@ -65,6 +65,10 @@ class EntradasType extends AbstractType
                 ),
                 'widget_addon_prepend' => array('icon' => 'calendar'),
             ))
+            ->add('numeroRemision', 'text', array(
+                'label' => 'Numero de Remisión',
+                'required' => false,
+            ))
             ->add('pedidoNumero', 'text', array(
                 'label' => 'Número de Pedido',
                 'required' => false,

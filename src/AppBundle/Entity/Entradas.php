@@ -90,6 +90,11 @@ class Entradas
      * @ORM\Column(name="FacturaFecha", type="date", nullable=true)
      */
     private $facturaFecha;
+    
+    /**
+     * @ORM\Column(name="NumeroRemision", type="string", length=20, nullable=true)
+     */
+    private $numeroRemision;
 
     /**
      * @ORM\Column(name="FechaCreacion", type="datetime", nullable=false)
@@ -514,5 +519,28 @@ class Entradas
     public function getUsuario()
     {
         return $this->usuario;
+    }
+
+    /**
+     * Set numeroRemision
+     *
+     * @param string $numeroRemision
+     * @return Entradas
+     */
+    public function setNumeroRemision($numeroRemision)
+    {
+        $this->numeroRemision = $numeroRemision;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroRemision
+     *
+     * @return string 
+     */
+    public function getNumeroRemision()
+    {
+        return $this->numeroRemision;
     }
 }

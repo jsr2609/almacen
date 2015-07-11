@@ -43,7 +43,7 @@ class EjerciciosManager
             $almacenId = $almacenDatos['id'];
             $periodo = $almacenDatos['ejercicio']['periodo'];
         }
-        $almacenDatos = $this->base->getSession()->get('almacen');
+        
         $ejercicio = $this->base->getRepository("AppBundle:Ejercicios")->findOneBy(array(
             'almacen' => $almacenId,
             'periodo' => $periodo,
@@ -52,16 +52,19 @@ class EjerciciosManager
         return $ejercicio;
     }
     
-    public function buscarPorAlmacenYPeriodo($select = null, $hydrationMode = 'HYDRATE_OBJECT',  $root = null)
+    public function buscarPorAlmacenYPeriodo($ejercicioDatos = null, $select = null, $hydrationMode = 'HYDRATE_OBJECT',  $root = null)
     {
-        $almacenDatos = $this->base->getSession()->get('almacen');
-        $repository = $this->getRepository();
-        if($select){
-            $select = $this->agregarRootAliasSelect($select);
+        if($ejercicioDatos) {
+            $almacenId = $ejercicioDatos['almacen'];
+            $periodo = $ejercicioDatos['periodo'];
+        } else {
+            $almacenDatos = $this->base->getSession()->get('almacen');
+            $almacenId = $almacenDatos['id'];
+            $periodo = $almacenDatos['ejercicio']['periodo'];
         }
-        
-        $ejercicio = $repository->buscarPorAlmacenYPeriodo($almacenDatos['id'], 
-            $almacenDatos['ejercicio']['periodo'], $select, $hydrationMode, $this->rootAlias
+        $repository = $this->getRepository();
+        $ejercicio = $repository->buscarPorAlmacenYPeriodo($almacenId, 
+            $periodo, $select, $hydrationMode, $this->rootAlias
         );
         
         return $ejercicio;

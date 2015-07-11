@@ -29,7 +29,7 @@ class SearchKeyType extends AbstractType
                 'widget_addon_prepend' => $options['widget_addon_prepend_key'],
                 'label' => false,
                 'horizontal_input_wrapper_class' => $options['horizontal_input_wrapper_class_key'],
-                'mapped' => 'programa'
+                
             ))
             ->add('description', 'text',array(
                 'horizontal_input_wrapper_class' => $options['horizontal_input_wrapper_class_description'],

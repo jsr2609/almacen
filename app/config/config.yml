@@ -21,6 +21,8 @@ framework:
     session:
         handler_id: session.handler.native_file
         save_path: "%kernel.root_dir%/sessions"
+        name: almacensesgro
+        cookie_lifetime: 0       
     fragments:       ~
     http_method_override: true
 
@@ -48,23 +50,47 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   "%database_driver%"
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #     path:     "%database_path%"
+        default_connection: default
+        connections:
+            default:
+                driver:   "%database_driver%"
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
+                # if using pdo_sqlite as your database driver:
+                #   1. add the path in parameters.yml
+                #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+                #   2. Uncomment database_path in parameters.yml.dist
+                #   3. Uncomment next line:
+                #     path:     "%database_path%"
+            adquisiciones:
+                driver:   "%sicap_database_driver%"
+                host:     "%sicap_database_host%"
+                port:     "%sicap_database_port%"
+                dbname:   "%sicap_database_name%"
+                user:     "%sicap_database_user%"
+                password: "%sicap_database_password%"
+                charset:  UTF8
+            
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
+        #auto_mapping: true
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                mappings:
+                    AppBundle: ~
+                    SSASeguridadBundle: ~
+                    SSAUtilidadesBundle: ~
+            adquisiciones:
+                connection: adquisiciones
+                
+                    
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -79,13 +105,14 @@ white_october_tcpdf:
     tcpdf:
         k_tcpdf_external_config: true
         k_path_images: '%kernel.root_dir%/../web/img'
-        pdf_page_format:      letter
+        pdf_page_format: LETTER
         pdf_header_title: SECRETARÍA DE SALUD
         pdf_header_logo: '/escudo_gro_mini.jpg'
         pdf_header_logo_width: 20
         pdf_margin_top: 35
         pdf_margin_footer: 20
-        pdf_margin_left: 10
+        #Margen mínimo izquierdo y derecho 6.5
+        pdf_margin_left: 10 
         pdf_margin_right: 10
         
 

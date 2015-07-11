@@ -223,6 +223,9 @@ class ProgramasController extends Controller
         ;
     }
     
+    /**
+     * Muestra una ventana emergente con la lista de los programas
+     */
     public function popupBuscarAction(Request $request)
     {
         $acciones = $request->query->get('acciones');
@@ -236,5 +239,42 @@ class ProgramasController extends Controller
         $data = array('code' => 200, 'html' => $html, 'message' => 'El proceso se realizó correctamente');
         $response = new JsonResponse($data);
         return $response;
+    }
+    
+    public function buscarAjaxAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()) {
+            $campo = $request->query->get('campo');            
+            $valor = $request->query->get('valor');
+            $campo = ($campo === NULL) ? 'clave' : $campo;
+            $repository = $this->getDoctrine()->getManager()->getRepository("AppBundle:Programas");
+            $programa = $repository->findOneBy(array(
+                $campo => $valor
+            ));
+            
+            if(!$programa) {
+                $code = 500;
+                $message = "El programa $valor no existe";
+                $datosPrograma = null;
+            } else {
+                $code = 200;
+                $datosPrograma = array(
+                    'id' => $programa->getId(), 
+                    'clave' => $programa->getClave(),
+                    'nombre' => $programa->getNombre(),
+                );
+                $message = null;
+            }
+            
+            $data = array(
+                'code' => $code,
+                'programa' => $datosPrograma,
+                'message' => $message,
+            );
+            
+            $response = new JsonResponse($data);
+            
+            return $response;        
+        }
     }
 }

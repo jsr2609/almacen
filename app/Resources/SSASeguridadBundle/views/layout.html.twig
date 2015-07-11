@@ -4,32 +4,8 @@
 {% endblock %}
 {% block javascripts %}
     {{include("::/Admin/layout_javascripts.html.twig")}}
-{% endblock javascripts %}
-{% block html_id %}extr-page{% endblock %}
-{% block body %}
-
-<header id="header">
-
-			<div id="logo-group">
-				<span id="logo"> <img src="{{asset('smart-admin/img/logosalud.png')}}" alt="SALmacen"> </span>
-			</div>
-
-			
-
-		</header>
-<div id="main" class="" role="main">
-    <div id="content" class="container">
-        {% block content %}
-        {% endblock %}
-    </div>
-</div>
-<script src="{{asset('smart-admin/js/app.config.js')}}"></script>
-<!-- ENHANCEMENT PLUGINS : NOT A REQUIREMENT -->
-<!-- Voice command : plugin -->
-
-<!-- MAIN APP JS FILE -->
-<script src="{{asset('smart-admin/js/app.min.js')}}"></script>
-<script type="text/javascript">
+   <script src="{{asset('js/main.js')}}"></script>
+    <script type="text/javascript">
 			runAllForms();
 
 			$(function() {
@@ -66,5 +42,24 @@
 				});
 			});
 		</script>
+    {% block javascript_page %}
+    {% endblock %}
+{% endblock javascripts %}
+{% block html_id %}extr-page{% endblock %}
+{% block body %}
+
+<header id="header">
+    <div id="logo-group">
+        <span id="logo"> <img src="{{asset('smart-admin/img/logosalud.png')}}" alt="SALmacen"> </span>
+    </div>
+</header>
+<div id="main" class="" role="main">
+    <div id="content" class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+
+
 {% endblock %}
     

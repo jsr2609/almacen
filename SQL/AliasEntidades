@@ -1,0 +1,16 @@
+Alias para las tables
+
+Almacenes             => ams
+Articulos             => ats
+Conceptos             => css
+Destinos              => dts
+Ejercicios            => ecs
+EntradaDetalles       => eds
+Entradas              => ets
+Existencias           => exs
+Partidas              => pts
+Presentaciones        => pss
+Programas             => pgs
+Proveedores           => pvs
+SalidaDetalles        => sds
+Salidas               => sls

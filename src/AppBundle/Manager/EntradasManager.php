@@ -27,6 +27,7 @@ use AppBundle\PDF\BasePDF;
 use AppBundle\PDF\Alta;
 
 
+
 class EntradasManager 
 {
     private $base; 
@@ -157,8 +158,6 @@ class EntradasManager
         $qb->andWhere($root.".ejercicio = :ejercicio");        
         $qb->setParameter("ejercicio", $ejercicioId);
         
-        
-        
         return $qb;
     }
     
@@ -176,6 +175,7 @@ class EntradasManager
     public function recuperarInformacionFiltrosDT($ejercicioId, $activo = true) 
     {
         $qb = $this->dataTable->applyActionsQB();
+        
         $root = $qb->getRootAliases()[0];
         $this->agregarFiltrosExtraQBDT($qb, $ejercicioId, $activo); 
         //Agregar Filtros extra si se necesitan    
@@ -228,5 +228,22 @@ class EntradasManager
         
         return $pdf;
     }
+    
+    public function procesarDePedido($datospedido, $proveedor, $programa, $ejercicio) {
+        $entrada = new Entradas();
+        $entrada->setFecha(new \DateTime());
+        $entrada->setPedidoNumero($datospedido['pedidonumero']);
+        $entrada->setPedidoTipo(\rand(1,4));
+        $entrada->setProveedor($proveedor);
+        $entrada->setPrograma($programa);
+        $entrada->setEjercicio($ejercicio);
+        $tipoEntrada = ($datospedido['tipocompra'] == 'DIRECTA') ? 1 : \rand(2,4);
+        $entrada->setTipoEntrada($tipoEntrada);
+        
+        return $entrada;
+        
+    }
+    
+    
     
 }
