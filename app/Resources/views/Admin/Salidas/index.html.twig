@@ -37,6 +37,7 @@
                                         <th>Folio</th>
                                         <th>Fecha</th>
                                         <th>Recibio</th>
+                                        <th>Tipo</th>
                                         <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
@@ -52,16 +53,16 @@
                                             <input class="form-control" placeholder="Fecha..." name="fecha" type="text"/>
                                         </th>
                                         <th>
-                                            <input class="form-control" placeholder="Recibio..." name="pedido" type="text"/>
+                                            <input class="form-control" placeholder="Recibio..." name="nombreQuienRecibe" type="text"/>
                                         </th>
-                                        <!--<th>
+                                        <th>
                                             <select class="form-control">
                                                 <option value="">...</option>
                                                 {% for index, tipo in salidasTipos %}
                                                     <option value="{{index}}">{{tipo}}</option>
                                                  {% endfor %}
                                             </select>
-                                        </th>-->
+                                        </th>
                                         <th>
                                         </th>
                                     </tr>
@@ -79,7 +80,7 @@
 {% block javascript_page %}
     <script type="text/javascript">
         $(document).ready(function(){
-            noOrdenar = [3];
+            noOrdenar = [4];
             dtListaSalidas = createDataTable("complete", "lista-salidas", {
                 "processing": true,
                 "autoWidth": false,
@@ -95,10 +96,11 @@
                     { "sortable": false, "targets": noOrdenar }
                 ],
                 "columns": [
-                    { "width": "20%" },
+                    { "width": "15%" },
+                    { "width": "15%" },
                     { "width": "30%" },
                     { "width": "20%" },
-                    { "width": "30%", "className": "text-right" },
+                    { "width": "20%", "className": "text-right" },
                     
                 ],
 

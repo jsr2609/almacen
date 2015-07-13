@@ -32,3 +32,7 @@ admin_salidadetalles_delete:
 admin_salidadetalles_buscar_articulo:
     path:     /buscar_articulo
     defaults: { _controller: "AppBundle:Admin/SalidaDetalles:buscarArticulo" }
+    
+admin_salidadetallesdirecta_new:
+    path:     /salidaDirecta
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:salidaDirecta" }

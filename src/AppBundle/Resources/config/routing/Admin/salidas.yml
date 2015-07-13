@@ -40,3 +40,13 @@ admin_salidas_mostrar_con_articulos:
 admin_salidas_pdf:
     path:     /{id}/pdf
     defaults: { _controller: "AppBundle:Admin/Salidas:pdf" }
+
+# Rutas para la Busqueda de Entradas
+
+admin_entradas_popup_buscar:
+    path:     /popup_buscar_entrada
+    defaults: { _controller: "AppBundle:Admin/Salidas:popupBuscarEntrada" }
+
+admin_entradas_buscar_ajax:
+    path:     /buscar_entrada_ajax
+    defaults: { _controller: "AppBundle:Admin/Salidas:buscarEntradaAjax" }

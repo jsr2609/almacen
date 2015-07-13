@@ -6,7 +6,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\Salidas;
+use AppBundle\Entity\Entradas;
+use AppBundle\Entity\SalidaDetalles;
 use AppBundle\Form\SalidasType;
+use AppBundle\Repository\EntradasRepository;
+
 use AppBundle\Event\SalidasEvent;
 use AppBundle\SalidasEvents;
 
@@ -27,7 +31,7 @@ class SalidasController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AppBundle:Salidas')->findAll();
-
+        
         return $this->render('::/Admin/Salidas/index.html.twig', array(
             'entities' => $entities,
             'salidasTipos' => Salidas::$salidasTipos,
@@ -48,15 +52,22 @@ class SalidasController extends Controller
                 }
             ),
             array('db' => 'nombreQuienRecibe', 'dt' => 2),
+            array('db' => 'tipoEntrada', 'dt' => 3,
+                'formatter' => function($d, $record) {
+                    return Salidas::$salidasTipos[$d];
+                }
+            ),
             
         );
         $dtManager = $this->get('ssa_utilidades.dataTables');
         $salidasManager = $this->get('app.salidas');
         $ejerciciosManager = $this->get('app.ejercicios');
-        $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo("id");
+        
+        $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null,"ecs.id");
         $datos = $salidasManager->obtenerRegistrosDT($ejercicio['id'], $dtManager, 'AppBundle:VwSalidas', 
             $request->query->all(), $columnas
         );
+        
         
         $respuesta = new JSONResponse($datos);
         
@@ -74,7 +85,6 @@ class SalidasController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            
             $em = $this->getDoctrine()->getManager();
             //Ejecutando eventos salidas.submitted
             $salidasEvent = new SalidasEvent($entity);
@@ -84,15 +94,53 @@ class SalidasController extends Controller
                 $this->addCommentToFlashBag('smtc_error', 'No se ha podido crear el comentario', $comment);
             }
             
+            $query = $em->createQuery("SELECT p FROM AppBundle:Programas p WHERE p.id = :clave"); 
+            $query->setParameter("clave", $form->get('programaIdentificador')->getData());
+            
+            $programa = $query->getOneOrNullResult();
+            
+            $form->getData()->setPrograma($programa);
             $em->persist($entity);
+            $em->flush();
+            
+             
+            
+            $entrada = $this ->getDoctrine()
+                   ->getRepository('AppBundle:Entradas')
+                   ->findOneBy(array('pedidoNumero' => $form->get('pedido')->getData()));
+            
+           
+            $entradaDetalles = $this ->getDoctrine()
+                   ->getRepository('AppBundle:EntradaDetalles')
+                   ->findBy(array('entrada' => $entrada->getId()));
+            
+            
+            
+            $ejerciciosManager = $this->get('app.ejercicios');
+            $iva = $ejerciciosManager->obtenerIVAPorAlmacenYPeriodo();
+            
+            //$detallesManager = $this->get('app.entrada_detalles');
+            //$entities = $detallesManager->listaArticulosPorEntrada($entradaS->getId(), $iva);
+            
+            
+            foreach ($entradaDetalles as $articuloSalida) {
+                $salidasDetalle = new SalidaDetalles();
+                $salidasDetalle->setActivo(1);
+                $salidasDetalle->setArticulo($em->getReference('AppBundle:Articulos',$articuloSalida->getArticulo()->getId()));
+                $salidasDetalle->setCantidad($articuloSalida->getCantidad());
+                $salidasDetalle->setEntradaDetalle($em->getReference('AppBundle:EntradaDetalles',$articuloSalida->getId()));
+                $salidasDetalle->setSalida($em->getReference('AppBundle:Salidas',$entity->getId()));
+                $em->persist($salidasDetalle);
+            }
+            
+            
+           
             $em->flush();
             $this->addFlash('success', "La salida se creo satisfactoriamente.");
             return $this->redirect($this->generateUrl('admin_salidadetalles', array('id' => $entity->getId())));
             
         }
         
-        
-
         return $this->render('::/Admin/Salidas/new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
@@ -323,11 +371,11 @@ class SalidasController extends Controller
         $tcpdfManager = $this->get('white_october.tcpdf');
         
         $pdf = $tcpdfManager->create();
-        $entradasManager = $this->get('app.salidas');
-        $select = "ets, partial pgs.{id, clave, nombre}, partial pvs.{id, rfc, nombre},partial ecs.{id, iva}, ams";
-        $entrada = $entradasManager->buscar($id, $select, false, 'HYDRATE_ARRAY');
+        $salidasManager = $this->get('app.salidas');
+        $select = "sls, partial pgs.{id, clave, nombre}, partial ecs.{id, iva}, ams, dts";
+        $salida = $salidasManager->buscar($id, $select, false, 'HYDRATE_ARRAY');
         
-        $pdf = $entradasManager->generarPDF($pdf, $salida);
+        $pdf = $salidasManager->generarPDF($pdf, $salida);
         $pdf->output('salida.pdf', 'D');
     }
     
@@ -336,5 +384,61 @@ class SalidasController extends Controller
             $type,
             $message
         );
+    }
+    
+    
+    /* Funciones Para la busqueda de Entradas */
+     
+    public function popupBuscarEntradaAction(Request $request)
+    {
+        $acciones = $request->query->get('acciones');
+        $em = $this->getDoctrine()->getManager();
+        $entradas = $em->getRepository("AppBundle:Entradas")->recuperarListaEntradasDirectas();
+        $html = $this->renderView('/Admin/Salidas/popup_buscar_entrada.html.twig', array(
+            'acciones' => $acciones,
+            'entradas' => $entradas,
+        ));
+        
+        
+        $data = array('code' => 200, 'html' => $html, 'message' => 'El proceso se realizó correctamente');
+        $response = new JsonResponse($data);
+        return $response;
+    }
+    
+    public function buscarEntradaAjaxAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()) {
+            $campo = $request->query->get('campo');            
+            $valor = $request->query->get('valor');
+            $campo = ($campo === NULL) ? 'clave' : $campo;
+            $repository = $this->getDoctrine()->getManager()->getRepository("AppBundle:Programas");
+            $programa = $repository->findOneBy(array(
+                $campo => $valor
+            ));
+            
+            if(!$programa) {
+                $code = 500;
+                $message = "El programa $valor no existe";
+                $datosPrograma = null;
+            } else {
+                $code = 200;
+                $datosPrograma = array(
+                    'id' => $programa->getId(), 
+                    'clave' => $programa->getClave(),
+                    'nombre' => $programa->getNombre(),
+                );
+                $message = null;
+            }
+            
+            $data = array(
+                'code' => $code,
+                'programa' => $datosPrograma,
+                'message' => $message,
+            );
+            
+            $response = new JsonResponse($data);
+            
+            return $response;        
+        }
     }
 }

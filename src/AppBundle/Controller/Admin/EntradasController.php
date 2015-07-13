@@ -1,7 +1,5 @@
 <?php
-
 namespace AppBundle\Controller\Admin;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -10,14 +8,12 @@ use AppBundle\Form\EntradasType;
 use AppBundle\Event\EntradasEvent;
 use AppBundle\EntradasEvents;
 use AppBundle\Form\DatosPedidoType;
-
 /**
  * Entradas controller.
  *
  */
 class EntradasController extends Controller
 {
-
     /**
      * Lists all Entradas entities.
      *
@@ -25,11 +21,9 @@ class EntradasController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('AppBundle:Entradas')->findAll();
         
     
-
         return $this->render('::/Admin/Entradas/index.html.twig', array(
             'entities' => $entities,
             'entradaTipos' => Entradas::$entradaTipos,
@@ -97,13 +91,11 @@ class EntradasController extends Controller
             return $this->redirect($this->generateUrl('admin_entradadetalles', array('id' => $entity->getId())));
             
         }
-
         return $this->render('::/Admin/Entradas/new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
-
     /**
      * Creates a form to create a Entradas entity.
      *
@@ -117,16 +109,13 @@ class EntradasController extends Controller
             'action' => $this->generateUrl('admin_entradas_create'),
             'method' => 'POST',
         ));
-
         $form->add('submit', 'submit', array(
             'label' => 'Continuar',
             'attr' => array('class' => 'btn-primary'),
             'icon' => 'circle-arrow-right',
         ));
-
         return $form;
     }
-
     /**
      * Displays a form to create a new Entradas entity.
      *
@@ -135,13 +124,11 @@ class EntradasController extends Controller
     {
         $entity = new Entradas();
         $form   = $this->createCreateForm($entity);
-
         return $this->render('::/Admin/Entradas/new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
     }
-
     /**
      * Finds and displays a Entradas entity.
      *
@@ -152,15 +139,11 @@ class EntradasController extends Controller
             $id = $request->query->get('entradaId');
         
             $em = $this->getDoctrine()->getManager();
-
             $entity = $em->getRepository('AppBundle:Entradas')->find($id);
-
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Entradas entity.');
             }
-
             $deleteForm = $this->createDeleteForm($id);
-
             $html = $this->renderView('::/Admin/Entradas/show.html.twig', array(
                 'entity'      => $entity,
                 'delete_form' => $deleteForm->createView(),
@@ -171,7 +154,6 @@ class EntradasController extends Controller
             return $response;
         }
     }
-
     /**
      * Displays a form to edit an existing Entradas entity.
      *
@@ -179,9 +161,7 @@ class EntradasController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppBundle:Entradas')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Entradas entity.');
         }
@@ -195,17 +175,14 @@ class EntradasController extends Controller
                 'id' => $entity->getId(),
             )));
         }
-
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
-
         return $this->render('::/Admin/Entradas/edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
-
     /**
     * Creates a form to edit a Entradas entity.
     *
@@ -219,13 +196,11 @@ class EntradasController extends Controller
             'action' => $this->generateUrl('admin_entradas_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
         $form->add('submit', 'submit', array(
             'label' => 'Actualizar',
             'attr' => array('class' => 'btn-primary'),
             'icon' => 'floppy-disk',
         ));
-
         return $form;
     }
     /**
@@ -235,23 +210,17 @@ class EntradasController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppBundle:Entradas')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Entradas entity.');
         }
-
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-
         if ($editForm->isValid()) {
             $em->flush();
-
             return $this->redirect($this->generateUrl('admin_entradas_edit', array('id' => $id)));
         }
-
         return $this->render('::/Admin/Entradas/edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
@@ -266,22 +235,17 @@ class EntradasController extends Controller
     {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('AppBundle:Entradas')->find($id);
-
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Entradas entity.');
             }
-
             $em->remove($entity);
             $em->flush();
         }
-
         return $this->redirect($this->generateUrl('admin_entradas'));
     }
-
     /**
      * Creates a form to delete a Entradas entity by id.
      *
@@ -307,7 +271,6 @@ class EntradasController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AppBundle:Entradas')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Entradas entity.');
         }

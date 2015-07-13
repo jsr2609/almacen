@@ -7,22 +7,24 @@ use Doctrine\ORM\NoResultException;
 
 class SalidaDetallesRepository extends EntityRepository
 {
-    private $rootAlias = 'eds';
+    private $rootAlias = 'sds';
     
     public function buscarTodos($select = null, $salidaId = null, $partidaId = null, $hydrationMode = 'HYDRATE_ARRAY')
     {
         if(!$select) {
-            $select = 'eds, ets, ats';
+            $select = 'sds, eds, ets, ats, sls, dts';
         }
-        $qb = $this->createQueryBuilder('eds');
+        $qb = $this->createQueryBuilder('sds');
         $qb->select($select);
-        $qb->innerJoin('eds.entrada', 'ets')
-            ->innerJoin('eds.articulo', 'ats')
+        $qb->innerJoin('sds.salida', 'sls')
+            ->innerJoin('sds.articulo', 'ats')
+            ->innerJoin('sds.entradaDetalle', 'eds')
             ->innerJoin('ats.partida', 'pts')
             ->innerJoin('ats.presentacion', 'pss')
+            ->innerJoin('sls.destino', 'dts')
         ;
         if($salidaId) {
-            $qb->andWhere('eds.salida = :salida');
+            $qb->andWhere('sds.salida = :salida');
             $qb->setParameter('salida', $salidaId);
         }
         if($partidaId) {
@@ -45,8 +47,6 @@ class SalidaDetallesRepository extends EntityRepository
         
         return $query->getResult($hydration);
     }
-    
-    
     
     public function buscarPorEjercicio($almacen, $periodo, $select = null, $hydrationMode = 'HYDRATE_OBJECT', $root = null)
     {   
@@ -95,21 +95,20 @@ class SalidaDetallesRepository extends EntityRepository
         return $query->getSingleScalarResult();
     }
     
-    public function obtenerPartidasPorEntrada($entradaId) 
+    public function obtenerPartidasPorSalida($salidaId) 
     {
-        $dql = "SELECT DISTINCT pts.id, pts.clave, pts.nombre FROM AppBundle:EntradaDetalles eds "
-                . "INNER JOIN eds.entrada AS ets "
+        $dql = "SELECT DISTINCT pts.id, pts.clave, pts.nombre FROM AppBundle:SalidaDetalles sds "
+                . "INNER JOIN sds.entradaDetalle AS eds "
                 . "INNER JOIN eds.articulo AS ats "
                 . "INNER JOIN ats.partida AS pts "
-                . "WHERE ets.id = :entrada";
+                . "WHERE sds.id = :salida";
+        
         $query = $this->getEntityManager()->createQuery($dql);
         
-        $query->setParameter('entrada', $entradaId);
+        $query->setParameter('salida', $salidaId);
         
         return $query->getArrayResult();
     }
-    
-    
     
     public function findAllWJ($category, $select = null, $hydrationMode = null, $user = null)
     {

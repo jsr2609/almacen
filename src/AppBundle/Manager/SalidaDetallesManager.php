@@ -117,7 +117,8 @@ class SalidaDetallesManager
     public function listaArticulosPorSalida($salidaId, $iva)
     {
         $repository = $this->base->getRepository("AppBundle:SalidaDetalles");
-        $select = "eds.id, ats.clave as articuloClave, ats.nombre as articuloNombre, eds.cantidad, eds.precio, eds.aplicaIva";
+        
+        $select = "sds.id, ats.clave as articuloClave, ats.nombre as articuloNombre, eds.cantidad, eds.precio, eds.aplicaIva";
         $articulos = $repository->buscarTodos($select, $salidaId);
         
         for($i = 0; $i < count($articulos); $i++) {
@@ -129,8 +130,8 @@ class SalidaDetallesManager
             }
             
             $articulos[$i]['precio'] = round($precio, 2);
+       
         }
-        
         return $articulos;
     }
     

@@ -49,5 +49,60 @@
                 }
             });
         });
+        
+         //Petición para buscar la Entrada
+        $("#salidas_type_tipoEntrada_0").click(function(){
+            
+            $.ajax({
+                url: "{{ path('admin_entradas_popup_buscar') }}",
+                type: 'GET',             
+                dataType: "JSON",
+                data: {
+                    acciones: "/Admin/Salidas/acciones_buscar_entrada.html.twig"
+                },
+                success: function (data) {
+                    
+                    if (data.code == 200) {
+                        $("#contenedor-modales").html(data.html);
+
+                    } else {
+
+                    }
+                },
+                error: function (request, text, error) {
+
+                }
+            });
+        });
+        
+        //Buscar Destino al abandonar el campo
+        $("#salidas_type_destino_key").blur(function(){
+            destinoClave = $(this).val().toUpperCase();
+            $(this).val(destinoClave);
+            if(!isEmpty(destinoClave)) {
+                $.ajax({
+                    url: "{{ path('admin_destinos_buscar_ajax') }}",
+                    type: 'GET',                    
+                    dataType: "JSON",
+                    //data: $("#people_type").serialize()+"&valor=10",
+                    data: {
+                        valor: destinoClave
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            $("#salidas_type_destino_description").val(data.destino.nombre);
+                        } else {
+                            createAlert("danger", null, data.message);
+                        }
+                    },
+                    error: function (request, text, error) {
+                        //$("#loader").modal("hide");
+                        createAlert("danger", null, "El servidor ha regresado el mensaje: " + text);
+
+                    }
+                });
+            }
+        });
+        
     });
 </script>
