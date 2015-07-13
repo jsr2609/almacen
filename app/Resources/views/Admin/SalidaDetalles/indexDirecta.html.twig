@@ -1,7 +1,7 @@
 {% extends '::/Admin/layout.html.twig' %}
 {% block title_page %}
     <i class="fa fa-list fa-list "></i>
-    Artículos de la Salida <span>> Lista</span>
+    Artículos de Salida <span>> Lista</span>
 {% endblock %}
 
 {% block items_breadcrumb %}
@@ -32,17 +32,24 @@
                         <div class="widget-body ">
                             <!-- Contenido -->
                             <div class="widget-header">                        
-                                <!-- Botones de Accion 
+                                <!-- Botones de Accion -->
                                 <button type="button" id="btn-agregar-articulo" class="btn btn-primary" data-toggle="tooltip" title="Agregar">
                                     <i class="fa fa-plus-circle fa-fw"></i> Agregar Entrada
                                 </button>
-                                -->
-                                <a href="{{ path('admin_salidas', {}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
-                                    <i class="fa fa-list fa-fw"></i> Lista de Salidas
-                                </a>
-                                <a href="{{ path('admin_salidas_pdf', {'id': salida.id}) }}" class="btn btn-default" data-toggle="tooltip" title="PDF">
+                                <button type="button" id="btn-consultar-salida" class="btn btn-default" data-toggle="tooltip" title="Consultar">
+                                    <span class="glyphicon glyphicon-search"></span> 
+                                    Datos de la Salida
+                                </button>
+                                
+                                    <a href="{{ path('admin_salidas_pdf', {'id': salida.id}) }}" class="btn btn-default" data-toggle="tooltip" title="PDF">
                                        <i class="fa fa-file-pdf-o fa-fw"></i> Generar PDF
-                                </a>
+                                   </a>
+                               
+
+                                
+                                <a href="{{ path('admin_entradas', {}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
+                                    <i class="fa fa-list fa-fw"></i> Lista de Salidas
+                                </a>                                
                             </div>
                             <!-- Contenido -->
                             <table id="lista-detalles" class="table">
@@ -92,7 +99,7 @@
 
 {% endblock %}
 {% block javascript_page %}
-    <script type="text/javascript">
+ <script type="text/javascript">
         $(document).ready(function(){
             dtListaArticulos = createDataTable("minimal", "lista-detalles", {
                 "columns": [
@@ -132,6 +139,31 @@
                 });
             }); //Fin click agregar artículo
             
+            //Inicio consultar datos de la salida
+            $("#btn-consultar-salida").click(function(){
+                $.ajax({
+                    url: "{{ path('admin_salidas_show') }}",
+                    type: 'GET',
+                    dataType: "JSON",
+                    data: {
+                        salidaId: {{salida.id}}
+                    },
+                    success: function(data) {
+                        if(data.code == 200) {
+                            $("#contenedor-modales").html(data.html);
+
+                        } else {
+                            createAlert("danger", null, data.message)
+
+                        }
+                    },
+                    error: function(request, text, error) {
+                        //$("#loader").modal("hide");
+                        createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+                    }
+                });
+            });//Fin consultar datos de la entrada
            
         });
     </script>

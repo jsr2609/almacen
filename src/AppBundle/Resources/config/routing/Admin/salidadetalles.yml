@@ -2,6 +2,10 @@ admin_salidadetalles:
     path:     /salida/{id}
     defaults: { _controller: "AppBundle:Admin/SalidaDetalles:index" }
 
+admin_salidadetallesDirecta:
+    path:     /salidaDirecta/{id}
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:indexDirecta" }
+
 admin_salidadetalles_show:
     path:     /show
     defaults: { _controller: "AppBundle:Admin/SalidaDetalles:show" }

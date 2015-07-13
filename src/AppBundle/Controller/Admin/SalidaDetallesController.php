@@ -40,6 +40,25 @@ class SalidaDetallesController extends Controller
     }
     
     
+    public function indexDirectaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $salidasManager = $this->get('app.salidas');
+        $salida = $salidasManager->buscar($id);
+        
+        $ejerciciosManager = $this->get('app.ejercicios');
+        $iva = $ejerciciosManager->obtenerIVAPorAlmacenYPeriodo();
+        
+        $detallesManager = $this->get('app.salida_detalles');
+        $entities = $detallesManager->listaArticulosPorSalida($salida->getId(), $iva);
+              
+        return $this->render('/Admin/SalidaDetalles/indexDirecta.html.twig', array(
+            'entities' => $entities,
+            'salida' => $salida,
+        ));
+       
+    }
+    
     /**
      * Incluye una Entrada Directa a una Salida Directa.
      *

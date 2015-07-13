@@ -85,6 +85,7 @@ class SalidasController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
+            
             $em = $this->getDoctrine()->getManager();
             //Ejecutando eventos salidas.submitted
             $salidasEvent = new SalidasEvent($entity);
@@ -94,6 +95,17 @@ class SalidasController extends Controller
                 $this->addCommentToFlashBag('smtc_error', 'No se ha podido crear el comentario', $comment);
             }
             
+            $em->persist($entity);
+            $em->flush();
+            
+            if($form->getData()->getTipoEntrada() == 1){
+                $this->addFlash('success', "La Salida se creo satisfactoriamente, seleccione la Entrada.");
+                return $this->redirect($this->generateUrl('admin_salidadetallesDirecta', array('id' => $entity->getId())));
+            }
+            
+            $this->addFlash('success', "La Salida se creo satisfactoriamente, agregue los artículos necesarios.");
+                return $this->redirect($this->generateUrl('admin_salidadetalles', array('id' => $entity->getId())));
+            /*
             $query = $em->createQuery("SELECT p FROM AppBundle:Programas p WHERE p.id = :clave"); 
             $query->setParameter("clave", $form->get('programaIdentificador')->getData());
             
@@ -137,7 +149,7 @@ class SalidasController extends Controller
            
             $em->flush();
             $this->addFlash('success', "La salida se creo satisfactoriamente.");
-            return $this->redirect($this->generateUrl('admin_salidadetalles', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_salidadetalles', array('id' => $entity->getId())));*/
             
         }
         
@@ -197,7 +209,7 @@ class SalidasController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             $entity = $em->getRepository('AppBundle:Salidas')->find($id);
-
+            
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Salidas entity.');
             }
@@ -206,6 +218,7 @@ class SalidasController extends Controller
 
             $html = $this->renderView('::/Admin/Salidas/show.html.twig', array(
                 'entity'      => $entity,
+                'salidasTipos' => Salidas::$salidasTipos,
                 'delete_form' => $deleteForm->createView(),
             ));
             

@@ -2,6 +2,7 @@
     $(document).ready(function(){
         $("#salidas_type_fecha").focus();
         $("#salidas_type").validate();
+        
         //Peticion para buscar el programa
         $("#salidas_type_programa .input-group-addon").click(function(){
             $.ajax({
@@ -93,6 +94,8 @@
                             $("#salidas_type_destino_description").val(data.destino.nombre);
                         } else {
                             createAlert("danger", null, data.message);
+                            $("#salidas_type_destino_description").val(null);
+                            $("#salidas_type_destino_key").val(null);
                         }
                     },
                     error: function (request, text, error) {
@@ -102,7 +105,38 @@
                     }
                 });
             }
-        });
+        }); // Termina Buscar Destino al abandonar el campo
+        
+        //Buscar Programa al abandonar el campo
+        $("#salidas_type_programa_key").blur(function(){
+            programaClave = $(this).val().toUpperCase();
+            $(this).val(programaClave);
+            if(!isEmpty(programaClave)) {
+                $.ajax({
+                    url: "{{ path('admin_programas_buscar_ajax') }}",
+                    type: 'GET',                    
+                    dataType: "JSON",
+                    //data: $("#people_type").serialize()+"&valor=10",
+                    data: {
+                        valor: programaClave
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            $("#salidas_type_programa_description").val(data.programa.nombre);
+                        } else {
+                            createAlert("danger", null, data.message);
+                            $("#salidas_type_programa_description").val(null);
+                            $("#salidas_type_programa_key").val(null);
+                        }
+                    },
+                    error: function (request, text, error) {
+                        //$("#loader").modal("hide");
+                        createAlert("danger", null, "El servidor ha regresado el mensaje: " + text);
+
+                    }
+                });
+            }
+        }); // Termina Buscar Programa al abandonar el campo
         
     });
 </script>
