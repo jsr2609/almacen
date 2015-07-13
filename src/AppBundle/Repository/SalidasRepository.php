@@ -10,7 +10,7 @@ class SalidasRepository extends EntityRepository
     public function buscar($id, $select = null, $hydrationMode = null)
     {
         if(!$select) {
-            $select = "sls, pgs, ecs";
+            $select = "sls, pgs, ecs, dts";
         }
         
         if(!$hydrationMode) {
@@ -22,6 +22,7 @@ class SalidasRepository extends EntityRepository
         $qb->select($select)
             ->innerJoin('sls.programa', 'pgs')
             ->innerJoin('sls.ejercicio', 'ecs')   
+            ->innerJoin('sls.destino', 'dts')
             ->innerJoin('ecs.almacen', 'ams')
             ->andWhere('sls.id = :id')
             ->setParameter('id', $id)

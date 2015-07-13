@@ -1,3 +1,7 @@
 admin_destinos_popup_buscar:
     path:     /popup_buscar
     defaults: { _controller: "AppBundle:Admin/Destinos:popupBuscar" }
+
+admin_destinos_buscar_ajax:
+    path:     /buscar_ajax
+    defaults: { _controller: "AppBundle:Admin/Destinos:buscarAjax" }

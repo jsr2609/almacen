@@ -65,13 +65,15 @@ class EntradasRepository extends EntityRepository
     
     public function recuperarListaEntradasDirectas($select = null)
     {
-        $qb = $this->createQueryBuilder('pgs');
+        $select = "ets";
+        $qb = $this->createQueryBuilder('ets');
         if($select) {
-            $qb->select();
+            $qb->select($select)
+            ->andWhere('ets.tipoEntrada = 1');
         }
         
         return $qb->getQuery()->getResult();
         
-    }
+    }    
     
 }

@@ -129,16 +129,16 @@ class SalidasManager
             /*
             $configuracion = "<a data-toggle='tooltip' title='Configuración' class='btn btn-primary btn-xs' href='".
                     $this->base->generateUrl('admin_avales_configuracion', array('id' => $record['id'])).
-                    "'><i class='fa fa-cog fa-fw'></i></a>";*/
+                    "'><i class='fa fa-cog fa-fw'></i></a>";
              
-             
+             */
             $editar = '<a class="btn btn-primary btn-xs" href="'.
                     $this->base->generateUrl('admin_salidas_edit', array('id' => $record['id'])).
                     '"><i class="fa fa-edit fa-fw"></i> Editar</a>';
             $articulos = '<a class="btn btn-default btn-xs" href="'.
                     $this->base->generateUrl('admin_salidadetalles', array('id' => $record['id'])).
                     '"><i class="fa fa-list fa-fw"></i> Articulos</a>';
-            $row[] = $editar.' '.$articulos; 
+            $row[] = $editar.' '.$articulos;
             
 
             $out[] = $row;
@@ -151,15 +151,16 @@ class SalidasManager
     public function agregarFiltrosExtraQBDT(QueryBuilder $qb, $ejercicioId, $activo = true) 
     {      
         $root = $qb->getRootAliases()[0];
+        
         $qb->andWhere($root.".activo = :activo");        
         $qb->setParameter("activo", $activo);
         
         $qb->andWhere($root.".ejercicio = :ejercicio");        
         $qb->setParameter("ejercicio", $ejercicioId);
         
-        
-        
         return $qb;
+        
+        
     }
     
     public function contarRegistrosTotalDT($ejercicioId, $activo = true) {
@@ -176,6 +177,7 @@ class SalidasManager
     public function recuperarInformacionFiltrosDT($ejercicioId, $activo = true) 
     {
         $qb = $this->dataTable->applyActionsQB();
+        
         $root = $qb->getRootAliases()[0];
         $this->agregarFiltrosExtraQBDT($qb, $ejercicioId, $activo); 
         //Agregar Filtros extra si se necesitan    
@@ -218,11 +220,11 @@ class SalidasManager
         
         $sdsRepository = $this->base->getRepository('AppBundle:SalidaDetalles');
         
-        $alta = new Baja($pdf, $salida);
-        $alta->imprimirDatos();
-        $alta->imprimirDetalles($sdsRepository);
+        $baja = new Baja($pdf, $salida);
+        $baja->imprimirDatos();
+        $baja->imprimirDetalles($sdsRepository);
         
-        $alta->imprimirFirmas();
+        $baja->imprimirFirmasdeSalida();
         
         
         return $pdf;

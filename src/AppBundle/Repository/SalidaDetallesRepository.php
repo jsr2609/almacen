@@ -12,7 +12,7 @@ class SalidaDetallesRepository extends EntityRepository
     public function buscarTodos($select = null, $salidaId = null, $partidaId = null, $hydrationMode = 'HYDRATE_ARRAY')
     {
         if(!$select) {
-            $select = 'sds, eds, ets, ats';
+            $select = 'sds, eds, ets, ats, sls, dts';
         }
         $qb = $this->createQueryBuilder('sds');
         $qb->select($select);
@@ -21,6 +21,7 @@ class SalidaDetallesRepository extends EntityRepository
             ->innerJoin('sds.entradaDetalle', 'eds')
             ->innerJoin('ats.partida', 'pts')
             ->innerJoin('ats.presentacion', 'pss')
+            ->innerJoin('sls.destino', 'dts')
         ;
         if($salidaId) {
             $qb->andWhere('sds.salida = :salida');

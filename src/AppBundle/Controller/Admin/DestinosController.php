@@ -30,4 +30,41 @@ class DestinosController extends Controller
         $response = new JsonResponse($data);
         return $response;
     }
+    
+    public function buscarAjaxAction(Request $request)
+    {
+        if($request->isXmlHttpRequest()) {
+            $campo = $request->query->get('campo');            
+            $valor = $request->query->get('valor');
+            $campo = ($campo === NULL) ? 'clave' : $campo;
+            $repository = $this->getDoctrine()->getManager()->getRepository("AppBundle:Destinos");
+            $destino = $repository->findOneBy(array(
+                'clave' => $valor
+            ));
+            
+            if(!$destino) {
+                $code = 500;
+                $message = "El destino $valor no existe";
+                $datosDestino = null;
+            } else {
+                $code = 200;
+                $datosDestino = array(
+                    'id' => $destino->getId(), 
+                    'clave' => $destino->getClave(),
+                    'nombre' => $destino->getNombre(),
+                );
+                $message = null;
+            }
+            
+            $data = array(
+                'code' => $code,
+                'destino' => $datosDestino,
+                'message' => $message,
+            );
+            
+            $response = new JsonResponse($data);
+            
+            return $response;        
+        }
+    }
 }
