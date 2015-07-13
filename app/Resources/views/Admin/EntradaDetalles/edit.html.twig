@@ -72,9 +72,10 @@
             data: $("#entrada_detalles_type").serialize()+"&detalleId={{entity.id}}",
             success: function(data) {
                 if(data.code == 200) {                    
-                    dtListaArticulos.cell(rowDT.index, 2).data(data.registro.cantidad).draw();
-                    dtListaArticulos.cell(rowDT.index, 3).data(data.registro.precio).draw();
-                    dtListaArticulos.cell(rowDT.index, 4).data(data.registro.total).draw();
+                    dtListaDetalles.cell(rowDT.index, 2).data(data.registro.cantidad).draw();
+                    dtListaDetalles.cell(rowDT.index, 3).data(data.registro.precio).draw();
+                    dtListaDetalles.cell(rowDT.index, 4).data(data.registro.total).draw();
+                    
                     createAlert("success", null, data.message); 
                     $("#modal-editar-detalle").modal("hide");
                 } else {

@@ -67,7 +67,7 @@
                                 {% for entity in entities %}
                                     <tr>
                                         <td>{{ entity.articuloClave }}</td>
-                                        <td>{{ entity.articuloNombre }}</td>
+                                        <td>{{ entity.articuloNombre | slice(0, 50) }}</td>
                                         <td class="text-right">{{ entity.cantidad | number_format(0, '.', ',') }}</td>
                                         <td class="text-right">{{ entity.precio | number_format(2, '.', ',') }}</td>
                                         <td class="text-right">

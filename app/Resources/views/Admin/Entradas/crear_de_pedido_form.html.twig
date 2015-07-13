@@ -62,8 +62,8 @@
                                 createAlert("success", null, data.message)
                                 $("#datos-pedido").html(data.html);
                             } else {
-                                createAlert("danger", null, data.message)
-
+                                $("#datos-pedido").html(data.html);
+                                createAlert("danger", null, data.message);
                             }
                         },
                         error: function(request, text, error) {

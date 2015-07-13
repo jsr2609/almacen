@@ -367,21 +367,32 @@ class EntradasController extends Controller
         $form->handleRequest($request);
         if($form->isValid()) {
             $datos = $form->getData();
-            $adquisicionesManager = $this->get('app.adquisiciones');
-            $pedido = $adquisicionesManager->obtenerPedido($datos['pedidoNumero']);
-            if(!$pedido) {
-                $code = 500;
-                $message = "No se encontró un pedido con la clave ".$datos['pedidoNumero'];
-                $html = null;
+            $em = $this->getDoctrine()->getManager();
+            $entrada = $em->getRepository("AppBundle:Entradas")->findOneBy(array(
+                'pedidoNumero' => $datos['pedidoNumero'],
+            ));
+            if(!$entrada) {
+                $adquisicionesManager = $this->get('app.adquisiciones');
+                $pedido = $adquisicionesManager->obtenerPedido($datos['pedidoNumero']);
+                if(!$pedido) {
+                    $code = 500;
+                    $message = "No se encontró un pedido con la clave ".$datos['pedidoNumero'];
+                    $html = null;
+                } else {
+                    $articulos = $adquisicionesManager->obtenerArticulosPedido($datos['pedidoNumero']);
+
+                    $code = 200;
+                    $html = $this->renderView("Admin/Entradas/consultar_pedido.html.twig", array(
+                        'pedido' => $pedido,
+                        'articulos' => $articulos,
+                    ));
+                    $message = "Confirma que el pedido es correcto";
+                }
             } else {
-                $articulos = $adquisicionesManager->obtenerArticulosPedido($datos['pedidoNumero']);
-                
-                $code = 200;
-                $html = $this->renderView("Admin/Entradas/consultar_pedido.html.twig", array(
-                    'pedido' => $pedido,
-                    'articulos' => $articulos,
-                ));
-                $message = "Confirma que el pedido es correcto";
+                $code = 500;
+                $message = "Ya existe una entrada con este numero de pedido";
+                $url = $this->generateUrl('admin_entradadetalles', array('id' => $entrada->getId()));
+                $html = "<a href='".$url."' class='btn btn-search btn-lg'><i class='fa fa-search fa-fw'></i> Consultar la entrada</a>";
             }
         } else {
             $code = 500; $html = null; $message = "Se encontraron errores al procesar el formulario";
@@ -444,7 +455,7 @@ class EntradasController extends Controller
             throw $e;
         }
         //Fin de la transaccion
-        
+        $this->addFlash('success', 'La entrada se creo satisfactoriamente, verifica los articulos');
         return $this->redirect(
             $this->generateUrl('admin_entradadetalles', array('id' => $entrada->getId()))
         );

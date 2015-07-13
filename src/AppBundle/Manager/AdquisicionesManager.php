@@ -53,19 +53,6 @@ class AdquisicionesManager
         $pedido = $conn->fetchAssoc($sql);
         
         return $pedido;
-        
-        //Recuperar detalles del pedido
-        
-        //die(var_export(get_class_methods(get_class($conn))));
-        die(var_export($p1));
-        
-        //Recuperar detalles
-        
-        //die(var_export(get_class_methods(get_class($conn))));
-        
-        $p = $conn->fetchAll($sql);
-        die(var_export($p));
-        die(var_export("Creara de pedido"));
     }
     
     public function obtenerArticulosPedido($pedidoNumero)
@@ -76,9 +63,14 @@ class AdquisicionesManager
                 . "from tbldetpe AS dps "
                 . "INNER JOIN tblpedi pds ON (dps.no_pedido = pds.no_pedido) "
                 . "INNER JOIN tblartic ats ON (dps.cve_articulo = ats.cve_articulo) "
-                . "WHERE dps.no_pedido like '$pedidoNumero'";
+                . "WHERE dps.no_pedido LIKE :pedidoNumero";
         
-        $articulos = $conn->fetchAll($sql);
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('pedidoNumero', $pedidoNumero);
+        $stmt->execute();
+        
+        
+        $articulos = $stmt->fetchAll();
         
         return $articulos;
     }
