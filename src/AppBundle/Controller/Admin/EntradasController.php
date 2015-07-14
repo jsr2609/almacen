@@ -333,7 +333,7 @@ class EntradasController extends Controller
             $em = $this->getDoctrine()->getManager();
             $entrada = $em->getRepository("AppBundle:Entradas")->findOneBy(array(
                 'pedidoNumero' => $datos['pedidoNumero'],
-            ));
+            )); 
             if(!$entrada) {
                 $adquisicionesManager = $this->get('app.adquisiciones');
                 $pedido = $adquisicionesManager->obtenerPedido($datos['pedidoNumero']);
