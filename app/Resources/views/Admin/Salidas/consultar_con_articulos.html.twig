@@ -1,7 +1,7 @@
 {% extends '::/Admin/layout.html.twig' %}
 {% block title_page %}
     <i class="fa fa-list fa-search "></i>
-    Entrada <span>> Consultar</span>
+    Salida <span>> Consultar</span>
 {% endblock %}
 {% block content -%}
     <section id="widget-grid" class="">
@@ -26,13 +26,13 @@
                                 <!-- Botones de Accion -->
                                 <ul class="list-inline">
                                     <li>
-                                        <a href="{{ path('admin_entradas', {}) }}" class="btn btn-primary">
-                                            <i class="fa fa-list fa-fw"></i> Lista de Entradas
+                                        <a href="{{ path('admin_salidas', {}) }}" class="btn btn-primary">
+                                            <i class="fa fa-list fa-fw"></i> Lista de Salidas
                                         </a>
                                     </li>
                                     
                                     <li>
-                                        <a href="{{ path('admin_entradadetalles', {'id': entity.id}) }}" class="btn btn-default">
+                                        <a href="{{ path('admin_salidadetalles', {'id': entity.id}) }}" class="btn btn-default">
                                             <i class="fa fa-list fa-fw"></i> Lista de Artículos
                                         </a>
                                     </li>
@@ -40,7 +40,7 @@
                                 </ul>
                             </div>
                             <!-- Contenido -->
-                            {{include("Admin/Entradas/datos_generales.html.twig", {'entity': entity})}}
+                            {{include("Admin/Salidas/datos_generales.html.twig", {'entity': entity})}}
                             <div class="entrada-articulos">
                                 <h2>Lista de Articulos</h2>
                                 <div class="table-responsive">
@@ -97,7 +97,7 @@
             $("#lista-detalles").on("click", ".btn-consultar-detalle", function(){
                 detalleId = $(this).attr('detalle-id');
                 $.ajax({
-                    url: "{{ path('admin_entradadetalles_show') }}",
+                    url: "{{ path('admin_salidadetalles_show') }}",
                     type: 'GET',
                     dataType: "JSON",
                     //data: $("#people_type").serialize()+"&valor=10",

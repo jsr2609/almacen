@@ -69,9 +69,10 @@ class SalidasManager
             $repository = $this->getRepository();
         
             $cantidad = $repository->contarEnSalidas($salida->getId());
+            
             if($cantidad > 0) {
                 $editable = false;
-                $mensaje = "Ya existen salidas de esta entrada, no es posible la edición.";
+                $mensaje = "No es posible la edición. Consulte a su Administrador"; 
             }
         
         return array(

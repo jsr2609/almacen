@@ -45,6 +45,7 @@ class SalidaDetallesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $salidasManager = $this->get('app.salidas');
         $salida = $salidasManager->buscar($id);
+        $editable = $salidasManager->comprobarEdicion($salida);
         
         $ejerciciosManager = $this->get('app.ejercicios');
         $iva = $ejerciciosManager->obtenerIVAPorAlmacenYPeriodo();
@@ -55,6 +56,7 @@ class SalidaDetallesController extends Controller
         return $this->render('/Admin/SalidaDetalles/indexDirecta.html.twig', array(
             'entities' => $entities,
             'salida' => $salida,
+            'editable' => $editable['editable']
         ));
        
     }
@@ -143,10 +145,20 @@ class SalidaDetallesController extends Controller
                 $salidasDetalle->setSalida($em->getReference('AppBundle:Salidas',$request->request->get('salidaId')));
                 $em->persist($salidasDetalle);
                 
-                $articuloObj = $articulosRepository->findOneBy(array('clave' => $articuloSalida->getArticulo()->getClave()));
+ // Se modifica la Existencia de la Entrada Detalles                   
+                $cantidadActual = $articuloSalida->getCantidad();
+                $precioActual = $articuloSalida->getPrecio();
+                $aplicaIvaActual = $articuloSalida->getAplicaIva();
                 
-                $em->persist($salidasDetalle);
-
+                $existencia = $existenciasManager->buscar($salidasDetalle->getArticulo(), $salidasDetalle->getSalida()->getPrograma(), false);
+                
+                $sdsManager->actualizarExistencia(
+                    $articuloSalida, $cantidadActual, $precioActual, 
+                    $ejercicio, $existencia, $aplicaIvaActual
+                );
+// Termina modifica la Existencia de la Entrada Detalles                
+// Se modifica la Existencia del Articulo    
+                $articuloObj = $articulosRepository->findOneBy(array('clave' => $articuloSalida->getArticulo()->getClave()));
                 $existenciasManager->disminuir($articuloObj, 
                     $salidasDetalle->getSalida()->getPrograma(),
                     $salidasDetalle->getCantidad(), 
@@ -154,7 +166,7 @@ class SalidaDetallesController extends Controller
                     $ejercicio,
                     $salidasDetalle->getEntradaDetalle()->getAplicaIva()
                 );
-
+// Termina modifica la Existencia del Articulo    
 
 
             }

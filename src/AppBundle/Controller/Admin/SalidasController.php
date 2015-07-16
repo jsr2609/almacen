@@ -210,6 +210,9 @@ class SalidasController extends Controller
 
             $entity = $em->getRepository('AppBundle:Salidas')->find($id);
             
+            $salidasManager = $this->get('app.salidas');
+            $editable = $salidasManager->comprobarEdicion($entity);
+            
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Salidas entity.');
             }
@@ -220,6 +223,7 @@ class SalidasController extends Controller
                 'entity'      => $entity,
                 'salidasTipos' => Salidas::$salidasTipos,
                 'delete_form' => $deleteForm->createView(),
+                'editable'    => $editable['editable']
             ));
             
             $data = array('code' => 200, 'html' => $html, 'message' => '');
@@ -243,14 +247,14 @@ class SalidasController extends Controller
         }
         
         $salidasManager = $this->get('app.salidas');
-        //$editable = $salidasManager->comprobarEdicion($entity);
+        $editable = $salidasManager->comprobarEdicion($entity);
         
-        /*if(!$editable['editable']) {
+        if(!$editable['editable']) {
             $this->addFlash("info", $editable['mensaje']);
             return $this->redirect($this->generateUrl('admin_salidas_mostrar_con_articulos', array(
                 'id' => $entity->getId(),
             )));
-        }*/
+        }
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
@@ -371,9 +375,9 @@ class SalidasController extends Controller
         $ejerciciosManager = $this->get('app.ejercicios');
         $iva = $ejerciciosManager->obtenerIVAPorAlmacenYPeriodo();
         $detallesManager = $this->get('app.salida_detalles');
-        $detalles = $detallesManager->listaArticulosPorEntrada($entity->getId(), $iva);
+        $detalles = $detallesManager->listaArticulosPorSalida($entity->getId(), $iva);
         
-        return $this->render('Admin/Entradas/consultar_con_articulos.html.twig', array(
+        return $this->render('Admin/Salidas/consultar_con_articulos.html.twig', array(
             'entity' => $entity,
             'detalles' => $detalles,
         ));

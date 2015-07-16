@@ -9,10 +9,12 @@
                 <ul class="list-inline">
                 
                     <li>
+                        {% if editable %}
                         <a href="{{ path('admin_salidas_edit', { 'id': entity.id }) }}" target="_blank" class="btn btn-primary">
                             <i class="fa fa-edit fa-fw"></i>
                             Editar
                         </a>
+                        {% endif %}
                     </li>
                 </ul>
                 {{include("Admin/Salidas/datos_generales.html.twig", {'entity': entity, 'salidasTipos':salidasTipos})}}

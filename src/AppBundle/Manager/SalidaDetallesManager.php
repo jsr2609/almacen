@@ -19,6 +19,7 @@ use AppBundle\Entity\Articulos;
 use AppBundle\Entity\Programas;
 use AppBundle\Entity\Existencias;
 use AppBundle\Entity\SalidaDetalles;
+use AppBundle\Entity\EntradaDetalles;
 use AppBundle\Entity\Ejercicios;
 use AppBundle\Inventarios\PEPS;
 
@@ -98,8 +99,10 @@ class SalidaDetallesManager
                 $diferencias = $this->diferenciaCantidadesPEPS($detalle->getCantidad(), $detalle->getPrecio(), 
                     $cantidadActual, $precioActual, $iva, $detalle->getAplicaIva(), $aplicaIvaActual
                 );
+                
                 $existenciaDetalleActual = $detalle->getExistencia();
-                $detalle->setExistencia($existenciaDetalleActual + $diferencias['cantidad']);
+                
+                $detalle->setExistencia($existenciaDetalleActual - $detalle->getCantidad());
                 $existenciaActual = $existencia->getCantidad();
                 $totalActual = $existencia->getTotal();
                 $existencia->setCantidad($existenciaActual + $diferencias['cantidad']);
