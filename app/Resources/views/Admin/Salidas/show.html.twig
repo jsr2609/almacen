@@ -9,15 +9,13 @@
                 <ul class="list-inline">
                 
                     <li>
-                        <a href="{{ path('admin_salidas_edit', { 'id': entity.id }) }}" target="_blanck" class="btn btn-primary">
+                        <a href="{{ path('admin_salidas_edit', { 'id': entity.id }) }}" target="_blank" class="btn btn-primary">
                             <i class="fa fa-edit fa-fw"></i>
                             Editar
                         </a>
                     </li>
-                    <li></li>
                 </ul>
                 {{include("Admin/Salidas/datos_generales.html.twig", {'entity': entity, 'salidasTipos':salidasTipos})}}
-                    
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">

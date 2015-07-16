@@ -7,7 +7,15 @@
             <strong>Fecha</strong><br/>{{entity.fecha | date('d/m/Y')}}
         </div>
         <div class="col-sm-3 col-lg-3 cell">
-            <strong>Tipo</strong><br/>{{entity.tipoEntrada}}
+            <strong>Tipo</strong><br/>{% if entity.tipoEntrada == 1 %}
+                                            Directa
+                                        {% elseif entity.tipoEntrada == 2 %}
+                                            Donacion
+                                        {% elseif entity.tipoEntrada == 3 %}
+                                            Licitacion
+                                        {% elseif entity.tipoEntrada == 4 %}
+                                            Otra
+                                      {% endif %}
         </div>
         <div class="col-sm-3 col-lg-3 cell">
 
@@ -20,10 +28,29 @@
                     <strong>Programa</strong><br/>
                         {{entity.programa.clave}} - {{entity.programa.nombre}}
                 </div>
+                <div class="col-sm-12 col-md-6 cell">
+                    <strong>Observaciones</strong><br/>
+                        {{entity.observaciones}}
+                </div>
             </div>                                        
         </div>
     </div>
     <div class="row">
-        
-    </div>                                
+        <div class="col-sm-3 col-lg-3 cell">
+            <strong>Destino</strong><br/>
+            {{entity.destino.nombre}}
+        </div>
+        <div class="col-sm-3 col-lg-3 cell">
+            <strong>Area que Recibe</strong><br/>
+            {{entity.areaQueRecibe}}
+        </div>
+        <div class="col-sm-3 col-lg-3 cell">
+            <strong>Recibe</strong><br/>
+            {{entity.nombreQuienRecibe}}
+        </div>
+        <div class="col-sm-3 col-lg-3 cell">
+            <strong>Tipo de Pedido</strong><br/>
+            
+        </div>
+    </div>                                   
 </div> 

@@ -148,4 +148,38 @@ class SalidaDetallesManager
         return $this->base->getRepository($repository);
     }
     
+    public function procesarArticulosDeEntradaDirecta($articulos, Salidas $salida, $ejercicio, ExistenciasManager $existenciasManager)
+    {
+        $em = $this->base->getManager();
+        $articulosRepository = $em->getRepository("AppBundle:Articulos");
+        foreach($articulos as $articulo)
+        {
+            $eds = new EntradaDetalles();
+            $eds->setCantidad($articulo['cantidad']);
+            $eds->setPrecio($articulo['precio']);
+            $eds->setEntrada($entrada);
+            $articuloObj = $articulosRepository->findOneBy(array('clave' => $articulo['clave']));
+            if(!$articuloObj) {
+                throw $this->base->createNotFoundException("No se encontró un articulo con la clave ".$articulo['clave']);
+            }
+            $eds->setArticulo($articuloObj);
+            $eds->setExistencia($articulo['cantidad']);
+            
+            $em->persist($eds);
+            
+            $existenciasManager->aumentar($articuloObj, 
+                $eds->getEntrada()->getPrograma(),
+                $eds->getCantidad(), 
+                $eds->getPrecio(),
+                $ejercicio,
+                $eds->getAplicaIva()
+            );
+            
+            
+            
+        }
+        
+        $em->flush();
+    }
+    
 }

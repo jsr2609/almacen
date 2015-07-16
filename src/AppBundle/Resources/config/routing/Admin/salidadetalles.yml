@@ -40,3 +40,12 @@ admin_salidadetalles_buscar_articulo:
 admin_salidadetallesdirecta_new:
     path:     /salidaDirecta
     defaults: { _controller: "AppBundle:Admin/SalidaDetalles:salidaDirecta" }
+    
+admin_mostrar_entrada:
+    path:     /mostrarEntrada
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:mostrarEntrada"}
+    
+admin_salidadetallesdirecta_create:
+    path:     /createDirecta
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:createDirecta" }
+    requirements: { _method: post }
