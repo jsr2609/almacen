@@ -1,14 +1,9 @@
 <script type="text/javascript">
-    
         $("#lista-articulos ").on("click", ".btn-seleccionar", function(){
             clave = $(this).attr("articulo-clave");
-            $("#entrada_detalles_type_articulo").val(clave);
-            $("#entrada_detalles_type_cantidad").focus();
+            $("#salida_detalles_type_articulo").val(clave);
             mostrarInfoArticulo(clave);
-            $("#modal-popup-buscar-articulo").modal("hide");
-            
+            $("#salida_detalles_type_entradaDetalle_control_group .input-group-addon").trigger('click');
+            //$("#modal-popup-buscar-articulo").modal("hide");
         });
-        
-        
-    
 </script>

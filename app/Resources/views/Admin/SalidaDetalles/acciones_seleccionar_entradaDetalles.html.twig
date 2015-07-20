@@ -1,0 +1,8 @@
+<script type="text/javascript">
+        $("#lista-entradaDetalles").on("click", ".seleccionar-entradaDetalle", function(){
+            entrada = $(this).attr("entrada-id");
+            $("#salida_detalles_type_entradaDetalle").val(entrada);
+            $("#modal-buscar-entradaDetalles").modal("hide");
+            $("#modal-popup-buscar-articulo").modal("hide");
+        });
+</script>

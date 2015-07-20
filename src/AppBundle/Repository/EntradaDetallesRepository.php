@@ -178,4 +178,24 @@ class EntradaDetallesRepository extends EntityRepository
         
         return $qb->getQuery()->getArrayResult();
     }
+    
+    public function recuperarListaEntradaDetalles($programaId, $articulo)
+    {
+        $select = "eds";
+        $qb = $this->createQueryBuilder('eds');
+        if($select) {
+            $qb->select($select)
+            ->groupBy('eds')
+            ->innerJoin('eds.entrada', 'ets')
+            ->innerJoin('eds.articulo', 'ats')
+            ->andWhere('eds.existencia > 0')
+            ->andWhere('ets.programa = :programa')
+            ->andWhere('ats.clave = :articulo')
+            ->setParameters(array('programa' => $programaId, 'articulo' => $articulo));
+       }
+       
+       return $qb->getQuery()->getResult();
+       
+    }
+    
 }

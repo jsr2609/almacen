@@ -1,4 +1,4 @@
-<div id="entrada-datos-generales">
+<div id="salida-datos-generales">
     <div class="row">
         <div class="col-sm-3 col-lg-3 cell">
             <strong>Folio</strong><br/>{{entity.folio}}
@@ -7,7 +7,15 @@
             <strong>Fecha</strong><br/>{{entity.fecha | date('d/m/Y')}}
         </div>
         <div class="col-sm-3 col-lg-3 cell">
-            <strong>Tipo</strong><br/>{{entity.tipoEntradaNombre}}
+            <strong>Tipo</strong><br/>{% if entity.tipoEntrada == 1 %}
+                                            Directa
+                                        {% elseif entity.tipoEntrada == 2 %}
+                                            Donacion
+                                        {% elseif entity.tipoEntrada == 3 %}
+                                            Licitacion
+                                        {% elseif entity.tipoEntrada == 4 %}
+                                            Otra
+                                      {% endif %}
         </div>
         <div class="col-sm-3 col-lg-3 cell">
 
@@ -21,30 +29,28 @@
                         {{entity.programa.clave}} - {{entity.programa.nombre}}
                 </div>
                 <div class="col-sm-12 col-md-6 cell">
-                    <strong>Proveedor</strong><br/>
-                        {{entity.proveedor.rfc}} - {{entity.proveedor.nombre}}
+                    <strong>Observaciones</strong><br/>
+                        {{entity.observaciones}}
                 </div>
             </div>                                        
         </div>
     </div>
     <div class="row">
         <div class="col-sm-3 col-lg-3 cell">
-            <strong>No. Factura</strong><br/>
-            {{entity.facturaNumero}}
+            <strong>Destino</strong><br/>
+            {{entity.destino.nombre}}
         </div>
         <div class="col-sm-3 col-lg-3 cell">
-            <strong>F. Factura</strong><br/>
-            {% if entity.facturaFecha %}
-                {{entity.facturaFecha | date('d/m/Y')}}
-            {% endif %}
+            <strong>Area que Recibe</strong><br/>
+            {{entity.areaQueRecibe}}
         </div>
         <div class="col-sm-3 col-lg-3 cell">
-            <strong>No. Pedido</strong><br/>
-            {{entity.pedidoNumero}}
+            <strong>Recibe</strong><br/>
+            {{entity.nombreQuienRecibe}}
         </div>
         <div class="col-sm-3 col-lg-3 cell">
             <strong>Tipo de Pedido</strong><br/>
-            {{entity.pedidoTipoNombre}}
+            
         </div>
-    </div>                                
+    </div>                                   
 </div> 

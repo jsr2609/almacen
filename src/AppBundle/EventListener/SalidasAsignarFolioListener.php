@@ -37,10 +37,10 @@ class SalidasAsignarFolioListener
             'almacen' => $almacenDatos['id'],
             'periodo' => $almacenDatos['ejercicio']['periodo'],
         ));
-        $folio = $ejercicio->getNumeroEntradas();
+        $folio = $ejercicio->getNumeroSalidas();
         $folio = $folio + 1;
         $salida->setFolio($folio);
-        $ejercicio->setNumeroEntradas($folio);
+        $ejercicio->setNumeroSalidas($folio);
         $em->persist($ejercicio);
         
     }

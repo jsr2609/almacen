@@ -32,19 +32,7 @@
 </div><!-- /.modal -->
 <script type="text/javascript">
     initDatePicker();
-    //$("#entrada_detalles_type_fechaCaducidad").mask();
-    $('#entrada_detalles_type').validate({
-        rules: {
-            "entrada_detalles_type[cantidad]": {
-                "number": true,
-                "required": true
-            },
-            "entrada_detalles_type[precio]": {
-                "number": true,
-                "required": true
-            }
-        }
-    });
+    $('#entrada_detalles_type').validate();
     
     
     $("#entrada_detalles_type_articulo").tooltip();
@@ -62,19 +50,23 @@
             success: function(data) {
                 if(data.code == 200) {
                     $("#contenedor-modal-popup-buscar-articulo").html(data.html);
+
                 } else {
-                    createAlert("danger", null, data.message);
+                    createAlert("danger", null, data.message)
+
                 }
             },
             error: function(request, text, error) {
                 //$("#loader").modal("hide");
                 createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
             }
         });
     });
     
     //Interceptando el evento al enviar el formulario
     $("#entrada_detalles_type").submit(function(e){
+        
         if($('#entrada_detalles_type').valid()) {
             e.preventDefault();
             $.ajax({
@@ -84,10 +76,10 @@
                 data: $("#entrada_detalles_type").serialize()+"&valor=10",
                 success: function(data) {
                     if(data.code == 200) {
-                        createAlert("success", null, data.message);
+                        createAlert("success", null, data.message)
                         $("#modal-nuevo-articulo").modal('hide');
                         
-                        dtListaDetalles.row.add([
+                        dtListaArticulos.row.add([
                             data.registro.clave,
                             data.registro.nombre,
                             data.registro.cantidad,
@@ -96,12 +88,14 @@
                             data.registro.btn_editar
                         ]).draw();
                     } else {
-                        createAlert("danger", null, data.message);
+                        createAlert("danger", null, data.message)
+
                     }
                 },
                 error: function(request, text, error) {
                     //$("#loader").modal("hide");
                     createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
                 }
             });
         }
@@ -120,13 +114,16 @@
             success: function(data) {
                 if(data.code == 200) {
                     $('#articulo-descripcion').html(data.html);
+
                 } else {
-                    createAlert("danger", null, data.message);
+                    createAlert("danger", null, data.message)
+
                 }
             },
             error: function(request, text, error) {
                 //$("#loader").modal("hide");
                 createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
             }
         });
     }
@@ -143,3 +140,6 @@
     
     
 </script>
+
+    
+

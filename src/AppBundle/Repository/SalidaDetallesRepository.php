@@ -101,7 +101,7 @@ class SalidaDetallesRepository extends EntityRepository
                 . "INNER JOIN sds.entradaDetalle AS eds "
                 . "INNER JOIN eds.articulo AS ats "
                 . "INNER JOIN ats.partida AS pts "
-                . "WHERE sds.id = :salida";
+                . "WHERE sds.salida = :salida";
         
         $query = $this->getEntityManager()->createQuery($dql);
         

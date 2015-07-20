@@ -1,7 +1,7 @@
 {% extends '::/Admin/layout.html.twig' %}
 {% block title_page %}
     <i class="fa fa-edit fa-list "></i>
-    Entradas <span>> Editar</span>
+    Salidas <span>> Editar</span>
 {% endblock %}
 {% block content -%}
     <section id="widget-grid" class="">
@@ -29,17 +29,17 @@
                                 <!-- Botones de Accion -->
                                 <ul class="list-inline">
                                     <li>
-                                        <a href="{{ path('admin_entradas', {}) }}" class="btn btn-primary">
-                                            <i class="fa fa-list fa-fw"></i> Lista de Entradas
+                                        <a href="{{ path('admin_salidas', {}) }}" class="btn btn-primary">
+                                            <i class="fa fa-list fa-fw"></i> Lista de Salidas
                                         </a>
                                     </li>
                                     <li>
-                                         <a href="{{ path('admin_entradadetalles', {'id': entity.id}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
+                                         <a href="{{ path('admin_salidadetalles', {'id': entity.id}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
                                             <i class="fa fa-list fa-fw"></i> Articulos
                                         </a>
                                     </li>
                                     <li>
-                                         <a href="{{ path('admin_entradas_pdf', {'id': entity.id}) }}" class="btn btn-default" data-toggle="tooltip" title="PDF">
+                                         <a href="{{ path('admin_salidas_pdf', {'id': entity.id}) }}" class="btn btn-default" data-toggle="tooltip" title="PDF">
                                             <i class="fa fa-file-pdf-o fa-fw"></i> Generar PDF
                                         </a>
                                     </li>
@@ -59,6 +59,6 @@
     </section>
 {% endblock %}
 {% block javascript_page %}
-    {{ include('::/Admin/Entradas/scripts_compartidos.html.twig') }}
+    {{ include('::/Admin/Salidas/scripts_compartidos.html.twig') }}
     
 {% endblock %}

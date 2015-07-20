@@ -73,8 +73,9 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+
         $.extend(Pace.options.ajax, {"ignoreURLs": ["{{ path('admin_articulos_popup_buscar_index') }}"]});
-        $('#entrada_detalles_type_articulo').focus();
+        $('#salida_detalles_type_articulo').focus();
         noOrdenar = [4];
         dtListaArticulos = createDataTable("complete", "lista-articulos", {
             "processing": true,
@@ -84,8 +85,8 @@
             "ajax": {
                 "url": "{{ path('admin_articulos_popup_buscar_index') }}",
                 "data": function(d) {
-                    d.programa = null;
-                }
+                         d.programa = {{ programaId }};
+                        }
             },
             "columnDefs": [
                 { "sortable": false, "targets": noOrdenar }
@@ -96,43 +97,48 @@
                 { "width": "15%" },
                 { "width": "10%" },
                 { "width": "10%", "className": "text-right" },
+
             ],
+
+
             "initComplete": function(oSettings, json) {
                 this.fnSetFilteringDelay(500);
                 //dtListaEntradas.columns.adjust().draw();
             }
         });
+
         var search_timeout = undefined; 
+
         function setDelayColumn(item, colIdx)
         {
             if(search_timeout != undefined) {
                 clearTimeout(search_timeout);
             }
+
             $this = item;
             search_timeout = setTimeout(function() {
               search_timeout = undefined;
+
+
+
               dtListaArticulos.column(colIdx).search( $this.value ).draw();
+
             }, 800);
         }
-        //Funciona sólo con  inputs
-        /**
-        dtListaArticulos.columns().eq( 0 ).each( function ( colIdx ) {
-            //Interceptando el los filtros
-            $( 'input', dtListaArticulos.column( colIdx ).footer() ).on( 'keyup', function () {
-                setDelayColumn(this, colIdx);
-            } );
-        });
-        */
-        
-        $("#lista-articulos thead input").keyup(function(){
+
+       $("#lista-articulos thead input").keyup(function(){
             
             index = $("#lista-articulos thead input").index(this);
             setDelayColumn(this, index);
             
         });
+
+
         $("#lista-articulos").on("mouseover", "[data-toggle=tooltip]", function(){
             $(this).tooltip("show");
         });
+
         $("#modal-popup-buscar-articulo").modal("show");
+
     });
 </script>

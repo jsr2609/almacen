@@ -3,13 +3,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Agregar Artículo</h4>
+                <h4 class="modal-title">Agregar Artículo del Programa : {{ salida.programa.clave }} - {{ salida.programa.nombre }}</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-6">
                         {{ form(form) }}
                     </div>
+                    <input type="hidden" id="articuloClave">
                     <div class="col-lg-6">
                         <h2 class="margin-top-0">Descripción de Artículo</h2>
                         <div id="articulo-descripcion">
@@ -32,63 +33,39 @@
 </div><!-- /.modal -->
 <script type="text/javascript">
     initDatePicker();
-    $('#entrada_detalles_type').validate();
     
-    
-    $("#entrada_detalles_type_articulo").tooltip();
-    
-    //Interceptando el click para buscar un artículo
-    $("#entrada_detalles_type_articulo_control_group .input-group-addon").click(function(){
-        $.ajax({
-            url: "{{ path('admin_articulos_popup_buscar') }}",
-            type: 'GET',
-            dataType: "JSON",
-            //data: $("#people_type").serialize()+"&valor=10",
-            data: {
-                "acciones": "/Admin/EntradaDetalles/acciones_seleccionar_articulo.html.twig"
+    $('#entrada_detalles_type').validate({
+        rules: {
+            "salida_detalles_type[cantidad]": {
+                "number": true,
+                "required": true
             },
-            success: function(data) {
-                if(data.code == 200) {
-                    $("#contenedor-modal-popup-buscar-articulo").html(data.html);
-
-                } else {
-                    createAlert("danger", null, data.message)
-
-                }
-            },
-            error: function(request, text, error) {
-                //$("#loader").modal("hide");
-                createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
-
-            }
-        });
+        }
     });
     
     //Interceptando el evento al enviar el formulario
-    $("#entrada_detalles_type").submit(function(e){
-        
-        if($('#entrada_detalles_type').valid()) {
+    $("#salida_detalles_type").submit(function(e){
+        if($('#salida_detalles_type').valid()) {
             e.preventDefault();
             $.ajax({
-                url: "{{ path('admin_entradadetalles_create') }}",
+                url: "{{ path('admin_salidadetalles_create') }}",
                 type: 'POST',                
                 dataType: "JSON",
-                data: $("#entrada_detalles_type").serialize()+"&valor=10",
+                data: $("#salida_detalles_type").serialize()+"&salida={{ salida.id }}",
                 success: function(data) {
                     if(data.code == 200) {
-                        createAlert("success", null, data.message)
+                        createAlert("success", null, data.message);
                         $("#modal-nuevo-articulo").modal('hide');
-                        
-                        dtListaArticulos.row.add([
-                            data.registro.clave,
-                            data.registro.nombre,
-                            data.registro.cantidad,
-                            data.registro.precio,
-                            data.registro.total,
-                            data.registro.btn_editar
-                        ]).draw();
+                            dtListaSDS.row.add([
+                                data.registro.clave,
+                                data.registro.nombre,
+                                data.registro.cantidad,
+                                data.registro.precio,
+                                data.registro.total,
+                                data.registro.btn_editar
+                            ]).draw();
                     } else {
-                        createAlert("danger", null, data.message)
+                        createAlert("danger", null, data.message);
 
                     }
                 },
@@ -101,6 +78,64 @@
         }
     });
     
+    //Interceptando el click para buscar un artículo
+    $("#salida_detalles_type_articulo_control_group .input-group-addon").click(function(){
+        $.ajax({
+            url: "{{ path('admin_articulos_popup_buscar_salida') }}",
+            type: 'GET',
+            dataType: "JSON",
+            //data: $("#people_type").serialize()+"&valor=10",
+            data: {
+                "acciones": "/Admin/SalidaDetalles/acciones_seleccionar_articulo.html.twig",
+                "origen"  : $("#salida_detalles_type_origen").val(),
+                "programa"  : "{{ salida.programa.id }}",
+            },
+            success: function(data) {
+                if(data.code == 200) {
+                    $("#contenedor-modal-popup-buscar-articulo").html(data.html);
+
+                } else {
+                    createAlert("danger", null, data.message);
+
+                }
+            },
+            error: function(request, text, error) {
+                //$("#loader").modal("hide");
+                createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+            }
+        });
+    });
+    
+    //Interceptando el click para buscar una Entrada Detalle
+    $("#salida_detalles_type_entradaDetalle_control_group .input-group-addon").click(function(){
+        
+        $.ajax({
+            url: "{{ path('admin_entradaDetalles_popup_buscar') }}",
+            type: 'GET',
+            dataType: "JSON",
+            //data: $("#people_type").serialize()+"&valor=10",
+            data: {
+                "acciones": "/Admin/SalidaDetalles/acciones_seleccionar_entradaDetalles.html.twig",
+                "salidaId"  : "{{ salida.id }}",
+                "articulo"  : $("#salida_detalles_type_articulo").val(),
+            },
+            success: function(data) {
+                if(data.code == 200) {
+                    $("#contenedor-modal-popup-buscar-entradaDetalles").html(data.html);
+
+                } else {
+                    createAlert("danger", null, data.message);
+
+                }
+            },
+            error: function(request, text, error) {
+                //$("#loader").modal("hide");
+                createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+            }
+        });
+    });
+        
     function mostrarInfoArticulo(clave)
     {
         $.ajax({
@@ -116,7 +151,7 @@
                     $('#articulo-descripcion').html(data.html);
 
                 } else {
-                    createAlert("danger", null, data.message)
+                    createAlert("danger", null, data.message);
 
                 }
             },
@@ -129,7 +164,7 @@
     }
     
     //Interceptando el evento al salir del campo
-    $('#entrada_detalles_type_articulo').blur(function(){
+    $('#salida_detalles_type_articulo').blur(function(){
         articuloClave = $(this).val()
         if(!isEmpty(articuloClave)) {
             mostrarInfoArticulo(articuloClave);

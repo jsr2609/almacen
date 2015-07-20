@@ -50,16 +50,20 @@ class ArticulosManager
     
     //Inician funciones DataTables
     public function obtenerRegistrosDT(DataTablesManager $dt, $repositorio, $peticion, 
-        $columnas, $cExtra = array(), $nombreFF = null, $cFiltros = null, $fnEnlaces = null
-    ) {
+        $columnas, $cExtra = array(), $nombreFF = null, $cFiltros = null, $fnEnlaces = null) 
+       {
         
+        $activo = true;
         $this->dataTable = $dt;
+        $this->dataTable->init($repositorio, $peticion, $columnas, array('id')); 
         
-        $this->dataTable->init($repositorio, $peticion, $columnas, array('id'));
+        if($peticion['programa'] == null){
+            $registrosTotal = $this->contarRegistrosTotalDT($activo);
+        }else{
+            $registrosTotal = $this->contarRegistrosTotalDT($activo ,$peticion['programa']);
+        }
         
-        $registrosTotal = $this->contarRegistrosTotalDT();
-        
-        $informacionRegistrosFiltrados = $this->recuperarInformacionFiltrosDT();
+        $informacionRegistrosFiltrados = $this->recuperarInformacionFiltrosDT($activo ,$peticion['programa']);
         
         return array(
             "draw" => \intval($peticion['draw']),
@@ -71,30 +75,42 @@ class ArticulosManager
     
     
     
-    public function agregarFiltrosExtraQBDT(QueryBuilder $qb, $root, $activo = true) 
+    public function agregarFiltrosExtraQBDT(QueryBuilder $qb, $root, $activo, $programa) 
     {      
-        $qb->andWhere($root.".activo = :activo");        
-        $qb->setParameter("activo", $activo);
+        
+        
+        if($programa == null){
+            $qb->andWhere($root.".activo = :activo");        
+            $qb->setParameter("activo", $activo);
+        }else{
+            $qb->andWhere($root.".programaId = :programa");
+            $qb->andWhere($root.".tipoEntrada != 1");
+            $qb->andWhere($root.".existencia > 0");
+            $qb->setParameter("programa", $programa);
+        }
         
         return $qb;
     }
     
-    public function contarRegistrosTotalDT($activo = true) {
+    
+    public function contarRegistrosTotalDT($activo = true, $programa = null) {
         
         $qb = $this->dataTable->getBaseQB();
         $root = $qb->getRootAliases()[0];
         
-        $this->agregarFiltrosExtraQBDT($qb, $root, $activo);
+        
+         $this->agregarFiltrosExtraQBDT($qb, $root, $activo, $programa);
+        
         
         $qb->select($qb->expr()->count($root));  
         return $qb->getQuery()->getSingleScalarResult();
     }
     
-    public function recuperarInformacionFiltrosDT($activo = true) 
+    public function recuperarInformacionFiltrosDT($activo = true, $programa) 
     {
         $qb = $this->dataTable->applyActionsQB();
         $root = $qb->getRootAliases()[0];
-        $this->agregarFiltrosExtraQBDT($qb, $root, $activo); 
+        $this->agregarFiltrosExtraQBDT($qb, $root, $activo, $programa); 
         //Agregar Filtros extra si se necesitan    
         
         $total = $qb->select($qb->expr()->count($root))->getQuery()->getSingleScalarResult();  
@@ -129,14 +145,7 @@ class ArticulosManager
                     $row[ $column['dt'] ] = $record[ $columns[$j]['db'] ];
                 }
             }    
-            /*
-            $configuracion = "<a data-toggle='tooltip' title='Configuración' class='btn btn-primary btn-xs' href='".
-                    $this->base->generateUrl('admin_avales_configuracion', array('id' => $record['id'])).
-                    "'><i class='fa fa-cog fa-fw'></i></a>";
-             
-             */
-            
-            
+           
             $enlaces = call_user_func(array($this, $fnEnlaces), $record);
             
             $row[] = $enlaces;
