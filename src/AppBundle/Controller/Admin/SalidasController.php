@@ -105,51 +105,6 @@ class SalidasController extends Controller
             
             $this->addFlash('success', "La Salida se creo satisfactoriamente, agregue los artículos necesarios.");
             return $this->redirect($this->generateUrl('admin_salidadetalles', array('id' => $entity->getId())));
-            /*
-            $query = $em->createQuery("SELECT p FROM AppBundle:Programas p WHERE p.id = :clave"); 
-            $query->setParameter("clave", $form->get('programaIdentificador')->getData());
-            
-            $programa = $query->getOneOrNullResult();
-            
-            $form->getData()->setPrograma($programa);
-            $em->persist($entity);
-            $em->flush();
-            
-             
-            
-            $entrada = $this ->getDoctrine()
-                   ->getRepository('AppBundle:Entradas')
-                   ->findOneBy(array('pedidoNumero' => $form->get('pedido')->getData()));
-            
-           
-            $entradaDetalles = $this ->getDoctrine()
-                   ->getRepository('AppBundle:EntradaDetalles')
-                   ->findBy(array('entrada' => $entrada->getId()));
-            
-            
-            
-            $ejerciciosManager = $this->get('app.ejercicios');
-            $iva = $ejerciciosManager->obtenerIVAPorAlmacenYPeriodo();
-            
-            //$detallesManager = $this->get('app.entrada_detalles');
-            //$entities = $detallesManager->listaArticulosPorEntrada($entradaS->getId(), $iva);
-            
-            
-            foreach ($entradaDetalles as $articuloSalida) {
-                $salidasDetalle = new SalidaDetalles();
-                $salidasDetalle->setActivo(1);
-                $salidasDetalle->setArticulo($em->getReference('AppBundle:Articulos',$articuloSalida->getArticulo()->getId()));
-                $salidasDetalle->setCantidad($articuloSalida->getCantidad());
-                $salidasDetalle->setEntradaDetalle($em->getReference('AppBundle:EntradaDetalles',$articuloSalida->getId()));
-                $salidasDetalle->setSalida($em->getReference('AppBundle:Salidas',$entity->getId()));
-                $em->persist($salidasDetalle);
-            }
-            
-            
-           
-            $em->flush();
-            $this->addFlash('success', "La salida se creo satisfactoriamente.");
-            return $this->redirect($this->generateUrl('admin_salidadetalles', array('id' => $entity->getId())));*/
             
         }
         
@@ -410,11 +365,18 @@ class SalidasController extends Controller
     {
         $acciones = $request->query->get('acciones');
         $salidaId = $request->query->get('salidaId');
+        $articuloClave = $request->query->get('articulo');
         $em = $this->getDoctrine()->getManager();
         
         $salida = $em->getRepository('AppBundle:Salidas')->find($salidaId);
         
-        $entradas = $em->getRepository("AppBundle:Entradas")->recuperarListaEntradasDirectas($salida->getPrograma()->getId());
+        if(empty($articuloClave)){
+            $entradas = $em->getRepository("AppBundle:Entradas")->recuperarListaEntradasDirectas($salida->getPrograma()->getId());
+        }else{
+            $entradas = $em->getRepository("AppBundle:Entradas")->recuperarListaEntradas($salida->getPrograma()->getId(), $articuloClave);
+        }
+        
+        
         
         $html = $this->renderView('/Admin/Salidas/popup_buscar_entrada.html.twig', array(
             'acciones' => $acciones,

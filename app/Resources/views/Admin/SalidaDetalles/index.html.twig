@@ -32,11 +32,13 @@
                         <div class="widget-body ">
                             <!-- Contenido -->
                             <div class="widget-header">                        
-                                <!-- Botones de Accion 
                                 <button type="button" id="btn-agregar-articulo" class="btn btn-primary" data-toggle="tooltip" title="Agregar">
-                                    <i class="fa fa-plus-circle fa-fw"></i> Agregar Entrada D
+                                    <i class="fa fa-plus-circle fa-fw"></i> Agregar Articulo
                                 </button>
-                                -->
+                                <button type="button" id="btn-consultar-salida" class="btn btn-default" data-toggle="tooltip" title="Consultar">
+                                    <span class="glyphicon glyphicon-search"></span> 
+                                    Datos de la Salida
+                                </button>
                                 <a href="{{ path('admin_salidas', {}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
                                     <i class="fa fa-list fa-fw"></i> Lista de Salidas
                                 </a>
@@ -61,10 +63,10 @@
                                     <tr>
                                         <td>{{ entity.articuloClave }}</td>
                                         <td>{{ entity.articuloNombre }}</td>
-                                        <td class="text-right">{{ entity.cantidad | number_format(0, '.', ',') }}</td>
+                                        <td class="text-right">{{ entity.cantidadSds | number_format(0, '.', ',') }}</td>
                                         <td class="text-right">{{ entity.precio | number_format(2, '.', ',') }}</td>
                                         <td class="text-right">
-                                            {{ (entity.cantidad * entity.precio) | number_format(2, '.', ',') }}
+                                            {{ (entity.cantidadSds * entity.precio) | number_format(2, '.', ',') }}
                                         </td>
                                         
                                         <td>
@@ -83,6 +85,7 @@
                             </table>
                             <div id="contenedor-modales"></div>
                             <div id="contenedor-modal-popup-buscar-articulo"></div>
+                            <div id="contenedor-modal-popup-buscar-entradaDetalles"></div>
                         </div>
                     </div>
                 </div>
@@ -108,12 +111,12 @@
             //Inicio click agregar artículo
             $("#btn-agregar-articulo").click(function(){
                 $.ajax({
-                    url: "{{ path('admin_salidadetallesdirecta_new') }}",
+                    url: "{{ path('admin_salidadetalles_new') }}",
                     type: 'GET',
                     dataType: "JSON",
                     
                     data: {
-                        entradaId: "{{salida.id}}"
+                        salidaId: "{{salida.id}}"
                     },
                     success: function(data) {
                         if(data.code == 200) {
@@ -131,8 +134,9 @@
                     }
                 });
             }); //Fin click agregar artículo
-            
            
-        });
-    </script>
+});
+        
+        
+</script>
 {% endblock %}

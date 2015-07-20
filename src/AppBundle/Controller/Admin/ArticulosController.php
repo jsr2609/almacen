@@ -251,16 +251,54 @@ class ArticulosController extends Controller
     public function popupBuscarAction(Request $request)
     {
         $acciones = $request->query->get('acciones');
-                
-        $html = $this->renderView("/Admin/Articulos/popup_buscar.html.twig", array(
-            'acciones' => $acciones,
-        ));
+        $origen   = $request->query->get('origen');
+        
+        switch ($origen) {
+        case "ED":
+             $html = $this->renderView("/Admin/SalidaDetalles/popup_buscar_articulo.html.twig", array(
+               'acciones' => $acciones,
+             ));
+            break;
+        default :
+             $html = $this->renderView("/Admin/Articulos/popup_buscar.html.twig", array(
+               'acciones' => $acciones,
+             ));
+            break;
+        }
         
         $data = array('code' => 200, 'html' => $html, 'message' => '');
         $response = new JsonResponse($data);
         return $response;
         
     }
+    
+    public function popupBuscarSalidaAction(Request $request)
+    {
+        $acciones = $request->query->get('acciones');
+        $origen   = $request->query->get('origen');
+        $programaId   = $request->query->get('programa');
+        
+        
+        switch ($origen) {
+        case "ED":
+             $html = $this->renderView("/Admin/SalidaDetalles/popup_buscar_articulo.html.twig", array(
+               'acciones' => $acciones,
+               'programaId' => $programaId,
+             ));
+            break;
+        default :
+             $html = $this->renderView("/Admin/Articulos/popup_buscar.html.twig", array(
+               'acciones' => $acciones,
+             ));
+            break;
+        }
+        
+        $data = array('code' => 200, 'html' => $html, 'message' => '');
+        $response = new JsonResponse($data);
+        return $response;
+        
+    }
+    
     
     public function popupBuscarIndexAction(Request $request)
     {
@@ -271,11 +309,20 @@ class ArticulosController extends Controller
             array('dt' => 3, 'db' => 'partidaClave')
         );
         
+        
+        
         $dtManager = $this->get('ssa_utilidades.dataTables');
         
         $articulosManager = $this->get('app.articulos');
         
-        $datos = $articulosManager->obtenerRegistrosDT($dtManager, 'AppBundle:VwArticulos', 
+        if($request->query->get('programa') == null ){
+            $repositorio = 'AppBundle:VwArticulos';
+        }else{
+            $repositorio = 'AppBundle:VwExistencias';
+        }
+        
+        
+        $datos = $articulosManager->obtenerRegistrosDT($dtManager, $repositorio, 
             $request->query->all(), $columnas, null, null, null, "enlacesPopupIndex"
         );
         

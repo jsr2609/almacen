@@ -50,3 +50,4 @@ admin_entradas_popup_buscar:
 admin_entradas_buscar_ajax:
     path:     /buscar_entrada_ajax
     defaults: { _controller: "AppBundle:Admin/Salidas:buscarEntradaAjax" }
+    

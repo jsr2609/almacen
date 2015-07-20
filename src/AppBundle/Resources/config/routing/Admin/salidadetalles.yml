@@ -49,3 +49,9 @@ admin_salidadetallesdirecta_create:
     path:     /createDirecta
     defaults: { _controller: "AppBundle:Admin/SalidaDetalles:createDirecta" }
     requirements: { _method: post }
+    
+# Rutas para la Busqueda de Entradas Detalles
+
+admin_entradaDetalles_popup_buscar:
+    path:     /popup_buscar_entradaDetalles
+    defaults: { _controller: "AppBundle:Admin/SalidaDetalles:popupBuscarEntradaDetalles" }

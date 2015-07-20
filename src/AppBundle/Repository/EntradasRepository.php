@@ -53,8 +53,8 @@ class EntradasRepository extends EntityRepository
     {
         $dql = "SELECT COUNT(sds.id) FROM AppBundle:SalidaDetalles AS sds "
                 . "INNER JOIN sds.entradaDetalle AS eds "
-                . "INNER JOIN eds.entrada AS eta "
-                . "WHERE eta.id = :entrada";
+                . "INNER JOIN eds.entrada AS ets "
+                . "WHERE ets.id = :entrada";
         
         $q = $this->getEntityManager()->createQuery($dql)
                 ->setParameter('entrada', $entradaId);
@@ -69,12 +69,17 @@ class EntradasRepository extends EntityRepository
         $qb = $this->createQueryBuilder('ets');
         if($select) {
             $qb->select($select)
+            ->groupBy('ets')
+            ->leftJoin('AppBundle:EntradaDetalles', 'eds', 'WITH', 'eds.entrada = ets.id')
+            ->leftJoin('AppBundle:SalidaDetalles', 'sds', 'WITH', 'sds.entradaDetalle = eds.id')
+            ->where('sds.id is null')
             ->andWhere('ets.tipoEntrada = 1')
             ->andWhere('ets.programa = :programa')
-            ->setParameter('programa', $programaId);;
-        }
-        return $qb->getQuery()->getResult();
-        
-    }    
+            ->setParameter('programa', $programaId);
+       }
+       
+       return $qb->getQuery()->getResult();
+       
+    }
     
 }
