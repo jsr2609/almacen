@@ -5,9 +5,9 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use AppBundle\Entity\EntradaDetalles; 
+use AppBundle\Entity\SalidaDetalles; 
 
-class EntradaDetallesType extends AbstractType
+class SalidaDetallesType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -26,54 +26,36 @@ class EntradaDetallesType extends AbstractType
                     'hidden' => false,
                     'horizontal_label_class' => $widthLabel,
                     'horizontal_input_wrapper_class' => $withInput,
+                    'attr' => array(
+                        'data-toggle' => 'tooltip',
+                        'title' => 'Ingrese la clave o de click en el botón para buscar un artículo.'
+                    )
                 ));
         }
         $builder
-            ->add('cantidad', 'number', array(                
+            ->add('entradaDetalle', 'entity_id', array(
+                'class' => "AppBundle:EntradaDetalles",
+                'label' => 'Entrada ',
+                'help_block' => 'Seleccione la Entrada.',
+                'property' => 'id',
+                'widget_addon_prepend' => array('icon' => 'search'),
+                'hidden' => false,
                 'horizontal_label_class' => $widthLabel,
                 'horizontal_input_wrapper_class' => $withInput,
-            ))
-            ->add('precio', 'text', array(                
-                'horizontal_label_class' => $widthLabel,
-                'horizontal_input_wrapper_class' => $withInput,
-            ))
-            ->add('fechaCaducidad', 'date', array(
-                'widget' => 'single_text',
-                'format' => 'dd/MM/y',
-                'attr' => array(
-                    'class' => 'datepicker', 
-                    'data-mask' => '99/99/9999',
-                    'data-mask-placeholder' => '-',
-                ),
-                'widget_addon_prepend' => array('icon' => 'calendar'),
-                'horizontal_label_class' => $widthLabel,
-                'horizontal_input_wrapper_class' => $withInput,
-                'label' => 'Caducidad',
-                'required' => false,
-            ))
-            ->add('aplicaIva', 'choice', array(
                 'required' => true,
-                'multiple' => false,
-                'expanded' => true,
-                'choices' => EntradaDetalles::$aplicaIvaOpciones,
-                'widget_type'  => 'inline',
-                'help_block' => 'Marque si se aplica el IVA al precio',                
+                'attr' => array(
+                    'readonly' => true,
+                )
+            ))
+            ->add('cantidad', 'integer', array(                
                 'horizontal_label_class' => $widthLabel,
                 'horizontal_input_wrapper_class' => $withInput,
-              
+                'required' => true,
             ))
-            ->add('observaciones', 'textarea', array(                
-                'horizontal_label_class' => $widthLabel,
-                'horizontal_input_wrapper_class' => $withInput,
-                'required' => false,
-            ))
-            ->add('entrada', 'entity_id', array(
-                'class' => 'AppBundle:Entradas',
-                'label_render' => false,
-            ))
-          
-            
-        ;
+            ->add('origen', 'hidden', array(
+                 'mapped' => false,
+                 'data'   => "ED",
+            ));
     }
     
     /**
@@ -82,7 +64,7 @@ class EntradaDetallesType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\EntradaDetalles',
+            'data_class' => 'AppBundle\Entity\SalidaDetalles',
             'attr' => array('class' => 'form-horizontal', 'id' => $this->getName()),
             'mostrar_campo_articulo' => true,            
         ));
@@ -93,6 +75,6 @@ class EntradaDetallesType extends AbstractType
      */
     public function getName()
     {
-        return 'entrada_detalles_type';
+        return 'salida_detalles_type';
     }
 }

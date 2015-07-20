@@ -66,19 +66,14 @@ class SalidasManager
     {
         $editable = true;
         $mensaje = ""; 
-        
-        if($entrada->getValidada()) {
-            $editable = false;
-            $mensaje = "La salida ya fue validada, no es posible la edición.";
-        } else {
             $repository = $this->getRepository();
         
-            $cantidad = $repository->contarEnSalidas($entrada->getId());
+            $cantidad = $repository->contarEnSalidas($salida->getId());
+            
             if($cantidad > 0) {
                 $editable = false;
-                $mensaje = "Ya existen salidas de esta entrada, no es posible la edición.";
+                $mensaje = "No es posible la edición. Consulte a su Administrador"; 
             }
-        }
         
         return array(
             'editable' => $editable,

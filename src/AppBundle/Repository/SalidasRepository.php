@@ -53,15 +53,14 @@ class SalidasRepository extends EntityRepository
     
     
     
-    public function contarEnSalidas($entradaId)
+    public function contarEnSalidas($salidaId)
     {
         $dql = "SELECT COUNT(sds.id) FROM AppBundle:SalidaDetalles AS sds "
-                . "INNER JOIN sds.entradaDetalle AS eds "
-                . "INNER JOIN eds.entrada AS eta "
-                . "WHERE eta.id = :entrada";
+                . "INNER JOIN sds.salida AS sls "
+                . "WHERE sds.salida = :salida";
         
         $q = $this->getEntityManager()->createQuery($dql)
-                ->setParameter('entrada', $entradaId);
+                ->setParameter('salida', $salidaId);
         
         return $q->getSingleScalarResult();
     }

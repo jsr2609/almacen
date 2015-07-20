@@ -1,0 +1,70 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+         dtListaArticulos = createDataTable("minimal", "lista-detalles", {
+                "columns": [
+                    {  },
+                    {  },
+                    { "className": "text-right" },
+                    { "className": "text-right" },
+                    { "className": "text-right" },
+                    { "className": "text-right" },
+                    
+                ],
+            });
+            
+        $("#btn-agregar-entrada").click(function(){
+            $.ajax({
+                url: "{{ path('admin_entradas_popup_buscar') }}",
+                type: 'GET',             
+                dataType: "JSON",
+                data: {
+                    acciones: "/Admin/SalidaDetalles/acciones_buscar_entrada.html.twig",
+                    salidaId: {{ salida.id }}
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $("#contenedor-modales").html(data.html);
+
+                    } else {
+
+                    }
+                },
+                error: function (request, text, error) {
+
+                }
+            });
+        });
+        
+           
+            
+            //Inicio consultar datos de la salida
+            $("#btn-consultar-salida").click(function(){
+                $.ajax({
+                    url: "{{ path('admin_salidas_show') }}",
+                    type: 'GET',
+                    dataType: "JSON",
+                    data: {
+                        salidaId: {{salida.id}}
+                    },
+                    success: function(data) {
+                        if(data.code == 200) {
+                            $("#contenedor-modales").html(data.html);
+
+                        } else {
+                            createAlert("danger", null, data.message)
+
+                        }
+                    },
+                    error: function(request, text, error) {
+                        //$("#loader").modal("hide");
+                        createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+                    }
+                });
+            });//Fin consultar datos de la entrada
+           
+        
+     
+    });
+</script>

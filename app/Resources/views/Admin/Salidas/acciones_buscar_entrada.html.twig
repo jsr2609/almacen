@@ -2,8 +2,9 @@
     $("#lista-entradas").on("click", "button.seleccionar-entrada", function(){
         row = getDataRowDT(dtEntradas, $(this));
         $("#salidas_type_programaIdentificador").val($(".hiddenPrograma").attr('id'));
-        $("#salidas_type_pedido").val(row.data[1]);
-        $("#salidas_type_programaDescriptivo").val(row.data[2]+' - '+row.data[3]);
+        $("#salidas_type_pedido").val(row.data[2]);
+        $("#salidas_type_programaDescriptivo").val(row.data[3]+' - '+row.data[4]);
+        $("#salidas_type_observaciones").val('DE LA ALTA: '+row.data[1]+' PEDIDO: '+row.data[2]);
         $("#modal-buscar-entrada").modal('hide');
     });
 </script>

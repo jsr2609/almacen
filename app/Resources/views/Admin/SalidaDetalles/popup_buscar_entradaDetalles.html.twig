@@ -1,4 +1,4 @@
-<div id="modal-buscar-entrada" class="modal fade">
+<div id="modal-buscar-entradaDetalles" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,11 +6,11 @@
                 <h4 class="modal-title">Busqueda de Entrada</h4>
             </div>
             <div class="modal-body">
-                <table id="lista-entradas" width="100%" class="table table-hover">
+                <table id="lista-entradaDetalles" width="100%" class="table table-hover">
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Pedido</th>
+                            <th>Existencia</th>
                             <th>Entrada</th>
                             <th>Clave Programa</th>
                             <th>Nombre Programa</th>
@@ -21,16 +21,16 @@
                         {% for entrada in entradas %}
                             <tr>
                                 <td>
-                                    <button type="button" class="btn btn-primary btn-xs seleccionar-entrada"
+                                    <button type="button" class="btn btn-primary btn-xs seleccionar-entradaDetalle"
                                         entrada-id="{{entrada.id}}" data-toggle="tooltip" title="Seleccionar">
                                         <span class="glyphicon glyphicon-ok-sign"></span>                                     
                                     </button>
                                 </td>
-                                <td>{{entrada.folio}}</td>
-                                <td>{{entrada.pedidoNumero}}</td>
-                                <td>{{entrada.programa.clave}}</td>
-                                <td>{{entrada.programa.nombre}}</td>
-                                <input type="hidden" class="hiddenPrograma" id="{{entrada.programa.id}}">
+                                <td>{{entrada.existencia}}</td>
+                                <td>{{entrada.entrada.folio}}</td>
+                                <td>{{entrada.entrada.programa.clave}}</td>
+                                <td>{{entrada.entrada.programa.nombre}}</td>
+                                <input type="hidden" class="hiddenEntrada" id="{{entrada.id}}">
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -46,7 +46,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <script type="text/javascript">
-    $('#modal-buscar-entrada').modal('show');
+    $('#modal-buscar-entradaDetalles').modal('show');
     dtEntradas = createDataTable('complete', 'lista-entradas');
 </script>
 {{include(acciones)}}

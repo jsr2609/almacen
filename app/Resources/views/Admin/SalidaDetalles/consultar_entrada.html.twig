@@ -1,0 +1,97 @@
+<div id="modal-nuevo-articulo" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Consulta de Entrada</h4>
+                </div>
+                    <div class="modal-body">
+                        <!-- widget edit box -->
+                        <div class="widget-body ">
+                            <!-- Contenido -->
+                            <div class="widget-header">                        
+                                <!-- Botones de Accion -->
+                                         <button type="button" class="btn btn-primary seleccionar-entrada-muestra"
+                                            entrada-id="{{entity.id}}" data-toggle="tooltip" title="Aceptar" id="seleccionar-entrada-muestra">
+                                            <i class="fa fa-plus-circle fa-fw"></i> Agregar Entrada                                 
+                                         </button>
+                            </div>
+                            <!-- Contenido -->
+                            {{include("Admin/Entradas/datos_generales.html.twig", {'entity': entity})}}
+                            <div class="entrada-articulos">
+                                <h2>Lista de Articulos</h2>
+                                <div class="table-responsive">
+                                    <table id="lista-detalles-entrada" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Clave</th>
+                                                <th>Nombre</th>
+                                                <th>Cantidad</th>
+                                                <th>Precio</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for detalle in detalles %}
+                                                <tr>
+                                                    <td>{{ detalle.articuloClave }}</td>
+                                                    <td>{{ detalle.articuloNombre }}</td>
+                                                    <td class="text-right">{{ detalle.cantidad | number_format(0, '.', ',') }}</td>
+                                                    <td class="text-right">{{ detalle.precio | number_format(2, '.', ',') }}</td>
+                                                    <td class="text-right">
+                                                        {{ (detalle.cantidad * detalle.precio) | number_format(2, '.', ',') }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    dtListaArticulos = createDataTable("minimal", "lista-detalles-entrada", {
+                "columns": [
+                    {  },
+                    {  },
+                    { "className": "text-right" },
+                    { "className": "text-right" },
+                    { "className": "text-right" },
+                ],
+            });
+    
+    $("#seleccionar-entrada-muestra").on("click", function(){
+    $.ajax({
+                url: "{{ path('admin_salidadetallesdirecta_create') }}",
+                type: 'POST',                
+                dataType: "JSON",
+                data: {
+                    "entradaId": entradaId,
+                    "salidaId": {{ salida }}
+                },
+                success: function(data) {
+                    if(data.code == 200) {
+                        location.reload();
+                    } else {
+                        createAlert("danger", null, data.message)
+                    }
+                },
+                error: function(request, text, error) {
+                    //$("#loader").modal("hide");
+                    createAlert("danger", null, "El servidor ha regresado el mensaje: "+text);
+
+                }
+            });
+       });
+       
+     $("#modal-nuevo-articulo").modal('show');
+  });
+</script>
+
+    
+

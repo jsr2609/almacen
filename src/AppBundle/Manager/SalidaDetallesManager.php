@@ -19,6 +19,7 @@ use AppBundle\Entity\Articulos;
 use AppBundle\Entity\Programas;
 use AppBundle\Entity\Existencias;
 use AppBundle\Entity\SalidaDetalles;
+use AppBundle\Entity\EntradaDetalles;
 use AppBundle\Entity\Ejercicios;
 use AppBundle\Inventarios\PEPS;
 
@@ -98,8 +99,10 @@ class SalidaDetallesManager
                 $diferencias = $this->diferenciaCantidadesPEPS($detalle->getCantidad(), $detalle->getPrecio(), 
                     $cantidadActual, $precioActual, $iva, $detalle->getAplicaIva(), $aplicaIvaActual
                 );
+                
                 $existenciaDetalleActual = $detalle->getExistencia();
-                $detalle->setExistencia($existenciaDetalleActual + $diferencias['cantidad']);
+                
+                $detalle->setExistencia($existenciaDetalleActual - $detalle->getCantidad());
                 $existenciaActual = $existencia->getCantidad();
                 $totalActual = $existencia->getTotal();
                 $existencia->setCantidad($existenciaActual + $diferencias['cantidad']);
@@ -114,11 +117,37 @@ class SalidaDetallesManager
         }
     }
     
+    public function actualizarExistenciaSDS(SalidaDetalles $detalle, $cantidadActual, 
+        $precioActual, $ejercicio, Existencias $existencia, $aplicaIvaActual) 
+    {
+        $tipoInventario = $ejercicio['tipoInventario'];
+        $iva = $ejercicio['iva'];
+        
+        switch($tipoInventario) {
+            case 1:
+                $diferencias = $this->diferenciaCantidadesPEPS($detalle->getCantidad(), $detalle->getEntradaDetalle()->getPrecio(), 
+                    $cantidadActual, $precioActual, $iva, $detalle->getEntradaDetalle()->getAplicaIva(), $aplicaIvaActual
+                );
+                
+                $existenciaDetalleActual = $detalle->getEntradaDetalle()->getExistencia();
+                
+                $detalle->getEntradaDetalle()->setExistencia($existenciaDetalleActual - $detalle->getCantidad());
+                break;
+            case 2:
+                break;
+            default:
+                $msgE = "No se ha definido el tipo de inventario ".$tipoInventario.
+                    ", no es posible actualizar la existencia del detalle";
+                throw new \LogicException($msgE);
+        }
+    }
+    
+    
     public function listaArticulosPorSalida($salidaId, $iva)
     {
         $repository = $this->base->getRepository("AppBundle:SalidaDetalles");
         
-        $select = "sds.id, ats.clave as articuloClave, ats.nombre as articuloNombre, eds.cantidad, eds.precio, eds.aplicaIva";
+        $select = "sds.id, sds.cantidad as cantidadSds, ats.clave as articuloClave, ats.nombre as articuloNombre, eds.cantidad, eds.precio, eds.aplicaIva";
         $articulos = $repository->buscarTodos($select, $salidaId);
         
         for($i = 0; $i < count($articulos); $i++) {
@@ -146,6 +175,40 @@ class SalidaDetallesManager
         }
         
         return $this->base->getRepository($repository);
+    }
+    
+    public function procesarArticulosDeEntradaDirecta($articulos, Salidas $salida, $ejercicio, ExistenciasManager $existenciasManager)
+    {
+        $em = $this->base->getManager();
+        $articulosRepository = $em->getRepository("AppBundle:Articulos");
+        foreach($articulos as $articulo)
+        {
+            $eds = new EntradaDetalles();
+            $eds->setCantidad($articulo['cantidad']);
+            $eds->setPrecio($articulo['precio']);
+            $eds->setEntrada($entrada);
+            $articuloObj = $articulosRepository->findOneBy(array('clave' => $articulo['clave']));
+            if(!$articuloObj) {
+                throw $this->base->createNotFoundException("No se encontró un articulo con la clave ".$articulo['clave']);
+            }
+            $eds->setArticulo($articuloObj);
+            $eds->setExistencia($articulo['cantidad']);
+            
+            $em->persist($eds);
+            
+            $existenciasManager->aumentar($articuloObj, 
+                $eds->getEntrada()->getPrograma(),
+                $eds->getCantidad(), 
+                $eds->getPrecio(),
+                $ejercicio,
+                $eds->getAplicaIva()
+            );
+            
+            
+            
+        }
+        
+        $em->flush();
     }
     
 }
