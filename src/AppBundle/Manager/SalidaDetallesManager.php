@@ -132,10 +132,6 @@ class SalidaDetallesManager
                 $existenciaDetalleActual = $detalle->getEntradaDetalle()->getExistencia();
                 
                 $detalle->getEntradaDetalle()->setExistencia($existenciaDetalleActual - $detalle->getCantidad());
-                $existenciaActual = $existencia->getCantidad();
-                $totalActual = $existencia->getTotal();
-                $existencia->setCantidad($existenciaActual + $diferencias['cantidad']);
-                $existencia->setTotal($totalActual + $diferencias['total']);
                 break;
             case 2:
                 break;

@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Controller\Admin;
+
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -186,7 +187,7 @@ class SalidaDetallesController extends Controller
             
     }
     
-      public function createAction(Request $request)
+    public function createAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
                 
@@ -208,14 +209,10 @@ class SalidaDetallesController extends Controller
             $form->handleRequest($request);
 
             $salidasDetalle->setActivo(1);
-            //$salidasDetalle->setArticulo($em->getReference('AppBundle:Articulos',$articuloSalida->getArticulo()->getId()));
-            //$salidasDetalle->setCantidad($articuloSalida->getCantidad());
-            //$salidasDetalle->setEntradaDetalle($em->getReference('AppBundle:EntradaDetalles',$articuloSalida->getId()));
             $salidasDetalle->setSalida($em->getReference('AppBundle:Salidas',$request->request->get('salida')));
             $em->persist($salidasDetalle);
             
             $articuloSalida = $form->getData()->getEntradaDetalle();
-            
             
  // Se modifica la Existencia de la Entrada Detalles                   
                 $cantidadActual = $articuloSalida->getCantidad();
@@ -230,7 +227,8 @@ class SalidaDetallesController extends Controller
                 );
 // Termina modifica la Existencia de la Entrada Detalles                
 // Se modifica la Existencia del Articulo    
-                $articuloObj = $articulosRepository->findOneBy(array('clave' => $articuloSalida->getArticulo()->getClave()));
+                $articuloObj = $articulosRepository->findOneBy(array('id' => $articuloSalida->getArticulo()->getId()));
+                
                 $existenciasManager->disminuir($articuloObj, 
                 $salidasDetalle->getSalida()->getPrograma(),
                 $salidasDetalle->getCantidad(), 
@@ -238,13 +236,35 @@ class SalidaDetallesController extends Controller
                 $ejercicio,
                 $salidasDetalle->getEntradaDetalle()->getAplicaIva()
                 );
+// Termina modifica la Existencia del Articulo               
             $em->flush();
             $em->getConnection()->commit();
-// Termina modifica la Existencia del Articulo    
         } catch (Exception $e) {
             $em->getConnection()->rollback();
             throw $e;
         }
+        
+        $entradaDetallesManager = $this->get('app.entrada_detalles');
+        $precioNuevo = $entradaDetallesManager->calcularPrecio($salidasDetalle->getEntradaDetalle()->getPrecio(), $ejercicio['iva'], $salidasDetalle->getEntradaDetalle()->getAplicaIva());
+        $total = round($precioNuevo * $salidasDetalle->getCantidad(), 2);
+        $btnEditar =  '<button type="button" detalle-id="'.$salidasDetalle->getId().'" 
+            class="btn btn-xs btn-primary btn-editar-articulo" data-toggle="tooltip" 
+            title="Editar"> <i class="fa fa-edit fa-fw"></i></button>';  
+        $registro = array(
+            'clave' => $salidasDetalle->getArticulo()->getClave(),
+            'nombre' => Helpers::getSubString($salidasDetalle->getArticulo()->getNombre()),
+            'cantidad' => number_format($salidasDetalle->getCantidad(), 0, '.', ','),
+            'precio' => number_format($precioNuevo, 2, '.', ','),
+            'total' => number_format($total, 2, '.', ','),
+            'btn_editar' => $btnEditar,
+        );
+        $data = array('code' => 200, 'html' => '', 
+            'message' => 'El artículo se agrego a la Salida correctamente.',
+            'registro' => $registro,
+        );
+        
+         $response = new JsonResponse($data);
+         return $response;
     }
     
     public function newAction(Request $request)

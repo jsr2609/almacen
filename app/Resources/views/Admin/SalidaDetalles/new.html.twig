@@ -56,14 +56,14 @@
                     if(data.code == 200) {
                         createAlert("success", null, data.message);
                         $("#modal-nuevo-articulo").modal('hide');
-                         dtListaArticulos.row.add([
-                            data.registro.clave,
-                            data.registro.nombre,
-                            data.registro.cantidad,
-                            data.registro.precio,
-                            data.registro.total,
-                            data.registro.btn_editar
-                        ]).draw();
+                            dtListaSDS.row.add([
+                                data.registro.clave,
+                                data.registro.nombre,
+                                data.registro.cantidad,
+                                data.registro.precio,
+                                data.registro.total,
+                                data.registro.btn_editar
+                            ]).draw();
                     } else {
                         createAlert("danger", null, data.message);
 

@@ -205,7 +205,7 @@
                     dataType: "JSON",
                     //data: $("#people_type").serialize()+"&valor=10",
                     data: {
-                        entradaId: {{entrada.id}}
+                        entradaId: "{{entrada.id}}"
                     },
                     success: function(data) {
                         if(data.code == 200) {
