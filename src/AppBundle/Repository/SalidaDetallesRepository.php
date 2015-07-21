@@ -133,5 +133,37 @@ class SalidaDetallesRepository extends EntityRepository
         return $query->getResult($hydration);
     }
     
+    /**
+     * 
+     * Busca los registros para kardex
+     */
+    public function buscarParaKardex($articulo, $select = null, $programa = null, $fInicial = null, $fFinal = null)
+    {
+        $qb = $this->createQueryBuilder('sds');        
+        $qb->innerJoin('sds.salida', 'sls');        
+        $select = ($select === null) ? 'sds, sls' : $select;
+        $qb->select($select)
+            ->andWhere('sds.articulo = :articulo')
+            ->setParameter('articulo', $articulo)
+        ;
+        
+        if($programa) {
+            $qb->andWhere('sls.programa = :programa')
+                ->setParameter('programa', $programa);
+        }
+        
+        if($fInicial) {
+            $qb->andWhere('sls.fecha > :fInicial')
+                ->setParameter('fInicial', $fInicial);
+        }
+        
+        if($fFinal) {
+            $qb->andWhere('ets.fecha < :fFinal')
+                ->setParameter('fFinal', $fFinal);
+        }
+        
+        return $qb->getQuery()->getArrayResult();
+    }
+    
     
 }

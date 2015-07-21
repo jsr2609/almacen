@@ -82,14 +82,14 @@ class Kardex
         
         foreach($this->entradas as $entrada)
         {
-            for($i = 0; $i <= 20; $i++) {
+            
             $this->pdf->Cell($wCampos['wFecha'],0, $entrada['fecha']->format('d/m/Y'), 'LTRB', 0, 'C');
             $this->pdf->Cell($wCampos['wFolio'],0, $entrada['folio'], 'LTRB', 0, 'R');
             $this->pdf->Cell($wCampos['wCantidad'],0, number_format($entrada['cantidad'], 0, '.', ','), 'LTRB', 0, 'R');
             $this->pdf->Cell($wCampos['wPrecio'],0, number_format($entrada['precio'], 2, '.', ','), 'LTRB', 0, 'R');
             $total = round($entrada['precio'] * $entrada['cantidad'], 2);
             $this->pdf->Cell($wCampos['wTotal'],0, number_format($total, 2, '.', ','), 'LTRB', 1, 'R');
-            }
+            
         }
         
     }

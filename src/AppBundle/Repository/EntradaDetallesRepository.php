@@ -146,7 +146,7 @@ class EntradaDetallesRepository extends EntityRepository
         return $query->getSingleScalarResult();
     }
     
-    public function buscarPorArticulo($articulo, $select = null, $programa = null, $fInicial = null, $fFinal = null)
+    public function buscarParaKardex($articulo, $select = null, $programa = null, $fInicial = null, $fFinal = null)
     {
         $qb = $this->createQueryBuilder('eds');        
         $qb->innerJoin('eds.entrada', 'ets');        

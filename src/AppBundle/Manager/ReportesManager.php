@@ -33,10 +33,11 @@ class ReportesManager
         $footerText = array(
             'address' => $ejercicio['almacen']['domicilio'],
             'telephones' => $ejercicio['almacen']['telefonos'],
-        );
+        );        
         $edsRepository = $this->base->getRepository("AppBundle:EntradaDetalles");
+        $sdsRepository = $this->base->getRepository("AppBundle:SalidaDetalles");
         $sEntradas = 'ets.fecha, ets.folio, eds.cantidad, eds.precio';
-        $entradas = $edsRepository->buscarPorArticulo($articulo['id'], $sEntradas);
+        $entradas = $edsRepository->buscarParaKardex($articulo['id'], $sEntradas);
         
         $bPDF->init($pdf, $ejercicio['almacen']['nombre'], $footerText);
         $kardex = new Kardex($pdf, $datos, $articulo, $entradas);
