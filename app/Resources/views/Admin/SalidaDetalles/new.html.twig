@@ -136,7 +136,7 @@
         });
     });
         
-    function mostrarInfoArticulo(clave)
+    function mostrarInfoArticulo(clave, entradaId)
     {
         $.ajax({
             url: "{{ path('admin_entradadetalles_buscar_articulo') }}",
@@ -144,7 +144,8 @@
             dataType: "JSON",
             //data: $("#people_type").serialize()+"&valor=10",
             data: {
-                articuloClave: clave
+                articuloClave: clave,
+                entradaDetalleId: entradaId,
             },
             success: function(data) {
                 if(data.code == 200) {
@@ -167,7 +168,7 @@
     $('#salida_detalles_type_articulo').blur(function(){
         articuloClave = $(this).val()
         if(!isEmpty(articuloClave)) {
-            mostrarInfoArticulo(articuloClave);
+            $("#salida_detalles_type_entradaDetalle_control_group .input-group-addon").trigger('click');
         }
     }); //Fin blur campo artículo
     

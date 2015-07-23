@@ -2,7 +2,6 @@
         $("#lista-articulos ").on("click", ".btn-seleccionar", function(){
             clave = $(this).attr("articulo-clave");
             $("#salida_detalles_type_articulo").val(clave);
-            mostrarInfoArticulo(clave);
             $("#salida_detalles_type_entradaDetalle_control_group .input-group-addon").trigger('click');
             //$("#modal-popup-buscar-articulo").modal("hide");
         });

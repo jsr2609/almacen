@@ -20,7 +20,7 @@
                 dataType: "JSON",
                 data: {
                     acciones: "/Admin/SalidaDetalles/acciones_buscar_entrada.html.twig",
-                    salidaId: {{ salida.id }}
+                    salidaId: "{{ salida.id }}",
                 },
                 success: function (data) {
                     if (data.code == 200) {
@@ -45,14 +45,14 @@
                     type: 'GET',
                     dataType: "JSON",
                     data: {
-                        salidaId: {{salida.id}}
+                        salidaId: "{{salida.id}}",
                     },
                     success: function(data) {
                         if(data.code == 200) {
                             $("#contenedor-modales").html(data.html);
 
                         } else {
-                            createAlert("danger", null, data.message)
+                            createAlert("danger", null, data.message);
 
                         }
                     },

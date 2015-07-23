@@ -23,15 +23,19 @@
                                 <input class="form-control" placeholder="..."type="text"/>
                             </th>
                             <th>
-
+                                <input class="form-control" placeholder="..."type="text"/>
                             </th>
-
+                            <th>
+                                <input class="form-control" placeholder="..."type="text"/>
+                            </th>
                         </tr>
                         <tr>
                             <th>Clave</th>
                             <th>Nombre</th>
                             <th>Presentación</th>
                             <th>Partida</th>
+                            <th>Existencia Total</th>
+                            <th>Total</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -46,6 +50,12 @@
                                 <input class="form-control" placeholder="..."type="text"/>
                             </th>
                             <th>
+                                <input class="form-control" placeholder="..."type="text"/>
+                            </th>
+                             <th>
+                                <input class="form-control" placeholder="..."type="text"/>
+                            </th>
+                             <th>
                                 <input class="form-control" placeholder="..."type="text"/>
                             </th>
                             <th>
@@ -92,10 +102,12 @@
                 { "sortable": false, "targets": noOrdenar }
             ],
             "columns": [
-                { "width": "15%" },
-                { "width": "50%" },
-                { "width": "15%" },
                 { "width": "10%" },
+                { "width": "40%" },
+                { "width": "10%" },
+                { "width": "10%" },
+                { "width": "10%" },
+                { "type": "formatted-num" , "width": "10%", "className": "text-right" },
                 { "width": "10%", "className": "text-right" },
 
             ],
@@ -118,9 +130,6 @@
             $this = item;
             search_timeout = setTimeout(function() {
               search_timeout = undefined;
-
-
-
               dtListaArticulos.column(colIdx).search( $this.value ).draw();
 
             }, 800);
