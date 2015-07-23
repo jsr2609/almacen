@@ -33,6 +33,9 @@
                             </div>
                             <!-- Contenido -->
                             {{form(form)}}
+                            <div id="contenedor-modales">
+                                
+                            </div>
 
                         </div>
                     </div>
@@ -45,6 +48,30 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $("#kardex_type").validate();
+            
+            //Peticion para buscar el programa
+            $("#kardex_type_programa .input-group-addon").click(function(){
+                $.ajax({
+                    url: "{{ path('admin_programas_popup_buscar') }}",
+                    type: 'GET',             
+                    dataType: "JSON",
+                    data: {
+                        acciones: "/Admin/Reportes/acciones_kardex_buscar_programa.html.twig"
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            $("#contenedor-modales").html(data.html);
+
+                        } else {
+
+
+                        }
+                    },
+                    error: function (request, text, error) {
+
+                    }
+                });
+            });
         });
     </script>
 {% endblock %}

@@ -77,6 +77,8 @@ class Almacenes
      */
     private $activo = true;
     
+    
+    
     public function __toString() {
         return $this->nombre;
     }

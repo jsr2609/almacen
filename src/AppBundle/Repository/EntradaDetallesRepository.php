@@ -157,7 +157,7 @@ class EntradaDetallesRepository extends EntityRepository
         ;
         
         if($programa) {
-            $qb->andWhere('eds.programa = :programa')
+            $qb->andWhere('ets.programa = :programa')
                 ->setParameter('programa', $programa);
         }
         

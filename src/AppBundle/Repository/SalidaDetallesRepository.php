@@ -137,15 +137,32 @@ class SalidaDetallesRepository extends EntityRepository
      * 
      * Busca los registros para kardex
      */
-    public function buscarParaKardex($articulo, $select = null, $programa = null, $fInicial = null, $fFinal = null)
+    public function buscarParaKardex($articulo, $select = null, $programa = null, $fInicial = null, $fFinal = null, $tipoInventario = 1)
     {
-        $qb = $this->createQueryBuilder('sds');        
-        $qb->innerJoin('sds.salida', 'sls');        
+        $qb = $this->createQueryBuilder('sds');
+        $qb->innerJoin('sds.salida', 'sls')
+            ->innerJoin('sls.destino', 'dts');
+        
         $select = ($select === null) ? 'sds, sls' : $select;
+        
         $qb->select($select)
             ->andWhere('sds.articulo = :articulo')
             ->setParameter('articulo', $articulo)
         ;
+        
+        //PEPS
+        if($tipoInventario == 1) {
+            $qb->innerJoin('sds.entradaDetalle', 'eds');
+            //$qb->addSelect('eds');
+            if(!$select) {
+                $qb->addSelect('sls');
+            }
+        }
+        
+        if($tipoInventario == 2) {
+            //Pendiente realizar acciones para inventario por promedio
+        }
+        
         
         if($programa) {
             $qb->andWhere('sls.programa = :programa')

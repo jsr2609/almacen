@@ -18,8 +18,9 @@ class Kardex
     private $fechaInicial;
     private $fechaFinal;
     private $entradas;
+    private $salidas;
     
-    public function __construct(\TCPDF $pdf, $datos, $articulo, $entradas)
+    public function __construct(\TCPDF $pdf, $datos, $articulo, $entradas, $salidas)
     {
         $this->pdf = $pdf;
         $this->datos = $datos;
@@ -27,6 +28,9 @@ class Kardex
         $this->fechaInicial = $this->generarFechaInicial($datos['fechaInicial']);
         $this->fechaFinal = $this->generarFechaFinal($datos['fechaFinal']);
         $this->entradas = $entradas;
+        $this->salidas = $salidas;
+        
+        
     }
     
     public function generar()
@@ -41,7 +45,7 @@ class Kardex
         $this->pdf->Cell(0,0, 'Articulo: '.$this->articulo['clave'].' '.$articuloNombre, 0, 1);
         $this->pdf->Cell(0,0, 'Presentación: ...', 0, 1);
         
-        $programaNombre = ($this->datos['programa'] == null) ? "Todos" : $$this->datos['programa']->getNombre();
+        $programaNombre = ($this->datos['programa'] == null) ? "Todos" : $this->datos['programa']->getNombre();
         $this->pdf->Cell(0,0, 'Programa: '.$programaNombre, 0, 1);
         $this->pdf->Ln(3);
         
@@ -49,7 +53,7 @@ class Kardex
         $this->pdf->Cell(35,0, $this->fechaInicial->format('d/m/Y'), 0, 0);
         
         $this->pdf->Cell(10,0, 'Al:', 0, 0);
-        $this->pdf->Cell(20,0, '22/12/20124', 0, 1);
+        $this->pdf->Cell(20,0, $this->fechaFinal->format('d/m/Y'), 0, 1);
         
         $this->pdf->Ln(3);
         
@@ -63,9 +67,41 @@ class Kardex
         $wPage = $this->pdf->getPageWidth();
         $paginaInicial = $this->pdf->getPage();
         $yInicial = $this->pdf->GetY();
-        $this->imprimirEntradas($wCampos, $wPage);
-        $this->imprimirSalidas($wCampos, $wPage, $paginaInicial, $yInicial);
+        $rEntradas = $this->imprimirEntradas($wCampos, $wPage);
+        $rSalidas = $this->imprimirSalidas($wCampos, $wPage, $paginaInicial, $yInicial);
+        
+        $this->imprimirBalance($rEntradas, $rSalidas);
         return $this->pdf;
+    }
+    
+    public function imprimirBalance($rEntradas, $rSalidas)
+    {
+        $y = ($rEntradas['y_final'] > $rSalidas['y_final']) ? $rEntradas['y_final'] : $rSalidas['y_final'];
+        
+        $this->pdf->SetY($y);
+        $this->pdf->Ln(5);
+        $this->pdf->SetFont('helvetica', 'B', 10);
+        $this->pdf->Cell(30, 0, "BALANCE", "", 1, "L");
+        $this->pdf->SetFont('helvetica', '', 8);
+        $this->pdf->Ln(5);
+        $this->pdf->Cell(30, 0, "", "", 0, "C");
+        $this->pdf->Cell(30, 0, "Cantidad", "LTRB", 0, "C");
+        $this->pdf->Cell(30, 0, "Dinero", "LTRB", 1, "C");
+        
+        $this->pdf->Cell(30, 0, "Entradas", "LTRB", 0, "R");
+        $this->pdf->Cell(30, 0, number_format($rEntradas['total_cantidad'], 0, '.', ','), "LTRB", 0, "R");
+        $this->pdf->Cell(30, 0, number_format($rEntradas['total_dinero'], 2, '.', ','), "LTRB", 1, "R");
+        
+        $this->pdf->Cell(30, 0, "Salidas", "LTRB", 0, "R");
+        $this->pdf->Cell(30, 0, number_format($rSalidas['total_cantidad'], 0, '.', ','), "LTRB", 0, "R");
+        $this->pdf->Cell(30, 0, number_format($rSalidas['total_dinero'], 2, '.', ','), "LTRB", 1, "R");
+        
+        $this->pdf->Cell(30, 0, "Existencias", "LTRB", 0, "R");
+        $existenciaCantidad = $rEntradas['total_cantidad'] - $rSalidas['total_cantidad'];
+        $existenciaDinero = $rEntradas['total_dinero'] - $rSalidas['total_dinero'];
+        $this->pdf->Cell(30, 0, number_format($existenciaCantidad, 0, '.', ','), "LTRB", 0, "R");
+        $this->pdf->Cell(30, 0, number_format($existenciaDinero, 2, '.', ','), "LTRB", 1, "R");
+        
     }
     
     public function imprimirEntradas($wCampos, $wPage)
@@ -79,18 +115,29 @@ class Kardex
         $this->pdf->Cell($wCampos['wPrecio'],0, 'Precio', 'LTRB', 0, 'C');
         $this->pdf->Cell($wCampos['wTotal'],0, 'Total', 'LTRB', 1, 'C');
         $this->pdf->SetFont('helvetica', '', 8);
+        $totalDinero = 0;
+        $totalCantidad = 0;
         
         foreach($this->entradas as $entrada)
         {
-            
             $this->pdf->Cell($wCampos['wFecha'],0, $entrada['fecha']->format('d/m/Y'), 'LTRB', 0, 'C');
             $this->pdf->Cell($wCampos['wFolio'],0, $entrada['folio'], 'LTRB', 0, 'R');
             $this->pdf->Cell($wCampos['wCantidad'],0, number_format($entrada['cantidad'], 0, '.', ','), 'LTRB', 0, 'R');
-            $this->pdf->Cell($wCampos['wPrecio'],0, number_format($entrada['precio'], 2, '.', ','), 'LTRB', 0, 'R');
+            $precio = number_format($entrada['precio'], 2, '.', ',');
+            $this->pdf->Cell($wCampos['wPrecio'],0, $precio, 'LTRB', 0, 'R');
             $total = round($entrada['precio'] * $entrada['cantidad'], 2);
             $this->pdf->Cell($wCampos['wTotal'],0, number_format($total, 2, '.', ','), 'LTRB', 1, 'R');
             
+            $totalCantidad = $totalCantidad + $entrada['cantidad'];
+            $totalDinero = $totalDinero + $total;
+            
         }
+        
+        return array(
+            'y_final' => $this->pdf->GetY(),
+            'total_dinero' => $totalDinero,
+            'total_cantidad' => $totalCantidad,
+        );
         
     }
     
@@ -112,17 +159,29 @@ class Kardex
         $this->pdf->Cell($wCampos['wPrecio'],0, 'Precio', 'LTRB', 0, 'C');
         $this->pdf->Cell($wCampos['wTotal'],0, 'Total', 'LTRB', 1, 'C');
         $this->pdf->SetFont('helvetica', '', 8);
-        for($i = 0; $i <= 40; $i++) {
+        $totalDinero = 0;
+        $totalCantidad = 0;
+        
+        foreach($this->salidas as $salida) {            
             $this->pdf->SetX($x);
-            $this->pdf->Cell($wCampos['wFolio'],0, 1234, 'LTRB', 0, 'C');
-            $this->pdf->Cell($wCampos['wFecha'],0, '11/06/2015', 'LTRB', 0, 'C');
-            $this->pdf->Cell($wCampos['wFolio'],0, 5678, 'LTRB', 0, 'R');
-            $this->pdf->Cell($wCampos['wCantidad'],0, number_format(2220, 0, '.', ','), 'LTRB', 0, 'R');
-            $this->pdf->Cell($wCampos['wPrecio'],0, number_format(156.25, 2, '.', ','), 'LTRB', 0, 'R');
-            $total = round(12500.85, 2);
+            $this->pdf->Cell($wCampos['wFolio'],0, $salida['destinoClave'], 'LTRB', 0, 'C');
+            $this->pdf->Cell($wCampos['wFecha'],0, $salida['fecha']->format('d/m/Y'), 'LTRB', 0, 'C');
+            $this->pdf->Cell($wCampos['wFolio'],0, $salida['folio'], 'LTRB', 0, 'R');
+            $this->pdf->Cell($wCampos['wCantidad'],0, number_format($salida['cantidad'], 0, '.', ','), 'LTRB', 0, 'R');
+            $precio = number_format($salida['precio'], 2, '.', ',');
+            $this->pdf->Cell($wCampos['wPrecio'],0, $precio, 'LTRB', 0, 'R');
+            $total = round($salida['precio'] * $salida['cantidad'], 2);
             $this->pdf->Cell($wCampos['wTotal'],0, number_format($total, 2, '.', ','), 'LTRB', 1, 'R');
             
+            $totalDinero = $totalDinero + $total;
+            $totalCantidad = $totalCantidad + $salida['cantidad'];
         }
+        
+        return array(
+            'y_final' => $this->pdf->GetY(),
+            'total_dinero' => $totalDinero,
+            'total_cantidad' => $totalCantidad,
+        );
         
     }
     
