@@ -99,7 +99,7 @@ class ArticulosManager
         $root = $qb->getRootAliases()[0];
         
         
-         $this->agregarFiltrosExtraQBDT($qb, $root, $activo, $programa);
+        $this->agregarFiltrosExtraQBDT($qb, $root, $activo, $programa);
         
         
         $qb->select($qb->expr()->count($root));  
@@ -139,7 +139,7 @@ class ArticulosManager
 
                 // Is there a formatter?
                 if ( isset( $column['formatter'] ) ) {
-                    $row[ $column['dt'] ] = $column['formatter']( $record[ $column['db'] ], $record );
+                    $row[ $column['dt'] ] = '$ '.$column['formatter']($record['total'],2, '.',',');
                 }
                 else {
                     $row[ $column['dt'] ] = $record[ $columns[$j]['db'] ];

@@ -72,13 +72,13 @@
                 dataType: "JSON",
                 data: {
                     "entradaId": entradaId,
-                    "salidaId": {{ salida }}
+                    "salidaId": "{{ salida }}"
                 },
                 success: function(data) {
                     if(data.code == 200) {
                         location.reload();
                     } else {
-                        createAlert("danger", null, data.message)
+                        createAlert("danger", null, data.message);
                     }
                 },
                 error: function(request, text, error) {

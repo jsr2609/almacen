@@ -9,15 +9,16 @@
             //data: $("#people_type").serialize()+"&valor=10",
             data: {
                 "entradaId": entradaId,
-                "salidaId": {{ salida }}
+                "salidaId": "{{ salida }}"
              },
             success: function(data) {
                 if(data.code == 200) {
                     $("#contenedor-modal-popup-buscar-articulo").html(data.html);
                 } else {
-                    createAlert("danger", null, data.message)
+                    createAlert("danger", null, data.message);
 
                 }
+                
             },
             error: function(request, text, error) {
                 //$("#loader").modal("hide");

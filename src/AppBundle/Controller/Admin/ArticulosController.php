@@ -306,9 +306,8 @@ class ArticulosController extends Controller
             array('dt' => 0, 'db' => 'clave'),
             array('dt' => 1, 'db' => 'nombre'),
             array('dt' => 2, 'db' => 'presentacionNombre'),
-            array('dt' => 3, 'db' => 'partidaClave')
+            array('dt' => 3, 'db' => 'partidaClave'),
         );
-        
         
         
         $dtManager = $this->get('ssa_utilidades.dataTables');
@@ -319,6 +318,8 @@ class ArticulosController extends Controller
             $repositorio = 'AppBundle:VwArticulos';
         }else{
             $repositorio = 'AppBundle:VwExistencias';
+            array_push($columnas, array('dt' => 4, 'db' => 'cantidad'));
+            array_push($columnas, array('dt' => 5, 'db' => 'total', 'formatter' => 'number_format'));
         }
         
         

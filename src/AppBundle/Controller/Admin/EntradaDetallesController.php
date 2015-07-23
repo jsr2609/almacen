@@ -394,19 +394,29 @@ class EntradaDetallesController extends Controller
     
     public function buscarArticuloAction(Request $request) {
         if($request->isXmlHttpRequest()) {
-            $articuloClave = $request->query->get('articuloClave');
             $em = $this->getDoctrine()->getManager();
-            $articulo = $em->getRepository("AppBundle:Articulos")->findOneByClave($articuloClave);
-            if(!$articulo) {
-                $data = array('code' => 500, 'html' => "", 
-                    'message' => 'No se ha encontrado un articulo con la clave: '.$articuloClave,
-                );
-            } else {
-                $html = $this->renderView("/Admin/Articulos/show.html.twig", array(
-                    'entity' => $articulo,
-                ));
-                $data = array('code' => 200, 'html' => $html, 'message' => 'Correcto');
+            
+            if($request->query->get('entradaDetalleId') != null){
+               $salidaDetalle = $em->getRepository("AppBundle:EntradaDetalles")->find($request->query->get('entradaDetalleId'));
+               $html = $this->renderView("/Admin/Articulos/showSD.html.twig", array(
+                        'entity' => $salidaDetalle,
+                    ));
+                    $data = array('code' => 200, 'html' => $html, 'message' => 'Correcto');
+            }else{
+                $articuloClave = $request->query->get('articuloClave');
+                $articulo = $em->getRepository("AppBundle:Articulos")->findOneByClave($articuloClave);
+                if(!$articulo) {
+                    $data = array('code' => 500, 'html' => "", 
+                        'message' => 'No se ha encontrado un articulo con la clave: '.$articuloClave,
+                    );
+                } else {
+                    $html = $this->renderView("/Admin/Articulos/show.html.twig", array(
+                        'entity' => $articulo,
+                    ));
+                    $data = array('code' => 200, 'html' => $html, 'message' => 'Correcto');
+                }
             }
+            
             
             $response = new JsonResponse($data);
             return $response;

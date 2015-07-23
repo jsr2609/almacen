@@ -40,6 +40,11 @@ class VwExistencias
      */
     private $cantidad;
     
+      /**
+     * @ORM\Column(name="total", type="decimal", precision=14, scale=2)
+     */
+    private $total;
+    
     /**
      * @ORM\Column(name="Existencia", type="integer")
      */
@@ -111,6 +116,7 @@ class VwExistencias
     private $activo;
 
 
+
     /**
      * Get id
      *
@@ -168,6 +174,52 @@ class VwExistencias
     }
 
     /**
+     * Set cantidad
+     *
+     * @param integer $cantidad
+     * @return VwExistencias
+     */
+    public function setCantidad($cantidad)
+    {
+        $this->cantidad = $cantidad;
+
+        return $this;
+    }
+
+    /**
+     * Get cantidad
+     *
+     * @return integer 
+     */
+    public function getCantidad()
+    {
+        return $this->cantidad;
+    }
+
+    /**
+     * Set total
+     *
+     * @param string $total
+     * @return VwExistencias
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * Get total
+     *
+     * @return string 
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
      * Set existencia
      *
      * @param integer $existencia
@@ -191,26 +243,26 @@ class VwExistencias
     }
 
     /**
-     * Set cantidad
+     * Set tipoEntrada
      *
-     * @param integer $cantidad
+     * @param integer $tipoEntrada
      * @return VwExistencias
      */
-    public function setCantidad($cantidad)
+    public function setTipoEntrada($tipoEntrada)
     {
-        $this->cantidad = $cantidad;
+        $this->tipoEntrada = $tipoEntrada;
 
         return $this;
     }
 
     /**
-     * Get cantidad
+     * Get tipoEntrada
      *
      * @return integer 
      */
-    public function getCantidad()
+    public function getTipoEntrada()
     {
-        return $this->cantidad;
+        return $this->tipoEntrada;
     }
 
     /**
@@ -349,29 +401,6 @@ class VwExistencias
     public function getPresentacionId()
     {
         return $this->presentacionId;
-    }
-
-    /**
-     * Set tipoEntrada
-     *
-     * @param integer $tipoEntrada
-     * @return VwExistencias
-     */
-    public function setTipoEntrada($tipoEntrada)
-    {
-        $this->tipoEntrada = $tipoEntrada;
-
-        return $this;
-    }
-
-    /**
-     * Get tipoEntrada
-     *
-     * @return integer 
-     */
-    public function getTipoEntrada()
-    {
-        return $this->tipoEntrada;
     }
 
     /**

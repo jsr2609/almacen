@@ -11,6 +11,8 @@
                         <tr>
                             <th></th>
                             <th>Existencia</th>
+                            <th>Fecha</th>
+                            <th>Precio</th>
                             <th>Entrada</th>
                             <th>Clave Programa</th>
                             <th>Nombre Programa</th>
@@ -27,6 +29,8 @@
                                     </button>
                                 </td>
                                 <td>{{entrada.existencia}}</td>
+                                <td>{{entrada.entrada.fecha|date("m/d/Y")}}</td>
+                                <td>{{entrada.precio|number_format(2, '.', ',')}}</td>
                                 <td>{{entrada.entrada.folio}}</td>
                                 <td>{{entrada.entrada.programa.clave}}</td>
                                 <td>{{entrada.entrada.programa.nombre}}</td>
