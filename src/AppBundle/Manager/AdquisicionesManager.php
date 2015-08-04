@@ -45,9 +45,9 @@ class AdquisicionesManager
                 . "pds.cve_presup AS ProgramaClave, pds.descripcion_programa as ProgramaNombre, pds.no_sol_compra AS NumeroSolicitudCompra, "
                 . "pds.tipo_compra as TipoCompra, pds.Destino as Destino "
                 . "FROM qry_datosgrales_pedidos AS pds "
-                . "WHERE pds.no_pedido LIKE ':pedidoNumero' "
-                . "AND WHERE pds.compra LIKE ':compra' "
-                . "AND WHERE pds.ejercicio = :ejercicio"
+                . "WHERE pds.no_pedido LIKE :pedidoNumero "
+                . "AND pds.compra LIKE :compra "
+                . "AND pds.ejercicio = :ejercicio"
         ;
         
         $stmt = $conn->prepare($sql);
@@ -59,7 +59,7 @@ class AdquisicionesManager
         
         //$articulos = $stmt->fetchAll();
         $pedido = $stmt->fetch();
-        die(var_export($pedido));
+        
         return $pedido;
     }
     
