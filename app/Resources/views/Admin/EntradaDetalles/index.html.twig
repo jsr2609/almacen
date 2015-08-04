@@ -18,7 +18,7 @@
 
                         <span class="widget-icon"> <i class="fa fa-file"></i> </span>
                         <h2>Folio de la Entrada: <b>{{entrada.folio}}</b> / 
-                            <i class="fa fa-list fa-fw"></i> Programa ----
+                            <i class="fa fa-list fa-fw"></i> Programa {{pedido.programanombre}}
                         </h2>
 
                     </header>
@@ -67,7 +67,7 @@
                                 {% for entity in entities %}
                                     <tr>
                                         <td>{{ entity.articulo }}</td>
-                                        <td>{#{{ entity.articuloNombre | slice(0, 50) }}#}</td>
+                                        <td>{{ entity.articuloNombre}}{#{{ entity.articuloNombre | slice(0, 50) }}#}</td>
                                         <td class="text-right">{{ entity.cantidad | number_format(0, '.', ',') }}</td>
                                         <td class="text-right">{{ entity.precio | number_format(2, '.', ',') }}</td>
                                         <td class="text-right">

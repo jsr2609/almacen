@@ -28,12 +28,15 @@ class EntradaDetallesController extends Controller
         
         $ejerciciosManager = $this->get('app.ejercicios');
         $iva = $ejerciciosManager->obtenerIVAPorAlmacenYPeriodo();
+        $adquisicionesManager = $this->get('app.adquisiciones');
+        $pedido = $adquisicionesManager->obtenerPedido($entrada->getPedidoNumero(), $entrada->getCompra(), $entrada->getAnioEjercicio());
         $detallesManager = $this->get('app.entrada_detalles');
-        $entities = $detallesManager->listaArticulosPorEntrada($entrada->getId(), $iva);
+        $entities = $detallesManager->listaArticulosPorEntrada($entrada->getId(), $iva, $adquisicionesManager);
                 
         return $this->render('/Admin/EntradaDetalles/index.html.twig', array(
             'entities' => $entities,
             'entrada' => $entrada,
+            'pedido' => $pedido,
         ));
     }
     /**

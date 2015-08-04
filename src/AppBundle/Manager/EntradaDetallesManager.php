@@ -23,6 +23,7 @@ use AppBundle\Entity\Ejercicios;
 use AppBundle\Inventarios\PEPS;
 use AppBundle\Entity\Entradas;
 use AppBundle\Manager\ExistenciasManager;
+use AppBundle\Manager\AdquisicionesManager;
 
 class EntradaDetallesManager 
 {
@@ -116,10 +117,10 @@ class EntradaDetallesManager
         }
     }
     
-    public function listaArticulosPorEntrada($entradaId, $iva)
+    public function listaArticulosPorEntrada($entradaId, $iva, AdquisicionesManager $adquisicionesManager)
     {
         $repository = $this->base->getRepository("AppBundle:EntradaDetalles");
-        $select = "eds.id, eds.articulo, eds.cantidad, eds.precio, eds.aplicaIva";
+        $select = "eds.id, eds.articulo, eds.cantidad, eds.precio, eds.aplicaIva, ets.pedidoNumero, ets.compra, ets.anioEjercicio";
         $articulos = $repository->buscarTodos($select, $entradaId);
         
         for($i = 0; $i < count($articulos); $i++) {
@@ -130,6 +131,11 @@ class EntradaDetallesManager
                 $precio = $precio + ($precio * ($iva / 100));
             }
             
+            $detallePedido = $adquisicionesManager->recuperarDetallePedido(
+                $articulos[$i]['pedidoNumero'], $articulos[$i]['compra'], 
+                $articulos[$i]['anioEjercicio'], $articulos[$i]['articulo']
+            );
+            $articulos[$i]['articuloNombre'] = $detallePedido['nombre'];
             $articulos[$i]['precio'] = round($precio, 2);
         }
         

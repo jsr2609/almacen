@@ -88,4 +88,30 @@ class AdquisicionesManager
         return $articulos;
     }
     
+    public function recuperarDetallePedido($pedidoNumero, $compra, $anioEjercicio, $articulo)
+    {
+        $conn = $this->doctrine->getConnection('adquisiciones');
+        $sql = "SELECT dps.no_pedido AS PedidoNumero, dps.compra as Compra, dps.ejercicio as Ejercicio, "
+            . "dps.partida as PartidaClave, dps.descripcion_partida as PartidaNombre, dps.cve_articulo as Clave, "
+            . "dps.descripcion_articulo AS nombre, dps.unidad as Unidad, dps.iva as IVA, dps.Cantidad as Cantidad, "
+            . "dps.Precio as Precio, dps.subtotal as Subtotal, dps.marcas as Marcas, dps.anexo as Anexo "
+            . "FROM qry_detalles_pedidos AS dps "
+            . "WHERE dps.no_pedido LIKE :pedidoNumero "
+            . "AND dps.compra LIKE :compra "
+            . "AND dps.ejercicio = :ejercicio "
+            . "AND dps.cve_articulo = :articulo"
+        ;
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('pedidoNumero', $pedidoNumero);
+        $stmt->bindValue('compra', $compra);
+        $stmt->bindValue('ejercicio', $anioEjercicio);
+        $stmt->bindValue('articulo', $articulo);
+        $stmt->execute();
+        
+        
+        $detalle = $stmt->fetch();
+        
+        return $detalle;
+    }
+    
 }
