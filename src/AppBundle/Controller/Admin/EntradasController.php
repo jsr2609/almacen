@@ -340,7 +340,7 @@ class EntradasController extends Controller
                     $message = "No se encontró un pedido con los datos proporcionados";
                     $html = null;
                 } else {
-                    $articulos = $adquisicionesManager->obtenerArticulosPedido($datos['pedidoNumero']);
+                    $articulos = $adquisicionesManager->obtenerArticulosPedido($datos['pedidoNumero'], $datos['compra'], $datos['anioEjercicio']);
 
                     $code = 200;
                     $html = $this->renderView("Admin/Entradas/consultar_pedido.html.twig", array(

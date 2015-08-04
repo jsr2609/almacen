@@ -34,15 +34,15 @@ class AdquisicionesManager
         $this->doctrine = $doctrine;
     }
     
-    public function obtenerPedido($pedidoNumero, $compra = null, $anioEjercicio = null) 
+    public function obtenerPedido($pedidoNumero, $compra, $anioEjercicio) 
     {
         $conn = $this->doctrine->getConnection('adquisiciones');
         //die(var_export($conn->getParams()));
         //die(var_export(get_class_methods(get_class($conn))));
         //Recuperar el pedido
-        $sql = "SELECT pds.no_pedido AS PedidoNumero, pds.compra as Compra, pds.ejercicio as AnioEjercicio, pds.fecha_pedido as PedidoFecha, "
-                . "pds.cve_provedor AS ProveedorClave, pds.cve_depto AS DepartamentoClave, pds.fecha_entrega as FechaEntrega, "
-                . "pds.cve_presup AS ProgramaClave, pds.descripcion_programa as ProgramaNombre, pds.no_sol_compra AS NumeroSolicitudCompra, "
+        $sql = "SELECT pds.no_pedido AS PedidoNumero, pds.compra as Compra, pds.ejercicio as Ejercicio, pds.fecha_pedido as PedidoFecha, "
+                . "pds.cve_provedor AS ProveedorClave, pds.razon_social as ProveedorNombre, pds.cve_depto AS DepartamentoClave, "
+                . "pds.programa AS ProgramaClave, pds.descripcion_programa as ProgramaNombre, "
                 . "pds.tipo_compra as TipoCompra, pds.Destino as Destino "
                 . "FROM qry_datosgrales_pedidos AS pds "
                 . "WHERE pds.no_pedido LIKE :pedidoNumero "
@@ -63,18 +63,23 @@ class AdquisicionesManager
         return $pedido;
     }
     
-    public function obtenerArticulosPedido($pedidoNumero)
+    public function obtenerArticulosPedido($pedidoNumero, $compra, $anioEjercicio)
     {
         $conn = $this->doctrine->getConnection('adquisiciones');
-        $sql = "SELECT dps.cve_articulo AS Clave, ats.descripcion AS Nombre, ats.partida AS Partida, dps.cantidad as Cantidad, "
-                . "dps.precio as Precio  "
-                . "from tbldetpe AS dps "
-                . "INNER JOIN tblpedi pds ON (dps.no_pedido = pds.no_pedido) "
-                . "INNER JOIN tblartic ats ON (dps.cve_articulo = ats.cve_articulo) "
-                . "WHERE dps.no_pedido LIKE :pedidoNumero";
+        $sql = "SELECT dps.no_pedido AS PedidoNumero, dps.compra as Compra, dps.ejercicio as Ejercicio, "
+                . "dps.partida as PartidaClave, dps.descripcion_partida as PartidaNombre, dps.cve_articulo as Clave, "
+                . "dps.descripcion_articulo AS nombre, dps.unidad as Unidad, dps.iva as IVA, dps.Cantidad as Cantidad, "
+                . "dps.Precio as Precio, dps.subtotal as Subtotal, dps.marcas as Marcas, dps.anexo as Anexo "
+                . "FROM qry_detalles_pedidos AS dps "
+                . "WHERE dps.no_pedido LIKE :pedidoNumero "
+                . "AND dps.compra LIKE :compra "
+                . "AND dps.ejercicio = :ejercicio "
+        ;
         
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('pedidoNumero', $pedidoNumero);
+        $stmt->bindValue('compra', $compra);
+        $stmt->bindValue('ejercicio', $anioEjercicio);
         $stmt->execute();
         
         
