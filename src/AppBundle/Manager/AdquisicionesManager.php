@@ -40,18 +40,26 @@ class AdquisicionesManager
         //die(var_export($conn->getParams()));
         //die(var_export(get_class_methods(get_class($conn))));
         //Recuperar el pedido
-        $sql = "SELECT pds.no_pedido AS PedidoNumero, pds.tipo_compra as TipoCompra, pds.ejercicio as Ejercicio, pds.fecha_pedido as PedidoFecha, "
-                . "pds.destino as Destino, "
-                . "pgs.programa AS ProgramaClave, pgs.descripcio as ProgramaNombre, "
-                . "pvs.cve_provedor as ProveedorClave, pvs.razon_social AS ProveedorNombre "               
-                . "FROM tblpedi AS pds "
-                . "INNER JOIN tblofic AS ofs ON (pds.cve_depto = ofs.cve_depto) "
-                . "INNER JOIN tblpresu AS pgs ON (pds.cve_presup = pgs.programa) "
-                . "INNER JOIN tblprov AS pvs ON (pds.cve_provedor = pvs.cve_provedor) "
-                . "WHERE pds.no_pedido LIKE '$pedidoNumero'"
+        $sql = "SELECT pds.no_pedido AS PedidoNumero, pds.compra as Compra, pds.ejercicio as AnioEjercicio, pds.fecha_pedido as PedidoFecha, "
+                . "pds.cve_provedor AS ProveedorClave, pds.cve_depto AS DepartamentoClave, pds.fecha_entrega as FechaEntrega, "
+                . "pds.cve_presup AS ProgramaClave, pds.descripcion_programa as ProgramaNombre, pds.no_sol_compra AS NumeroSolicitudCompra, "
+                . "pds.tipo_compra as TipoCompra, pds.Destino as Destino "
+                . "FROM qry_datosgrales_pedidos AS pds "
+                . "WHERE pds.no_pedido LIKE ':pedidoNumero' "
+                . "AND WHERE pds.compra LIKE ':compra' "
+                . "AND WHERE pds.ejercicio = :ejercicio"
         ;
-        $pedido = $conn->fetchAssoc($sql);
         
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('pedidoNumero', $pedidoNumero);
+        $stmt->bindValue('compra', $compra);
+        $stmt->bindValue('ejercicio', $anioEjercicio);
+        
+        $stmt->execute();
+        
+        //$articulos = $stmt->fetchAll();
+        $pedido = $stmt->fetch();
+        die(var_export($pedido));
         return $pedido;
     }
     

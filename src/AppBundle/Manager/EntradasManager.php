@@ -168,7 +168,7 @@ class EntradasManager
         
         $this->agregarFiltrosExtraQBDT($qb, $ejercicioId, $activo);
         $request = $this->dataTable->getRequest();
-        die(var_export($request));
+        
         $qb->select($qb->expr()->count($root));  
         return $qb->getQuery()->getSingleScalarResult();
     }

@@ -19,9 +19,9 @@ class Entradas
     );
     
     public static $pedidoTipos = array(
-        1 => 'Orden',
-        2 => 'Pedido',
-        3 => 'Propuesta',
+        'PEDI' => 'Pedido',
+        'ORDE' => 'Orden de Compra',
+        'PROP' => 'Contrato',
     );
     
     /**
