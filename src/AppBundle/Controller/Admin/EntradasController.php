@@ -365,11 +365,11 @@ class EntradasController extends Controller
         return $response;
     }
     
-    public function procesarDePedidoAction(Request $request, $pedidonumero)
+    public function procesarDePedidoAction(Request $request, $pedidonumero, $compra, $ejercicio)
     {   
         $adquisicionesManager = $this->get('app.adquisiciones');
-        $pedido = $adquisicionesManager->obtenerPedido($pedidonumero);
-        $articulos = $adquisicionesManager->obtenerArticulosPedido($pedidonumero);
+        $pedido = $adquisicionesManager->obtenerPedido($pedidonumero, $compra, $ejercicio);
+        $articulos = $adquisicionesManager->obtenerArticulosPedido($pedidonumero, $compra, $ejercicio);
         
         $entradasManager = $this->get('app.entradas');
         $em = $this->getDoctrine()->getManager();

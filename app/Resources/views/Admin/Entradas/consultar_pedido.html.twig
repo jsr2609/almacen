@@ -81,7 +81,7 @@
                 <h1>Confirmación!</h1>
                 <p>Si los datos son correctos, genera la entrada.</p>
                 <p>
-                    <a id="btn-generar-entrada" href="{{ path('admin_entradas_procesar_de_pedido', {'pedidonumero': pedido.pedidonumero}) }}" class="btn btn-warning btn-lg" data-toggle="tooltip" title="title">
+                    <a id="btn-generar-entrada" href="{{ path('admin_entradas_procesar_de_pedido', {'pedidonumero': pedido.pedidonumero, 'compra': pedido.compra, 'ejercicio': pedido.ejercicio}) }}" class="btn btn-warning btn-lg" data-toggle="tooltip" title="title">
                         <i class="fa fa-floppy-o fa-fw"></i> Generar Entrada
                     </a>
                 </p>

@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping AS ORM;
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="ArticuloIdEntradaId_U", columns={"ArticuloId", "EntradaId"})
+ *         @ORM\UniqueConstraint(name="ArticuloIdEntradaId_U", columns={"ArticuloClave", "EntradaId"})
  *     }
  * )
  */
@@ -32,9 +32,8 @@ class EntradaDetalles
     private $entrada;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Articulos")
-     * @ORM\JoinColumn(name="ArticuloId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
-    */
+     * @ORM\Column(name="ArticuloClave", type="string", length=12, nullable=false)
+     */
     private $articulo;
     
     
@@ -114,6 +113,10 @@ class EntradaDetalles
      * Funciones generadas automáticamente
      */
 
+    
+
+    
+
     /**
      * Get id
      *
@@ -122,6 +125,29 @@ class EntradaDetalles
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set articulo
+     *
+     * @param string $articulo
+     * @return EntradaDetalles
+     */
+    public function setArticulo($articulo)
+    {
+        $this->articulo = $articulo;
+
+        return $this;
+    }
+
+    /**
+     * Get articulo
+     *
+     * @return string 
+     */
+    public function getArticulo()
+    {
+        return $this->articulo;
     }
 
     /**
@@ -148,6 +174,29 @@ class EntradaDetalles
     }
 
     /**
+     * Set existencia
+     *
+     * @param integer $existencia
+     * @return EntradaDetalles
+     */
+    public function setExistencia($existencia)
+    {
+        $this->existencia = $existencia;
+
+        return $this;
+    }
+
+    /**
+     * Get existencia
+     *
+     * @return integer 
+     */
+    public function getExistencia()
+    {
+        return $this->existencia;
+    }
+
+    /**
      * Set precio
      *
      * @param string $precio
@@ -168,6 +217,52 @@ class EntradaDetalles
     public function getPrecio()
     {
         return $this->precio;
+    }
+
+    /**
+     * Set fechaCaducidad
+     *
+     * @param \DateTime $fechaCaducidad
+     * @return EntradaDetalles
+     */
+    public function setFechaCaducidad($fechaCaducidad)
+    {
+        $this->fechaCaducidad = $fechaCaducidad;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaCaducidad
+     *
+     * @return \DateTime 
+     */
+    public function getFechaCaducidad()
+    {
+        return $this->fechaCaducidad;
+    }
+
+    /**
+     * Set lote
+     *
+     * @param string $lote
+     * @return EntradaDetalles
+     */
+    public function setLote($lote)
+    {
+        $this->lote = $lote;
+
+        return $this;
+    }
+
+    /**
+     * Get lote
+     *
+     * @return string 
+     */
+    public function getLote()
+    {
+        return $this->lote;
     }
 
     /**
@@ -283,97 +378,5 @@ class EntradaDetalles
     public function getEntrada()
     {
         return $this->entrada;
-    }
-
-    /**
-     * Set articulo
-     *
-     * @param \AppBundle\Entity\Articulos $articulo
-     * @return EntradaDetalles
-     */
-    public function setArticulo(\AppBundle\Entity\Articulos $articulo)
-    {
-        $this->articulo = $articulo;
-
-        return $this;
-    }
-
-    /**
-     * Get articulo
-     *
-     * @return \AppBundle\Entity\Articulos 
-     */
-    public function getArticulo()
-    {
-        return $this->articulo;
-    }
-
-    /**
-     * Set fechaCaducidad
-     *
-     * @param \DateTime $fechaCaducidad
-     * @return EntradaDetalles
-     */
-    public function setFechaCaducidad($fechaCaducidad)
-    {
-        $this->fechaCaducidad = $fechaCaducidad;
-
-        return $this;
-    }
-
-    /**
-     * Get fechaCaducidad
-     *
-     * @return \DateTime 
-     */
-    public function getFechaCaducidad()
-    {
-        return $this->fechaCaducidad;
-    }
-
-    /**
-     * Set existencia
-     *
-     * @param integer $existencia
-     * @return EntradaDetalles
-     */
-    public function setExistencia($existencia)
-    {
-        $this->existencia = $existencia;
-
-        return $this;
-    }
-
-    /**
-     * Get existencia
-     *
-     * @return integer 
-     */
-    public function getExistencia()
-    {
-        return $this->existencia;
-    }
-
-    /**
-     * Set lote
-     *
-     * @param string $lote
-     * @return EntradaDetalles
-     */
-    public function setLote($lote)
-    {
-        $this->lote = $lote;
-
-        return $this;
-    }
-
-    /**
-     * Get lote
-     *
-     * @return string 
-     */
-    public function getLote()
-    {
-        return $this->lote;
     }
 }

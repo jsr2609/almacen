@@ -50,7 +50,7 @@ admin_entradas_buscar_pedido:
     defaults: { _controller: "AppBundle:Admin/Entradas:buscarPedido" }
     
 admin_entradas_procesar_de_pedido:
-    path: /procesar_de_pedido/{pedidonumero}/
+    path: /procesar_de_pedido/{pedidonumero}/{compra}/{ejercicio}
     defaults: { _controller: "AppBundle:Admin/Entradas:procesarDePedido" }
     
     
