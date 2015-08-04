@@ -369,6 +369,7 @@ class EntradasController extends Controller
     {   
         $adquisicionesManager = $this->get('app.adquisiciones');
         $pedido = $adquisicionesManager->obtenerPedido($pedidonumero, $compra, $ejercicio);
+        
         $articulos = $adquisicionesManager->obtenerArticulosPedido($pedidonumero, $compra, $ejercicio);
         
         $entradasManager = $this->get('app.entradas');
@@ -377,21 +378,11 @@ class EntradasController extends Controller
         // $em instanceof EntityManager
         $em->getConnection()->beginTransaction(); // suspend auto-commit
         try {
-            $proveedoresManager = $this->get('app.proveedores');
-            $datosProveedor = array(
-                'rfc' => $pedido['proveedorclave'],
-                'nombre' => $pedido['proveedornombre'],
-            );
-            $proveedor = $proveedoresManager->comprobarExistencia($pedido['proveedorclave'], $datosProveedor);
-            $programasManager = $this->get('app.programas');
-            $datosPrograma = array(
-                'clave' => $pedido['programaclave'],
-                'nombre' => $pedido['programanombre'],
-            );
-            $programa = $programasManager->comprobarExistencia($pedido['programaclave'], $datosPrograma);
+            //Obteniendo el ejercicio
             $ejerciciosManager = $this->get('app.ejercicios');
             $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo();
-            $entrada = $entradasManager->procesarDePedido($pedido, $proveedor, $programa, $ejercicio);
+            //Creando la entrada en base al pedido, y procesando los eventos asociados
+            $entrada = $entradasManager->procesarDePedido($pedido, $ejercicio);
             $entradasEvent = new EntradasEvent($entrada);
             $entradasEvent = $this->container->get('event_dispatcher')->dispatch(EntradasEvents::SUBMITTED, $entradasEvent);
             
@@ -401,15 +392,14 @@ class EntradasController extends Controller
             }
             $em->persist($entrada);
             //Almacenar artículos
-            $articulosManager = $this->get('app.articulos');
-            $articulosManager->comprobarExistencias($articulos);
+            
             $edsManager = $this->get('app.entrada_detalles');
             $existenciasManager = $this->get('app.existencias');
             $ejerciciosManager = $this->get('app.ejercicios');
             $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null, 'ecs.iva, ecs.tipoInventario', 'HYDRATE_ARRAY');
-            $edsManager->procesarArticulosDePedido($articulos, $entrada, $ejercicio, $existenciasManager);
+            $edsManager->procesarArticulosDePedido($pedido, $articulos, $entrada, $ejercicio, $existenciasManager);
             $em->flush();
-            
+            die(var_export("JAJAJAJAJA"));
             $em->getConnection()->commit();
         } catch (Exception $e) {
             $em->getConnection()->rollback();

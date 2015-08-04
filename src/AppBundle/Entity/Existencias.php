@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="ArticuloIdProgramaId_U", columns={"ArticuloId", "ProgramaId"})
+ *         @ORM\UniqueConstraint(name="ArticuloIdProgramaId_U", columns={"ArticuloClave", "ProgramaClave"})
  *     }
  * )
  * @ORM\Entity(repositoryClass="AppBundle\Entity\InventarioRepository")
@@ -27,14 +27,14 @@ class Existencias
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Articulos", cascade={})
-     * @ORM\JoinColumn(name="ArticuloId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     *
+     * @ORM\Column(name="ArticuloClave", type="string", length=12, nullable=false)
      */
     private $articulo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Programas", cascade={})
-     * @ORM\JoinColumn(name="ProgramaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     *
+     * @ORM\Column(name="ProgramaClave", type="string", length=13, nullable=false)
      */
     private $programa;
 

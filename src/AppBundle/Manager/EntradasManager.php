@@ -230,17 +230,14 @@ class EntradasManager
         return $pdf;
     }
     
-    public function procesarDePedido($datospedido, $proveedor, $programa, $ejercicio) {
+    public function procesarDePedido($datospedido, $ejercicio) {
         $entrada = new Entradas();
         $entrada->setFecha(new \DateTime());
         $entrada->setPedidoNumero($datospedido['pedidonumero']);
-        $entrada->setPedidoTipo(\rand(1,4));
-        $entrada->setProveedor($proveedor);
-        $entrada->setPrograma($programa);
+        $entrada->setCompra($datospedido['compra']);
+        $entrada->setAnioEjercicio($datospedido['ejercicio']);
         $entrada->setEjercicio($ejercicio);
-        $tipoEntrada = ($datospedido['tipocompra'] == 'DIRECTA') ? 1 : \rand(2,4);
-        $entrada->setTipoEntrada($tipoEntrada);
-        
+                
         return $entrada;
         
     }
