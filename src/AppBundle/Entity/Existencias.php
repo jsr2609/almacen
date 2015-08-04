@@ -77,6 +77,8 @@ class Existencias
         $this->fechaActualizacion = new \DateTime();
     }
 
+    
+
     /**
      * Get id
      *
@@ -85,6 +87,52 @@ class Existencias
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set articulo
+     *
+     * @param string $articulo
+     * @return Existencias
+     */
+    public function setArticulo($articulo)
+    {
+        $this->articulo = $articulo;
+
+        return $this;
+    }
+
+    /**
+     * Get articulo
+     *
+     * @return string 
+     */
+    public function getArticulo()
+    {
+        return $this->articulo;
+    }
+
+    /**
+     * Set programa
+     *
+     * @param string $programa
+     * @return Existencias
+     */
+    public function setPrograma($programa)
+    {
+        $this->programa = $programa;
+
+        return $this;
+    }
+
+    /**
+     * Get programa
+     *
+     * @return string 
+     */
+    public function getPrograma()
+    {
+        return $this->programa;
     }
 
     /**
@@ -134,6 +182,29 @@ class Existencias
     }
 
     /**
+     * Set total
+     *
+     * @param string $total
+     * @return Existencias
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * Get total
+     *
+     * @return string 
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
      * Set fechaCreacion
      *
      * @param \DateTime $fechaCreacion
@@ -178,75 +249,4 @@ class Existencias
     {
         return $this->fechaActualizacion;
     }
-
-    /**
-     * Set articulo
-     *
-     * @param \AppBundle\Entity\Articulos $articulo
-     * @return Existencias
-     */
-    public function setArticulo(\AppBundle\Entity\Articulos $articulo)
-    {
-        $this->articulo = $articulo;
-
-        return $this;
-    }
-
-    /**
-     * Get articulo
-     *
-     * @return \AppBundle\Entity\Articulos 
-     */
-    public function getArticulo()
-    {
-        return $this->articulo;
-    }
-
-    /**
-     * Set programa
-     *
-     * @param \AppBundle\Entity\Programas $programa
-     * @return Existencias
-     */
-    public function setPrograma(\AppBundle\Entity\Programas $programa)
-    {
-        $this->programa = $programa;
-
-        return $this;
-    }
-
-    /**
-     * Get programa
-     *
-     * @return \AppBundle\Entity\Programas 
-     */
-    public function getPrograma()
-    {
-        return $this->programa;
-    }
-
-    /**
-     * Set total
-     *
-     * @param string $total
-     * @return Existencias
-     */
-    public function setTotal($total)
-    {
-        $this->total = $total;
-
-        return $this;
-    }
-
-    /**
-     * Get total
-     *
-     * @return string 
-     */
-    public function getTotal()
-    {
-        return $this->total;
-    }
-
-    
 }

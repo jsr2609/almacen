@@ -17,17 +17,14 @@ class EntradaDetallesRepository extends EntityRepository
         $qb = $this->createQueryBuilder('eds');
         $qb->select($select);
         $qb->innerJoin('eds.entrada', 'ets')
-            ->innerJoin('eds.articulo', 'ats')
-            ->innerJoin('ats.partida', 'pts')
-            ->innerJoin('ats.presentacion', 'pss')
         ;
         if($entradaId) {
             $qb->andWhere('eds.entrada = :entrada');
             $qb->setParameter('entrada', $entradaId);
         }
         if($partidaId) {
-            $qb->andWhere('ats.partida = :partida');
-            $qb->setParameter('partida', $partidaId);
+            //$qb->andWhere('ats.partida = :partida');
+            //$qb->setParameter('partida', $partidaId);
         }
         
         $query = $qb->getQuery();

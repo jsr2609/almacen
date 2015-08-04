@@ -10,7 +10,7 @@ class EntradasRepository extends EntityRepository
     public function buscar($id, $select = null, $hydrationMode = null)
     {
         if(!$select) {
-            $select = "ets, pgs, pvs, ecs";
+            $select = "ets, ecs";
         }
         
         if(!$hydrationMode) {
@@ -20,8 +20,7 @@ class EntradasRepository extends EntityRepository
         $qb = $this->createQueryBuilder('ets');
         
         $qb->select($select)
-            ->innerJoin('ets.programa', 'pgs')
-            ->innerJoin('ets.proveedor', 'pvs')
+            
             ->innerJoin('ets.ejercicio', 'ecs')
             ->innerJoin('ecs.almacen', 'ams')
             ->andWhere('ets.id = :id')

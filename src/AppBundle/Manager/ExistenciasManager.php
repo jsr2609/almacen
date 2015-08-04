@@ -15,8 +15,6 @@ namespace AppBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use SSA\UtilidadesBundle\Manager\BaseManager;
-use AppBundle\Entity\Articulos;
-use AppBundle\Entity\Programas;
 use AppBundle\Entity\Existencias;
 use AppBundle\Entity\Ejercicios;
 use AppBundle\Inventarios\PEPS;
@@ -32,12 +30,12 @@ class ExistenciasManager
         $this->base = $base;
     }
     
-    public function buscar(Articulos $articulo, Programas $programa, $devolverNulo = true)
+    public function buscar($articulo, $programa, $devolverNulo = true)
     {
         $existenciasRepository = $this->getRepository();
         $existencia = $existenciasRepository->findOneBy(array(
-            'programa' => $programa->getId(),
-            'articulo' => $articulo->getId(),
+            'programa' => $programa,
+            'articulo' => $articulo,
         ));
         if(!$existencia && !$devolverNulo){
             $msg = 'No se encontró un registro en la tabla Existencia con los valores: '
@@ -55,7 +53,7 @@ class ExistenciasManager
      * @param type $programa
      * @return Existencias
      */
-    public function crear(Articulos $articulo, Programas $programa)
+    public function crear($articulo, $programa)
     {
         $entity = new Existencias();
         $entity->setArticulo($articulo);
@@ -79,7 +77,7 @@ class ExistenciasManager
     * @param integer $cantidad Cantidad de unidades
     * @param decimal $precio Precio total
     */
-    public function aumentar(Articulos $articulo, Programas $programa, $cantidad, $precio, $ejercicio, $aplicaIVA)
+    public function aumentar($articulo, $programa, $cantidad, $precio, $ejercicio, $aplicaIVA)
     {
         $tipoInventario = $ejercicio['tipoInventario'];
         $iva = $ejercicio['iva'];

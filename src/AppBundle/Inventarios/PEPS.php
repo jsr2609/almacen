@@ -36,7 +36,7 @@ class PEPS
      * @return Existencias Objeto Existencia
     */
     
-    public function aumentar(Existencias $existencia, Articulos $articulo, Programas $programa, $cantidad, $precio)
+    public function aumentar(Existencias $existencia, $articulo, $programa, $cantidad, $precio)
     {        
         $cantidadActual = $existencia->getCantidad();
         $totalActual = $existencia->getTotal();

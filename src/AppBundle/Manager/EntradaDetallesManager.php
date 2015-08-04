@@ -119,7 +119,7 @@ class EntradaDetallesManager
     public function listaArticulosPorEntrada($entradaId, $iva)
     {
         $repository = $this->base->getRepository("AppBundle:EntradaDetalles");
-        $select = "eds.id, ats.clave as articuloClave, ats.nombre as articuloNombre, eds.cantidad, eds.precio, eds.aplicaIva";
+        $select = "eds.id, eds.articulo, eds.cantidad, eds.precio, eds.aplicaIva";
         $articulos = $repository->buscarTodos($select, $entradaId);
         
         for($i = 0; $i < count($articulos); $i++) {
@@ -145,14 +145,15 @@ class EntradaDetallesManager
             $eds->setCantidad($articulo['cantidad']);
             $eds->setPrecio($articulo['precio']);
             $eds->setEntrada($entrada);
-            
+            $aplicaIva = $articulo['iva'] > 0 ? true : false;
+            $eds->setAplicaIva($aplicaIva);
             $eds->setArticulo($articulo['clave']);
             $eds->setExistencia($articulo['cantidad']);
             
             $em->persist($eds);
             
-            $existenciasManager->aumentar($articuloObj, 
-                $eds->getEntrada()->getPrograma(),
+            $existenciasManager->aumentar($articulo['clave'], 
+                $pedido['programaclave'],
                 $eds->getCantidad(), 
                 $eds->getPrecio(),
                 $ejercicio,

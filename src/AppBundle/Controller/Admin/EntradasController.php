@@ -399,7 +399,6 @@ class EntradasController extends Controller
             $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null, 'ecs.iva, ecs.tipoInventario', 'HYDRATE_ARRAY');
             $edsManager->procesarArticulosDePedido($pedido, $articulos, $entrada, $ejercicio, $existenciasManager);
             $em->flush();
-            die(var_export("JAJAJAJAJA"));
             $em->getConnection()->commit();
         } catch (Exception $e) {
             $em->getConnection()->rollback();
