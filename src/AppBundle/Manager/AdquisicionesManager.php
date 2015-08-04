@@ -34,7 +34,7 @@ class AdquisicionesManager
         $this->doctrine = $doctrine;
     }
     
-    public function obtenerPedido($pedidoNumero, $compra = null, $ejercicio = null) 
+    public function obtenerPedido($pedidoNumero, $compra = null, $anioEjercicio = null) 
     {
         $conn = $this->doctrine->getConnection('adquisiciones');
         //die(var_export($conn->getParams()));

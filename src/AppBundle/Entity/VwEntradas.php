@@ -34,18 +34,21 @@ class VwEntradas
     private $fecha;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="TipoEntradaId", type="smallint")
-     */
-    private $tipoEntrada;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="PedidoNumero", type="string", length=10)
      */
     private $pedidoNumero;
+    
+    /**
+     * @ORM\Column(name="Compra", type="string", length=5, nullable=false)
+     */
+    private $compra;
+    
+    /**
+     * @ORM\Column(name="AnioEjercicio", type="integer", nullable=false)
+     */
+    private $anioEjercicio;
 
     /**
      * @var string
@@ -60,60 +63,11 @@ class VwEntradas
      * @ORM\Column(name="EjercicioId", type="integer")
      */
     private $ejercicio;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="ProgramaId", type="integer")
-     */
-    private $programa;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ProgramaClave", type="string", length=10)
-     */
-    private $programaClave;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ProgramaNombre", type="string", length=150)
-     */
-    private $programaNombre;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="ProveedorId", type="integer")
-     */
-    private $proveedor;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ProveedorRfc", type="string", length=13)
-     */
-    private $proveedorRfc;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ProveedorNombre", type="string", length=150)
-     */
-    private $proveedorNombre;
     
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="Activa", type="boolean")
+     * @ORM\Column(name="Activa", type="boolean", nullable=false)
      */
-    private $activa;
-    
-    public function getActiva()
-    {
-        return $this->activa;
-    }
+    private $activa = true;
 
 
     /**
@@ -173,29 +127,6 @@ class VwEntradas
     }
 
     /**
-     * Set tipoEntrada
-     *
-     * @param integer $tipoEntrada
-     * @return VwEntradas
-     */
-    public function setTipoEntrada($tipoEntrada)
-    {
-        $this->tipoEntrada = $tipoEntrada;
-
-        return $this;
-    }
-
-    /**
-     * Get tipoEntrada
-     *
-     * @return integer 
-     */
-    public function getTipoEntrada()
-    {
-        return $this->tipoEntrada;
-    }
-
-    /**
      * Set pedidoNumero
      *
      * @param string $pedidoNumero
@@ -216,6 +147,52 @@ class VwEntradas
     public function getPedidoNumero()
     {
         return $this->pedidoNumero;
+    }
+
+    /**
+     * Set compra
+     *
+     * @param string $compra
+     * @return VwEntradas
+     */
+    public function setCompra($compra)
+    {
+        $this->compra = $compra;
+
+        return $this;
+    }
+
+    /**
+     * Get compra
+     *
+     * @return string 
+     */
+    public function getCompra()
+    {
+        return $this->compra;
+    }
+
+    /**
+     * Set anioEjercicio
+     *
+     * @param integer $anioEjercicio
+     * @return VwEntradas
+     */
+    public function setAnioEjercicio($anioEjercicio)
+    {
+        $this->anioEjercicio = $anioEjercicio;
+
+        return $this;
+    }
+
+    /**
+     * Get anioEjercicio
+     *
+     * @return integer 
+     */
+    public function getAnioEjercicio()
+    {
+        return $this->anioEjercicio;
     }
 
     /**
@@ -265,144 +242,6 @@ class VwEntradas
     }
 
     /**
-     * Set programa
-     *
-     * @param integer $programa
-     * @return VwEntradas
-     */
-    public function setPrograma($programa)
-    {
-        $this->programa = $programa;
-
-        return $this;
-    }
-
-    /**
-     * Get programa
-     *
-     * @return integer 
-     */
-    public function getPrograma()
-    {
-        return $this->programa;
-    }
-
-    /**
-     * Set programaClave
-     *
-     * @param string $programaClave
-     * @return VwEntradas
-     */
-    public function setProgramaClave($programaClave)
-    {
-        $this->programaClave = $programaClave;
-
-        return $this;
-    }
-
-    /**
-     * Get programaClave
-     *
-     * @return string 
-     */
-    public function getProgramaClave()
-    {
-        return $this->programaClave;
-    }
-
-    /**
-     * Set programaNombre
-     *
-     * @param string $programaNombre
-     * @return VwEntradas
-     */
-    public function setProgramaNombre($programaNombre)
-    {
-        $this->programaNombre = $programaNombre;
-
-        return $this;
-    }
-
-    /**
-     * Get programaNombre
-     *
-     * @return string 
-     */
-    public function getProgramaNombre()
-    {
-        return $this->programaNombre;
-    }
-
-    /**
-     * Set proveedor
-     *
-     * @param integer $proveedor
-     * @return VwEntradas
-     */
-    public function setProveedor($proveedor)
-    {
-        $this->proveedor = $proveedor;
-
-        return $this;
-    }
-
-    /**
-     * Get proveedor
-     *
-     * @return integer 
-     */
-    public function getProveedor()
-    {
-        return $this->proveedor;
-    }
-
-    /**
-     * Set proveedorRfc
-     *
-     * @param string $proveedorRfc
-     * @return VwEntradas
-     */
-    public function setProveedorRfc($proveedorRfc)
-    {
-        $this->proveedorRfc = $proveedorRfc;
-
-        return $this;
-    }
-
-    /**
-     * Get proveedorRfc
-     *
-     * @return string 
-     */
-    public function getProveedorRfc()
-    {
-        return $this->proveedorRfc;
-    }
-
-    /**
-     * Set proveedorNombre
-     *
-     * @param string $proveedorNombre
-     * @return VwEntradas
-     */
-    public function setProveedorNombre($proveedorNombre)
-    {
-        $this->proveedorNombre = $proveedorNombre;
-
-        return $this;
-    }
-
-    /**
-     * Get proveedorNombre
-     *
-     * @return string 
-     */
-    public function getProveedorNombre()
-    {
-        return $this->proveedorNombre;
-    }
-
-    /**
      * Set activa
      *
      * @param boolean $activa
@@ -413,5 +252,15 @@ class VwEntradas
         $this->activa = $activa;
 
         return $this;
+    }
+
+    /**
+     * Get activa
+     *
+     * @return boolean 
+     */
+    public function getActiva()
+    {
+        return $this->activa;
     }
 }

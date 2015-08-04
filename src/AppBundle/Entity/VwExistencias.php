@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * VwExistencias
  *
- * @ORM\Table()
- * @ORM\Entity
+ * ORM\Table()
+ * ORM\Entity
  */
 class VwExistencias
 {

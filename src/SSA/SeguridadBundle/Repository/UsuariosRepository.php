@@ -11,11 +11,11 @@ use Doctrine\ORM\NoResultException;
 
 class UsuariosRepository extends EntityRepository implements UserProviderInterface
 {
-    public function loadUserByUsername($value) {
+    public function loadUserByUsername($value) {        
         $q = $this
             ->createQueryBuilder('usr')
             ->select('usr','gps', 'rls', 'prl')
-            ->where('usr.usuario = :value OR usr.email = :value OR usr.id = :value')
+            ->where('usr.usuario = :value')
             ->setParameter('value', $value)
             ->leftJoin('usr.grupos', 'gps')
             ->leftJoin('gps.roles', 'rls')
@@ -40,7 +40,7 @@ class UsuariosRepository extends EntityRepository implements UserProviderInterfa
         return $user;
     }
 
-    public function refreshUser(UserInterface $user) {
+    public function refreshUser(UserInterface $user) {        
         $class = get_class($user);
         if (!$this->supportsClass($class)) {
             throw new UnsupportedUserException(
@@ -53,8 +53,7 @@ class UsuariosRepository extends EntityRepository implements UserProviderInterfa
             
         }
         
-        
-        return $this->loadUserByUsername($user->getId());
+        return $this->find($user->getId());
     }
 
     public function supportsClass($class) {

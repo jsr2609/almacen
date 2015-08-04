@@ -49,8 +49,6 @@ class SecurityAfterLoginListener
             $ejercicioDatos = array('id' => $ejercicio->getId(), 'periodo' => $ejercicio->getPeriodo());
         }
         
-        
-        
         $almacenDatos = array(
             'id' => $almacen->getId(), 
             'nombre' => $almacen->getNombre(),

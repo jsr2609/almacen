@@ -284,6 +284,11 @@ class DataTablesManager
         return $this->request['columns'];
     }
     
+    public function getRequest()
+    {
+        return $this->request;
+    }
+    
     /**
      * Regresa el arreglo de columnas extras
      * 

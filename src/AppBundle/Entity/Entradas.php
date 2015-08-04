@@ -22,7 +22,6 @@ class Entradas
         1 => 'Orden',
         2 => 'Pedido',
         3 => 'Propuesta',
-        4 => 'Otro',
     );
     
     /**
@@ -30,19 +29,8 @@ class Entradas
      * @ORM\Column(name="Id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private $id;   
     
-    /**
-     * @ORM\ManyToOne(targetEntity="Proveedores")
-     * @ORM\JoinColumn(name="ProveedorId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
-    */
-    private $proveedor;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="Programas")
-     * @ORM\JoinColumn(name="ProgramaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
-    */
-    private $programa;
     
     /**
      * @ORM\ManyToOne(targetEntity="Ejercicios")
@@ -61,26 +49,28 @@ class Entradas
      */
     private $fecha;
 
-    /**
-     * @ORM\Column(name="TipoEntradaId", type="smallint", nullable=false)
-     */
-    private $tipoEntrada;
-
+   
     /**
      * @ORM\Column(name="Observaciones", type="string", nullable=true)
      */
     private $observaciones;
 
     /**
-     * @ORM\Column(name="PedidoNumero", type="string", length=10, nullable=true)
+     * @ORM\Column(name="PedidoNumero", type="string", length=6, nullable=false)
      */
     private $pedidoNumero;
-
+    
     /**
-     * @ORM\Column(name="PedidoTipoId", type="integer", length=1, nullable=true)
+     * @ORM\Column(name="Compra", type="string", length=5, nullable=false)
      */
-    private $pedidoTipo;
-
+    private $compra;
+    
+    /**
+     * @ORM\Column(name="AnioEjercicio", type="integer", nullable=false)
+     */
+    private $anioEjercicio;
+    
+    
     /**
      * @ORM\Column(name="FacturaNumero", type="string", length=10, nullable=true)
      */
@@ -141,7 +131,6 @@ class Entradas
     
     //Funciones autogeneradas
 
-    
 
     /**
      * Get id
@@ -200,29 +189,6 @@ class Entradas
     }
 
     /**
-     * Set tipoEntrada
-     *
-     * @param integer $tipoEntrada
-     * @return Entradas
-     */
-    public function setTipoEntrada($tipoEntrada)
-    {
-        $this->tipoEntrada = $tipoEntrada;
-
-        return $this;
-    }
-
-    /**
-     * Get tipoEntrada
-     *
-     * @return integer 
-     */
-    public function getTipoEntrada()
-    {
-        return $this->tipoEntrada;
-    }
-
-    /**
      * Set observaciones
      *
      * @param string $observaciones
@@ -269,26 +235,49 @@ class Entradas
     }
 
     /**
-     * Set pedidoTipo
+     * Set compra
      *
-     * @param integer $pedidoTipo
+     * @param string $compra
      * @return Entradas
      */
-    public function setPedidoTipo($pedidoTipo)
+    public function setCompra($compra)
     {
-        $this->pedidoTipo = $pedidoTipo;
+        $this->compra = $compra;
 
         return $this;
     }
 
     /**
-     * Get pedidoTipo
+     * Get compra
+     *
+     * @return string 
+     */
+    public function getCompra()
+    {
+        return $this->compra;
+    }
+
+    /**
+     * Set anioEjercicio
+     *
+     * @param integer $anioEjercicio
+     * @return Entradas
+     */
+    public function setAnioEjercicio($anioEjercicio)
+    {
+        $this->anioEjercicio = $anioEjercicio;
+
+        return $this;
+    }
+
+    /**
+     * Get anioEjercicio
      *
      * @return integer 
      */
-    public function getPedidoTipo()
+    public function getAnioEjercicio()
     {
-        return $this->pedidoTipo;
+        return $this->anioEjercicio;
     }
 
     /**
@@ -335,6 +324,29 @@ class Entradas
     public function getFacturaFecha()
     {
         return $this->facturaFecha;
+    }
+
+    /**
+     * Set numeroRemision
+     *
+     * @param string $numeroRemision
+     * @return Entradas
+     */
+    public function setNumeroRemision($numeroRemision)
+    {
+        $this->numeroRemision = $numeroRemision;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroRemision
+     *
+     * @return string 
+     */
+    public function getNumeroRemision()
+    {
+        return $this->numeroRemision;
     }
 
     /**
@@ -430,52 +442,6 @@ class Entradas
     }
 
     /**
-     * Set proveedor
-     *
-     * @param \AppBundle\Entity\Proveedores $proveedor
-     * @return Entradas
-     */
-    public function setProveedor(\AppBundle\Entity\Proveedores $proveedor)
-    {
-        $this->proveedor = $proveedor;
-
-        return $this;
-    }
-
-    /**
-     * Get proveedor
-     *
-     * @return \AppBundle\Entity\Proveedores 
-     */
-    public function getProveedor()
-    {
-        return $this->proveedor;
-    }
-
-    /**
-     * Set programa
-     *
-     * @param \AppBundle\Entity\Programas $programa
-     * @return Entradas
-     */
-    public function setPrograma(\AppBundle\Entity\Programas $programa)
-    {
-        $this->programa = $programa;
-
-        return $this;
-    }
-
-    /**
-     * Get programa
-     *
-     * @return \AppBundle\Entity\Programas 
-     */
-    public function getPrograma()
-    {
-        return $this->programa;
-    }
-
-    /**
      * Set ejercicio
      *
      * @param \AppBundle\Entity\Ejercicios $ejercicio
@@ -519,28 +485,5 @@ class Entradas
     public function getUsuario()
     {
         return $this->usuario;
-    }
-
-    /**
-     * Set numeroRemision
-     *
-     * @param string $numeroRemision
-     * @return Entradas
-     */
-    public function setNumeroRemision($numeroRemision)
-    {
-        $this->numeroRemision = $numeroRemision;
-
-        return $this;
-    }
-
-    /**
-     * Get numeroRemision
-     *
-     * @return string 
-     */
-    public function getNumeroRemision()
-    {
-        return $this->numeroRemision;
     }
 }

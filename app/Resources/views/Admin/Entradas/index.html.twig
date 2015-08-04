@@ -41,7 +41,7 @@
                                         <th>Fecha</th>
                                         <th>Pedido</th>
                                         <th>Factura</th>     
-                                        <th>Tipo</th>
+                                        
                                         <th class="text-right">Acciones</th>
                                     </tr>
                                 </thead>
@@ -62,6 +62,7 @@
                                         <th>
                                             <input class="form-control" placeholder="Factura..." name="factura" type="text"/>
                                         </th>
+                                        {#
                                         <th>
                                             <select class="form-control">
                                                 <option value="">...</option>
@@ -69,7 +70,7 @@
                                                     <option value="{{index}}">{{tipo}}</option>
                                                  {% endfor %}
                                             </select>
-                                        </th>
+                                        </th>#}
                                         <th>
                                         </th>
                                     </tr>
