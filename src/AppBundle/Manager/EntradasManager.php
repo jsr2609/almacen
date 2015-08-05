@@ -97,7 +97,7 @@ class EntradasManager
         
         $this->dataTable = $dt;
         
-        $this->dataTable->init($repositorio, $peticion, $columnas, array('id'));
+        $this->dataTable->init($repositorio, $peticion, $columnas, array('id', 'compra', 'anioEjercicio'));
         
         $registrosTotal = $this->contarRegistrosTotalDT($ejercicioId);
         

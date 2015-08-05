@@ -13,7 +13,7 @@
 
 
                         <span class="widget-icon"> <i class="fa fa-plus-circle"></i> </span>
-                        <h2>Editar</h2>
+                        <h2>Pedido <b>{{entity.pedidoCompleto}}</b></h2>
 
                     </header>
 
@@ -45,6 +45,22 @@
                                     </li>
                                     <li>{{ form(delete_form) }}</li>
                                 </ul>
+                            </div>
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-info">
+                                  <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        CONSULTA DATOS DEL PEDIDO
+                                      </a>
+                                    </h4>
+                                  </div>
+                                  <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                      Aqui van los datos del pedido.
+                                    </div>
+                                  </div>
+                                </div>
                             </div>
                             <!-- Contenido -->
                             {{ form(edit_form) }}

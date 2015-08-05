@@ -43,7 +43,7 @@ class EntradasController extends Controller
                     return $d->format('d/m/Y');
                 }
             ),
-            array('db' => 'pedidoNumero', 'dt' => 2),
+            array('db' => 'pedidoCompleto', 'dt' => 2),
             array('db' => 'facturaNumero', 'dt' => 3),
             
         );
@@ -288,9 +288,8 @@ class EntradasController extends Controller
         
         $pdf = $tcpdfManager->create(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT);
         $entradasManager = $this->get('app.entradas');
-        $select = "ets, partial pgs.{id, clave, nombre}, partial pvs.{id, rfc, nombre},partial ecs.{id, iva}, ams";
+        $select = "ets, partial ecs.{id, iva}, ams";
         $entrada = $entradasManager->buscar($id, $select, false, 'HYDRATE_ARRAY');
-        
         $pdf = $entradasManager->generarPDF($pdf, $entrada);
         
         $pdf->output('entrada.pdf', 'D');

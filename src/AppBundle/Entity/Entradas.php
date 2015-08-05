@@ -129,6 +129,11 @@ class Entradas
         return $nombre;
     }
     
+    public function getPedidoCompleto()
+    {
+        return $this->pedidoNumero."-".$this->compra."-".$this->anioEjercicio;
+    }
+    
     //Funciones autogeneradas
 
 

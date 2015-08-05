@@ -49,6 +49,13 @@ class VwEntradas
      * @ORM\Column(name="AnioEjercicio", type="integer", nullable=false)
      */
     private $anioEjercicio;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PedidoCompleto", type="string", length=16)
+     */
+    private $pedidoCompleto;
 
     /**
      * @var string
@@ -193,6 +200,16 @@ class VwEntradas
     public function getAnioEjercicio()
     {
         return $this->anioEjercicio;
+    }
+    
+     /**
+     * Get pedidoCompleto
+     *
+     * @return string 
+     */
+    public function getPedidoCompleto()
+    {
+        return $this->pedidoNumero;
     }
 
     /**

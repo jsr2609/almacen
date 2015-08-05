@@ -33,22 +33,6 @@ class EntradasType extends AbstractType
                 ),
                 'widget_addon_prepend' => array('icon' => 'calendar'),
             ))
-            ->add('tipoEntrada', 'choice', array(
-                'label' => 'Tipo de Entrada',
-                'choices' => Entradas::$entradaTipos,
-                'expanded' => true,
-                'widget_type'  => 'inline'
-            ))
-            ->add('programa', 'search_key', array(
-                'class' => 'AppBundle:Programas',
-                'property_key' => 'clave',
-                'property_description' => 'nombre'
-            ))
-            ->add('proveedor', 'search_key', array(
-                'class' => 'AppBundle:Proveedores',
-                'property_key' => 'rfc',
-                'property_description' => 'nombre'
-            ))
             ->add('facturaNumero', 'text', array(
                 'label' => 'Numero de Factura',
                 'required' => false,
@@ -68,18 +52,6 @@ class EntradasType extends AbstractType
             ->add('numeroRemision', 'text', array(
                 'label' => 'Numero de Remisión',
                 'required' => false,
-            ))
-            ->add('pedidoNumero', 'text', array(
-                'label' => 'Número de Pedido',
-                'required' => false,
-            ))
-            ->add('pedidoTipo', 'choice', array(
-                'label' => 'Tipo de pedido',
-                'choices' => Entradas::$pedidoTipos,
-                'expanded' => true,
-                'widget_type'  => 'inline',
-                'required' => false,
-                'empty_value' => false,
             ))
             
             ->add('observaciones', 'textarea', array(

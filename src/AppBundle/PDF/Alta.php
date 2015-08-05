@@ -44,12 +44,12 @@ class Alta
         $this->pdf->Cell(0, 0, $lugar, '', 1, 'L');
         $this->pdf->Cell(0, 0, mb_strtoupper($this->entrada['ejercicio']['almacen']['nombreJefeServicios']), '', 1, 'L');
         $this->pdf->Cell(0, 0, 'CON ESTA FECHA SE DAN DE ALTA PROCEDENTES DE:', '', 1, 'L');
-        $this->pdf->Cell(0, 0, mb_strtoupper($this->entrada['proveedor']['nombre']), '', 1, 'L');
+        $this->pdf->Cell(0, 0, mb_strtoupper("NOMBRE PROVEEDOR"), '', 1, 'L');
         $fechaFactura = ($this->entrada['facturaFecha'] == null) ? "" : $this->entrada['facturaFecha']->format('d/m/Y');
         $datosFactura = 'SEGUN FACTURA '.$this->entrada['facturaNumero'].', DE FECHA '.$fechaFactura
             .', NÚMERO DE PEDIDO '.$this->entrada['pedidoNumero'];
         $this->pdf->Cell(0, 0, $datosFactura, '', 1, 'L');
-        $programa = $this->entrada['programa']['clave'].'-'.$this->entrada['programa']['nombre'];
+        $programa = "PROGRAMA NOMBRE";//$this->entrada['programa']['clave'].'-'.$this->entrada['programa']['nombre'];
         $this->pdf->Cell(0, 0, 'PROGRAMA: '.$programa, '', 1, 'L');
         $this->pdf->Cell(0, 0, 'OBSERVACIONES: '.mb_strtoupper($this->entrada['observaciones']), '', 1, 'L');
         $this->pdf->Cell(0, 0, 'LOS ARTICULOS QUE ACONTINUACIÓN SE DETALLAN:', '', 1, 'L');
@@ -86,10 +86,11 @@ class Alta
         
         
         $this->pdf->SetFont('helvetica', '', 8);
-        
-        $partidas = $edsRepository->obtenerPartidasPorEntrada($this->entrada['id']);
-        $selectEds = 'ats.clave, ats.nombre, eds.fechaCaducidad, eds.cantidad, '
-            . 'pss.nombre AS presentacionNombre, eds.precio, eds.aplicaIva';
+        //Obtener las partidas desde pedidos
+        //$partidas = $edsRepository->obtenerPartidasPorEntrada($this->entrada['id']);
+        $partidas = array('2358' => 'MATERIALES Y SUMINISTROS MÉDICOS');
+        $selectEds = 'eds.fechaCaducidad, eds.cantidad, '
+            . 'eds.precio, eds.aplicaIva';
         
         $total = 0;
         $iva = $this->entrada['ejercicio']['iva'];
