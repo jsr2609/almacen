@@ -88,7 +88,7 @@
 {% block javascript_page %}
     <script type="text/javascript">
         $(document).ready(function(){
-            noOrdenar = [5];
+            noOrdenar = [4];
             dtListaEntradas = createDataTable("complete", "lista-entradas", {
                 "processing": true,
                 "autoWidth": false,
@@ -104,11 +104,10 @@
                     { "sortable": false, "targets": noOrdenar }
                 ],
                 "columns": [
-                    { "width": "10%" },
-                    { "width": "10%" },
-                    { "width": "15%" },
-                    { "width": "15%" },
                     { "width": "20%" },
+                    { "width": "20%" },
+                    { "width": "15%" },
+                    { "width": "15%" },                    
                     { "width": "30%", "className": "text-right" },
                     
                 ],

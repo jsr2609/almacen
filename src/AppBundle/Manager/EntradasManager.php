@@ -151,7 +151,8 @@ class EntradasManager
     
     public function agregarFiltrosExtraQBDT(QueryBuilder $qb, $ejercicioId, $activo = true) 
     {      
-        $root = $qb->getRootAliases()[0];
+        $aliases = $qb->getRootAliases();
+        $root = $aliases[0];
         $qb->andWhere($root.".activa = :activo");        
         $qb->setParameter("activo", $activo);
         
@@ -164,7 +165,8 @@ class EntradasManager
     public function contarRegistrosTotalDT($ejercicioId, $activo = true) {
         
         $qb = $this->dataTable->getBaseQB();
-        $root = $qb->getRootAliases()[0];
+        $aliases = $qb->getRootAliases();
+        $root = $aliases[0];
         
         $this->agregarFiltrosExtraQBDT($qb, $ejercicioId, $activo);
         $request = $this->dataTable->getRequest();
@@ -177,7 +179,8 @@ class EntradasManager
     {
         $qb = $this->dataTable->applyActionsQB();
         
-        $root = $qb->getRootAliases()[0];
+        $aliases = $qb->getRootAliases();
+        $root = $aliases[0];
         $this->agregarFiltrosExtraQBDT($qb, $ejercicioId, $activo); 
         //Agregar Filtros extra si se necesitan    
         
