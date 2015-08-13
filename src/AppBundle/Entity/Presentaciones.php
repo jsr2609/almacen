@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Presentaciones
  *
- * @ORM\Table()
- * @ORM\Entity
+ * ORM\Table()
+ * ORM\Entity
  */
 class Presentaciones
 {

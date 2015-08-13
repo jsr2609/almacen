@@ -36,22 +36,11 @@ class EntradaDetalles
      */
     private $articulo;
     
-    
-    /**
-     * @ORM\Column(name="Cantidad", type="integer", length=2, nullable=false)
-     */
-    private $cantidad;
-    
     /**
      * @ORM\Column(name="Existencia", type="integer", length=2, nullable=false)
      */
     private $existencia;
 
-    /**
-     * @ORM\Column(name="Precio", type="decimal", nullable=false, precision=14, scale=2)
-     */
-    private $precio;
-    
     /**
      * @ORM\Column(name="FechaCaducidad", type="date", nullable=true)
      */
@@ -61,11 +50,6 @@ class EntradaDetalles
      * @ORM\Column(name="Lote", type="string", length=10, nullable=true)
      */
     private $lote;
-
-    /**
-     * @ORM\Column(name="AplicaIVA", type="boolean", nullable=true)
-     */
-    private $aplicaIva;
 
     /**
      * @ORM\Column(name="Observaciones", type="string", nullable=true)
@@ -115,8 +99,6 @@ class EntradaDetalles
 
     
 
-    
-
     /**
      * Get id
      *
@@ -151,29 +133,6 @@ class EntradaDetalles
     }
 
     /**
-     * Set cantidad
-     *
-     * @param integer $cantidad
-     * @return EntradaDetalles
-     */
-    public function setCantidad($cantidad)
-    {
-        $this->cantidad = $cantidad;
-
-        return $this;
-    }
-
-    /**
-     * Get cantidad
-     *
-     * @return integer 
-     */
-    public function getCantidad()
-    {
-        return $this->cantidad;
-    }
-
-    /**
      * Set existencia
      *
      * @param integer $existencia
@@ -194,29 +153,6 @@ class EntradaDetalles
     public function getExistencia()
     {
         return $this->existencia;
-    }
-
-    /**
-     * Set precio
-     *
-     * @param string $precio
-     * @return EntradaDetalles
-     */
-    public function setPrecio($precio)
-    {
-        $this->precio = $precio;
-
-        return $this;
-    }
-
-    /**
-     * Get precio
-     *
-     * @return string 
-     */
-    public function getPrecio()
-    {
-        return $this->precio;
     }
 
     /**
@@ -263,29 +199,6 @@ class EntradaDetalles
     public function getLote()
     {
         return $this->lote;
-    }
-
-    /**
-     * Set aplicaIva
-     *
-     * @param boolean $aplicaIva
-     * @return EntradaDetalles
-     */
-    public function setAplicaIva($aplicaIva)
-    {
-        $this->aplicaIva = $aplicaIva;
-
-        return $this;
-    }
-
-    /**
-     * Get aplicaIva
-     *
-     * @return boolean 
-     */
-    public function getAplicaIva()
-    {
-        return $this->aplicaIva;
     }
 
     /**

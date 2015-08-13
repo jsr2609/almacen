@@ -5,8 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ProveedoresRepository")
- * @ORM\Table(name="Proveedores")
+ * ORM\Entity(repositoryClass="AppBundle\Repository\ProveedoresRepository")
+ * ORM\Table(name="Proveedores")
  */
 class Proveedores
 {

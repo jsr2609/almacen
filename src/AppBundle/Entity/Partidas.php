@@ -5,8 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="Partidas")
+ * ORM\Entity
+ * ORM\Table(name="Partidas")
  */
 class Partidas
 {

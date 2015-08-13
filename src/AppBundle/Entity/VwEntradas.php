@@ -5,8 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
- * @ORM\Table()
+ * ORM\Entity
+ * ORM\Table()
  */
 class VwEntradas
 {

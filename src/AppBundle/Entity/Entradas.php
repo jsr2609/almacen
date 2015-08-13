@@ -43,6 +43,11 @@ class Entradas
      * @ORM\Column(name="Folio", type="integer", length=2, nullable=false)
      */
     private $folio;
+    
+    /**
+     * @ORM\Column(name="FolioManual", type="integer", length=2, nullable=false)
+     */
+    private $folioManual;
 
     /**
      * @ORM\Column(name="Fecha", type="date", nullable=false)

@@ -4,8 +4,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="Conceptos")
+ * ORM\Entity
+ * ORM\Table(name="Conceptos")
  */
 class Conceptos
 {
