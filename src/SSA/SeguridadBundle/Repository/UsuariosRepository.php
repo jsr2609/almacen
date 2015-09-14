@@ -15,7 +15,7 @@ class UsuariosRepository extends EntityRepository implements UserProviderInterfa
         $q = $this
             ->createQueryBuilder('usr')
             ->select('usr','gps', 'rls', 'prl')
-            ->where('usr.usuario = :value OR usr.email = :value OR usr.id = :value')
+            ->where('usr.usuario = :value')
             ->setParameter('value', $value)
             ->leftJoin('usr.grupos', 'gps')
             ->leftJoin('gps.roles', 'rls')
@@ -54,7 +54,7 @@ class UsuariosRepository extends EntityRepository implements UserProviderInterfa
         }
         
         
-        return $this->loadUserByUsername($user->getId());
+        return $this->find($user->getId());
     }
 
     public function supportsClass($class) {
