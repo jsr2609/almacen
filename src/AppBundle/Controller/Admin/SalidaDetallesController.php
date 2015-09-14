@@ -308,12 +308,7 @@ class SalidaDetallesController extends Controller
         return $form;
     }
     
-    private function addFlash($type, $message) {
-        $this->getRequest()->getSession()->getFlashBag()->add(
-            $type,
-            $message
-        );
-    }
+   
     
     public function popupBuscarEntradaDetallesAction(Request $request)
     {

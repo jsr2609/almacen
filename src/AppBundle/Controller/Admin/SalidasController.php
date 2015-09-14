@@ -351,13 +351,6 @@ class SalidasController extends Controller
         $pdf->output('salida.pdf', 'D');
     }
     
-    private function addFlash($type, $message) {
-        $this->getRequest()->getSession()->getFlashBag()->add(
-            $type,
-            $message
-        );
-    }
-    
     
     /* Funciones Para la busqueda de Entradas */
      

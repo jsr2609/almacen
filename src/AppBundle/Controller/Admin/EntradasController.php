@@ -301,13 +301,7 @@ class EntradasController extends Controller
         $pdf->output('entrada.pdf', 'D');
     }
     
-    private function addFlash($type, $message) {
-        
-        $this->getRequest()->getSession()->getFlashBag()->add(
-            $type,
-            $message
-        );
-    }
+    
     
     public function crearDePedidoFormAction(Request $request)
     {

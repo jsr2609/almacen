@@ -66,14 +66,14 @@ doctrine:
                 #   2. Uncomment database_path in parameters.yml.dist
                 #   3. Uncomment next line:
                 #     path:     "%database_path%"
-            adquisiciones:
-                driver:   "%sicap_database_driver%"
-                host:     "%sicap_database_host%"
-                port:     "%sicap_database_port%"
-                dbname:   "%sicap_database_name%"
-                user:     "%sicap_database_user%"
-                password: "%sicap_database_password%"
-                charset:  UTF8
+            #adquisiciones:
+             #   driver:   "%sicap_database_driver%"
+              #  host:     "%sicap_database_host%"
+               # port:     "%sicap_database_port%"
+                #dbname:   "%sicap_database_name%"
+                #user:     "%sicap_database_user%"
+                #password: "%sicap_database_password%"
+                #charset:  UTF8
             
 
     orm:

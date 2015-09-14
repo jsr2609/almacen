@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * VwArticulos
  *
  * @ORM\Table()
- * @ORM\Entity
+ * ORM\Entity
  */
 class VwArticulos
 {

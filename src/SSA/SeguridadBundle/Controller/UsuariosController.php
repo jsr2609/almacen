@@ -246,10 +246,5 @@ class UsuariosController extends Controller
         ;
     }
     
-    private function addFlash($type, $message) {
-        $this->getRequest()->getSession()->getFlashBag()->add(
-            $type,
-            $message
-        );
-    }
+   
 }
