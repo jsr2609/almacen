@@ -17,23 +17,7 @@ class LoadEntradaTiposData extends AbstractFixture implements OrderedFixtureInte
 {
     public function load(ObjectManager $manager) 
     {
-        $entidad1 = new EntradaTipos();
-        $entidad1->setNombre("Directa");
-        $manager->persist($entidad1);
-        
-        $entidad2 = new EntradaTipos();
-        $entidad2->setNombre("Donación");
-        $manager->persist($entidad2);
-        
-        $entidad3 = new EntradaTipos();
-        $entidad3->setNombre("Licitación");
-        $manager->persist($entidad3);
-        
-        $entidad4 = new EntradaTipos();
-        $entidad4->setNombre("Otra");
-        $manager->persist($entidad4);
-        
-        $manager->flush();
+       
     }
 
     public function getOrder() 
