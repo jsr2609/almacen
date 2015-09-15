@@ -15,10 +15,21 @@ class DatosPedidoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('pedidoNumero', 'text', array(
-            'attr' => array('data-toggle' => 'tooltip', 'title' => 'Ingrese el número de pedido'),
-            'label' => 'Numero de Pedido'
-        ));
+        $builder
+            ->add('pedidoNumero', 'text', array(
+                'attr' => array('data-toggle' => 'tooltip', 'title' => 'Ingrese el número de pedido'),
+                'label' => 'Numero de Pedido'
+            ))
+            ->add('anioEjercicio', 'number', array(
+                'attr' => array('data-toggle' => 'tooltip', 'title' => 'Ingrese el año de pedido'),
+                'label' => 'Ejercicio'
+            ))
+            ->add('compra', 'choice', array(                
+                'label' => 'Tipo',
+                'empty_value' => 'Seleccione...',
+                'choices' => Entradas::$pedidoTipos,
+            ))
+        ;
     }
     
     /**

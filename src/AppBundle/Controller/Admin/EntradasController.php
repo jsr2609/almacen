@@ -328,16 +328,18 @@ class EntradasController extends Controller
             $em = $this->getDoctrine()->getManager();
             $entrada = $em->getRepository("AppBundle:Entradas")->findOneBy(array(
                 'pedidoNumero' => $datos['pedidoNumero'],
+                'compra' => $datos['compra'],
+                'anioEjercicio' => $datos['anioEjercicio']
             )); 
             if(!$entrada) {
                 $adquisicionesManager = $this->get('app.adquisiciones');
-                $pedido = $adquisicionesManager->obtenerPedido($datos['pedidoNumero']);
+                $pedido = $adquisicionesManager->obtenerPedido($datos['pedidoNumero'], $datos['compra'], $datos['anioEjercicio']);
                 if(!$pedido) {
                     $code = 500;
                     $message = "No se encontró un pedido con la clave ".$datos['pedidoNumero'];
                     $html = null;
                 } else {
-                    $articulos = $adquisicionesManager->obtenerArticulosPedido($datos['pedidoNumero']);
+                    $articulos = $adquisicionesManager->obtenerArticulosPedido($datos['pedidoNumero'], $datos['compra'], $datos['anioEjercicio']);
 
                     $code = 200;
                     $html = $this->renderView("Admin/Entradas/consultar_pedido.html.twig", array(
