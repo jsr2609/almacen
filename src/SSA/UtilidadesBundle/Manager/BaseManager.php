@@ -15,7 +15,7 @@ namespace SSA\UtilidadesBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContext;
+//use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\ORM\Repository;
@@ -29,7 +29,7 @@ class BaseManager
     private $router;
     private $session;
     
-    public function __construct($doctrine, SecurityContext $securityContext, $router, Session $session)
+    public function __construct($doctrine, $securityContext, $router, Session $session)
     {
         $this->doctrine = $doctrine;
         $this->router = $router;
