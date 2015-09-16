@@ -19,9 +19,9 @@ class Entradas
     );
     
     public static $pedidoTipos = array(
-        1 => 'Orden',
-        2 => 'Pedido',
-        3 => 'Propuesta',
+        1 => 'Pedido',
+        2 => 'Orden de Compra',
+        3 => 'Contrato',
         4 => 'Otro',
     );
     
@@ -55,6 +55,11 @@ class Entradas
      * @ORM\Column(name="Folio", type="integer", length=2, nullable=false)
      */
     private $folio;
+    
+    /**
+     * @ORM\Column(name="FolioManual", type="integer", length=2, nullable=false)
+     */
+    private $folioManual;
 
     /**
      * @ORM\Column(name="Fecha", type="date", nullable=false)
@@ -72,14 +77,20 @@ class Entradas
     private $observaciones;
 
     /**
-     * @ORM\Column(name="PedidoNumero", type="string", length=10, nullable=true)
+     * @ORM\Column(name="PedidoNumero", type="string", length=6, nullable=false)
      */
     private $pedidoNumero;
-
+    
     /**
-     * @ORM\Column(name="PedidoTipoId", type="integer", length=1, nullable=true)
+     * @ORM\Column(name="Compra", type="smallint", nullable=false)
      */
-    private $pedidoTipo;
+    private $compra;
+    
+    /**
+     * @ORM\Column(name="AnioEjercicio", type="integer", nullable=false)
+     */
+    private $anioEjercicio;
+    
 
     /**
      * @ORM\Column(name="FacturaNumero", type="string", length=10, nullable=true)
