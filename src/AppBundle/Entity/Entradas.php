@@ -11,11 +11,18 @@ use Doctrine\ORM\Mapping AS ORM;
  */
 class Entradas
 {
-    public static $entradaTipos = array(
+    public static $pedidoTiposCompra = array(
         1 => 'Directa',
-        2 => 'Donación',
-        3 => 'Licitación',
-        4 => 'Otra',
+        2 => "LICITACION PUBLICA NACIONAL (PALACIO)",
+        3 => "(PALACIO) LICITACION PUBLICA NACIONAL",
+        4 => "LICITACION PUBLICA NACIONAL",
+        5 => "INVITACION FUNDADA EN ANTECEDENTES Y MERITOS",
+        6 => "DIRECTA (PALACIO)",
+        7 => "(PALACIO) LIC. PUB. INT. BAJO LA COBERT. DE TRAT.",
+        8 => "LICITACION PUBLICA INTERNACIONAL (PALACIO)",
+        9 => "INVITACION A CUANDO MENOS TRES PERSONAS",
+        10 => "(PALACIO) DIRECTA",
+        11 => "(PALACIO) LICITACION PUBLICA INTERNACIONAL",        
     );
     
     public static $pedidoTipos = array(
@@ -31,7 +38,7 @@ class Entradas
         3 => 'PROP'
     );
     
-    /**
+    /**DIRECTA
      * @ORM\Id
      * @ORM\Column(name="Id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -72,10 +79,7 @@ class Entradas
      */
     private $fecha;
 
-    /**
-     * @ORM\Column(name="TipoEntradaId", type="smallint", nullable=false)
-     */
-    private $tipoEntrada;
+    
 
     /**
      * @ORM\Column(name="Observaciones", type="string", nullable=true)
@@ -96,6 +100,11 @@ class Entradas
      * @ORM\Column(name="AnioEjercicio", type="integer", nullable=false)
      */
     private $anioEjercicio;
+    
+    /**
+     * @ORM\Column(name="tipoCompra", type="smallint", nullable=false)
+     */
+    private $tipoCompra;
     
 
     /**
