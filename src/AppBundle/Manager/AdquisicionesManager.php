@@ -23,6 +23,7 @@ use AppBundle\Repository\SalidasRepository;
 use SSA\UtilidadesBundle\Manager\DataTablesManager;
 use SSA\UtilidadesBundle\Manager\BaseManager;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use AppBundle\Entity\Entradas;
 
 
 class AdquisicionesManager 
@@ -36,6 +37,7 @@ class AdquisicionesManager
     
     public function obtenerPedido($pedidoNumero, $compra, $anioEjercicio) 
     {
+        $compra = Entradas::$pedidoTiposAdquisiciones[$compra];
         $conn = $this->doctrine->getConnection('adquisiciones');
         //die(var_export($conn->getParams()));
         //die(var_export(get_class_methods(get_class($conn))));
@@ -65,6 +67,7 @@ class AdquisicionesManager
     
     public function obtenerArticulosPedido($pedidoNumero, $compra, $anioEjercicio)
     {
+        $compra = Entradas::$pedidoTiposAdquisiciones[$compra];
         $conn = $this->doctrine->getConnection('adquisiciones');
         $sql = "SELECT dps.no_pedido AS PedidoNumero, dps.compra as Compra, dps.ejercicio as Ejercicio, "
                 . "dps.partida as PartidaClave, dps.descripcion_partida as PartidaNombre, dps.cve_articulo as Clave, "
@@ -90,6 +93,7 @@ class AdquisicionesManager
     
     public function recuperarDetallePedido($pedidoNumero, $compra, $anioEjercicio, $articulo)
     {
+        $compra = Entradas::$pedidoTiposAdquisiciones[$compra];
         $conn = $this->doctrine->getConnection('adquisiciones');
         $sql = "SELECT dps.no_pedido AS PedidoNumero, dps.compra as Compra, dps.ejercicio as Ejercicio, "
             . "dps.partida as PartidaClave, dps.descripcion_partida as PartidaNombre, dps.cve_articulo as Clave, "

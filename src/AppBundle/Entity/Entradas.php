@@ -25,6 +25,12 @@ class Entradas
         4 => 'Otro',
     );
     
+    public static $pedidoTiposAdquisiciones = array(
+        1 => 'PEDI',
+        2 => 'ORDE',
+        3 => 'PROP'
+    );
+    
     /**
      * @ORM\Id
      * @ORM\Column(name="Id", type="integer")
