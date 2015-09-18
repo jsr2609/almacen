@@ -197,6 +197,7 @@ class ArticulosManager
     
     public function comprobarExistencias($articulos, $campo = 'clave')
     {
+        
         $repository = $this->getRepository();
         $em = $this->base->getManager();
         
@@ -209,9 +210,11 @@ class ArticulosManager
                 $articuloObj->setClave($articulo['clave']); 
                 $articuloObj->setNombre($articulo['nombre']);
                 $articuloObj->setNombre($articulo['nombre']);
-                $articuloObj->setPresentacion($em->getReference("AppBundle:Presentaciones", 1));
-                $articuloObj->setPartida($em->getReference("AppBundle:Partidas", 16));
-                $articuloObj->setPartidaClave($articulo['partida']);
+                //$articuloObj->setPresentacion($em->getReference("AppBundle:Presentaciones", 1));
+                $articuloObj->setPresentacionNombre("FALTA");
+                //$articuloObj->setPartida($em->getReference("AppBundle:Partidas", 16));
+                
+                $articuloObj->setPartidaClave($articulo['partidaclave']);
                 $em->persist($articuloObj);
                 
             }

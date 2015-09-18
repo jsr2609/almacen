@@ -364,11 +364,12 @@ class EntradasController extends Controller
         return $response;
     }
     
-    public function procesarDePedidoAction(Request $request, $pedidonumero)
+    public function procesarDePedidoAction(Request $request, $pedidonumero, $compra, $anioEjercicio)
     {   
+        
         $adquisicionesManager = $this->get('app.adquisiciones');
-        $pedido = $adquisicionesManager->obtenerPedido($pedidonumero);
-        $articulos = $adquisicionesManager->obtenerArticulosPedido($pedidonumero);
+        $pedido = $adquisicionesManager->obtenerPedido($pedidonumero, $compra, $anioEjercicio, false);
+        $articulos = $adquisicionesManager->obtenerArticulosPedido($pedidonumero, $compra, $anioEjercicio, false);
         
         $entradasManager = $this->get('app.entradas');
         $em = $this->getDoctrine()->getManager();
@@ -381,27 +382,34 @@ class EntradasController extends Controller
                 'rfc' => $pedido['proveedorclave'],
                 'nombre' => $pedido['proveedornombre'],
             );
+            
             $proveedor = $proveedoresManager->comprobarExistencia($pedido['proveedorclave'], $datosProveedor);
+            
             $programasManager = $this->get('app.programas');
             $datosPrograma = array(
                 'clave' => $pedido['programaclave'],
                 'nombre' => $pedido['programanombre'],
             );
             $programa = $programasManager->comprobarExistencia($pedido['programaclave'], $datosPrograma);
+            
             $ejerciciosManager = $this->get('app.ejercicios');
             $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo();
+            
             $entrada = $entradasManager->procesarDePedido($pedido, $proveedor, $programa, $ejercicio);
             $entradasEvent = new EntradasEvent($entrada);
+            
             $entradasEvent = $this->container->get('event_dispatcher')->dispatch(EntradasEvents::SUBMITTED, $entradasEvent);
             
             if ($entradasEvent->isPropagationStopped()) {
                 
                 throw new \LogicException("Ha ocurrido un error al procesar la entrada");
             }
+            
             $em->persist($entrada);
             //Almacenar artículos
             $articulosManager = $this->get('app.articulos');
             $articulosManager->comprobarExistencias($articulos);
+            
             $edsManager = $this->get('app.entrada_detalles');
             $existenciasManager = $this->get('app.existencias');
             $ejerciciosManager = $this->get('app.ejercicios');

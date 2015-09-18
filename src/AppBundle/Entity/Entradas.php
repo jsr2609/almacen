@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping AS ORM;
 class Entradas
 {
     public static $pedidoTiposCompra = array(
-        1 => 'Directa',
+        1 => 'DIRECTA',
         2 => "LICITACION PUBLICA NACIONAL (PALACIO)",
         3 => "(PALACIO) LICITACION PUBLICA NACIONAL",
         4 => "LICITACION PUBLICA NACIONAL",
@@ -38,7 +38,7 @@ class Entradas
         3 => 'PROP'
     );
     
-    /**DIRECTA
+    /**
      * @ORM\Id
      * @ORM\Column(name="Id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -70,7 +70,7 @@ class Entradas
     private $folio;
     
     /**
-     * @ORM\Column(name="FolioManual", type="integer", length=2, nullable=false)
+     * @ORM\Column(name="FolioManual", type="integer", length=2, nullable=true)
      */
     private $folioManual;
 
@@ -203,6 +203,29 @@ class Entradas
     }
 
     /**
+     * Set folioManual
+     *
+     * @param integer $folioManual
+     * @return Entradas
+     */
+    public function setFolioManual($folioManual)
+    {
+        $this->folioManual = $folioManual;
+
+        return $this;
+    }
+
+    /**
+     * Get folioManual
+     *
+     * @return integer 
+     */
+    public function getFolioManual()
+    {
+        return $this->folioManual;
+    }
+
+    /**
      * Set fecha
      *
      * @param \DateTime $fecha
@@ -223,29 +246,6 @@ class Entradas
     public function getFecha()
     {
         return $this->fecha;
-    }
-
-    /**
-     * Set tipoEntrada
-     *
-     * @param integer $tipoEntrada
-     * @return Entradas
-     */
-    public function setTipoEntrada($tipoEntrada)
-    {
-        $this->tipoEntrada = $tipoEntrada;
-
-        return $this;
-    }
-
-    /**
-     * Get tipoEntrada
-     *
-     * @return integer 
-     */
-    public function getTipoEntrada()
-    {
-        return $this->tipoEntrada;
     }
 
     /**
@@ -295,26 +295,72 @@ class Entradas
     }
 
     /**
-     * Set pedidoTipo
+     * Set compra
      *
-     * @param integer $pedidoTipo
+     * @param integer $compra
      * @return Entradas
      */
-    public function setPedidoTipo($pedidoTipo)
+    public function setCompra($compra)
     {
-        $this->pedidoTipo = $pedidoTipo;
+        $this->compra = $compra;
 
         return $this;
     }
 
     /**
-     * Get pedidoTipo
+     * Get compra
      *
      * @return integer 
      */
-    public function getPedidoTipo()
+    public function getCompra()
     {
-        return $this->pedidoTipo;
+        return $this->compra;
+    }
+
+    /**
+     * Set anioEjercicio
+     *
+     * @param integer $anioEjercicio
+     * @return Entradas
+     */
+    public function setAnioEjercicio($anioEjercicio)
+    {
+        $this->anioEjercicio = $anioEjercicio;
+
+        return $this;
+    }
+
+    /**
+     * Get anioEjercicio
+     *
+     * @return integer 
+     */
+    public function getAnioEjercicio()
+    {
+        return $this->anioEjercicio;
+    }
+
+    /**
+     * Set tipoCompra
+     *
+     * @param integer $tipoCompra
+     * @return Entradas
+     */
+    public function setTipoCompra($tipoCompra)
+    {
+        $this->tipoCompra = $tipoCompra;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoCompra
+     *
+     * @return integer 
+     */
+    public function getTipoCompra()
+    {
+        return $this->tipoCompra;
     }
 
     /**
@@ -361,6 +407,29 @@ class Entradas
     public function getFacturaFecha()
     {
         return $this->facturaFecha;
+    }
+
+    /**
+     * Set numeroRemision
+     *
+     * @param string $numeroRemision
+     * @return Entradas
+     */
+    public function setNumeroRemision($numeroRemision)
+    {
+        $this->numeroRemision = $numeroRemision;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroRemision
+     *
+     * @return string 
+     */
+    public function getNumeroRemision()
+    {
+        return $this->numeroRemision;
     }
 
     /**
@@ -545,28 +614,5 @@ class Entradas
     public function getUsuario()
     {
         return $this->usuario;
-    }
-
-    /**
-     * Set numeroRemision
-     *
-     * @param string $numeroRemision
-     * @return Entradas
-     */
-    public function setNumeroRemision($numeroRemision)
-    {
-        $this->numeroRemision = $numeroRemision;
-
-        return $this;
-    }
-
-    /**
-     * Get numeroRemision
-     *
-     * @return string 
-     */
-    public function getNumeroRemision()
-    {
-        return $this->numeroRemision;
     }
 }

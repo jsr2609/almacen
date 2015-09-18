@@ -35,9 +35,11 @@ class AdquisicionesManager
         $this->doctrine = $doctrine;
     }
     
-    public function obtenerPedido($pedidoNumero, $compra, $anioEjercicio) 
+    public function obtenerPedido($pedidoNumero, $compra, $anioEjercicio, $convertirCompra = true) 
     {
-        $compra = Entradas::$pedidoTiposAdquisiciones[$compra];
+        if($convertirCompra) {
+            $compra = Entradas::$pedidoTiposAdquisiciones[$compra];
+        }
         $conn = $this->doctrine->getConnection('adquisiciones');
         //die(var_export($conn->getParams()));
         //die(var_export(get_class_methods(get_class($conn))));
@@ -65,9 +67,11 @@ class AdquisicionesManager
         return $pedido;
     }
     
-    public function obtenerArticulosPedido($pedidoNumero, $compra, $anioEjercicio)
+    public function obtenerArticulosPedido($pedidoNumero, $compra, $anioEjercicio, $convertirCompra = true)
     {
-        $compra = Entradas::$pedidoTiposAdquisiciones[$compra];
+        if($convertirCompra) {
+            $compra = Entradas::$pedidoTiposAdquisiciones[$compra];
+        }
         $conn = $this->doctrine->getConnection('adquisiciones');
         $sql = "SELECT dps.no_pedido AS PedidoNumero, dps.compra as Compra, dps.ejercicio as Ejercicio, "
                 . "dps.partida as PartidaClave, dps.descripcion_partida as PartidaNombre, dps.cve_articulo as Clave, "
@@ -91,9 +95,11 @@ class AdquisicionesManager
         return $articulos;
     }
     
-    public function recuperarDetallePedido($pedidoNumero, $compra, $anioEjercicio, $articulo)
+    public function recuperarDetallePedido($pedidoNumero, $compra, $anioEjercicio, $articulo, $convertirCompra = true)
     {
-        $compra = Entradas::$pedidoTiposAdquisiciones[$compra];
+        if($convertirCompra) {
+            $compra = Entradas::$pedidoTiposAdquisiciones[$compra];
+        }
         $conn = $this->doctrine->getConnection('adquisiciones');
         $sql = "SELECT dps.no_pedido AS PedidoNumero, dps.compra as Compra, dps.ejercicio as Ejercicio, "
             . "dps.partida as PartidaClave, dps.descripcion_partida as PartidaNombre, dps.cve_articulo as Clave, "

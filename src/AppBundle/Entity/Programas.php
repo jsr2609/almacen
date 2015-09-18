@@ -23,7 +23,7 @@ class Programas
     private $nombre;
 
     /**
-     * @ORM\Column(name="Clave", type="string", length=10, nullable=false)
+     * @ORM\Column(name="Clave", type="string", length=13, nullable=false)
      */
     private $clave;
 

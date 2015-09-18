@@ -118,6 +118,7 @@ class EntradaDetallesManager
     
     public function listaArticulosPorEntrada($entradaId, $iva)
     {
+        
         $repository = $this->base->getRepository("AppBundle:EntradaDetalles");
         $select = "eds.id, ats.clave as articuloClave, ats.nombre as articuloNombre, eds.cantidad, eds.precio, eds.aplicaIva";
         $articulos = $repository->buscarTodos($select, $entradaId);
@@ -152,7 +153,8 @@ class EntradaDetallesManager
             }
             $eds->setArticulo($articuloObj);
             $eds->setExistencia($articulo['cantidad']);
-            
+            $aplicaIva = ($articulo['iva'] > 0) ? true : false;
+            $eds->setAplicaIva($aplicaIva);
             $em->persist($eds);
             
             $existenciasManager->aumentar($articuloObj, 
@@ -160,7 +162,7 @@ class EntradaDetallesManager
                 $eds->getCantidad(), 
                 $eds->getPrecio(),
                 $ejercicio,
-                $eds->getAplicaIva()
+                $aplicaIva
             );
             
             

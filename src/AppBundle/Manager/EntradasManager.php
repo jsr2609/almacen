@@ -233,12 +233,27 @@ class EntradasManager
         $entrada = new Entradas();
         $entrada->setFecha(new \DateTime());
         $entrada->setPedidoNumero($datospedido['pedidonumero']);
-        $entrada->setPedidoTipo(\rand(1,4));
+        $compra = $datospedido['compra'];
+        
+        $indiceCompra = array_search($compra, Entradas::$pedidoTiposAdquisiciones);
+        if(!$indiceCompra)
+        {
+            throw new \LogicException("No existe un valor $compra en pedidoTiposAdquisiciones de Entradas");
+        }        
+        $entrada->setCompra($indiceCompra);
+        $entrada->setAnioEjercicio($datospedido['ejercicio']);
         $entrada->setProveedor($proveedor);
         $entrada->setPrograma($programa);
         $entrada->setEjercicio($ejercicio);
-        $tipoEntrada = ($datospedido['tipocompra'] == 'DIRECTA') ? 1 : \rand(2,4);
-        $entrada->setTipoEntrada($tipoEntrada);
+        $tipoCompra = $datospedido['tipocompra'];
+        
+        $indiceTipoCompra = array_search($tipoCompra, Entradas::$pedidoTiposCompra);
+        if(!$indiceTipoCompra)
+        {
+            throw new \LogicException("No existe un valor $tipoCompra en pedidoTiposCompra de Entradas");
+        }    
+        
+        $entrada->setTipoCompra($indiceTipoCompra);
         
         return $entrada;
         

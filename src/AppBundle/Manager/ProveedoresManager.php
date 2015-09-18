@@ -36,6 +36,7 @@ class ProveedoresManager
         ));
         
         if(!$proveedor) {
+            
             $em = $this->base->getManager();
             $proveedor = new Proveedores();
             $proveedor->setRfc($datos['rfc']);

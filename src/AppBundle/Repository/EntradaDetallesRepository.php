@@ -18,8 +18,8 @@ class EntradaDetallesRepository extends EntityRepository
         $qb->select($select);
         $qb->innerJoin('eds.entrada', 'ets')
             ->innerJoin('eds.articulo', 'ats')
-            ->innerJoin('ats.partida', 'pts')
-            ->innerJoin('ats.presentacion', 'pss')
+            ->leftJoin('ats.partida', 'pts')
+            ->leftJoin('ats.presentacion', 'pss')
         ;
         if($entradaId) {
             $qb->andWhere('eds.entrada = :entrada');
@@ -29,7 +29,7 @@ class EntradaDetallesRepository extends EntityRepository
             $qb->andWhere('ats.partida = :partida');
             $qb->setParameter('partida', $partidaId);
         }
-        
+        $qb->addOrderBy('eds.id', 'ASC');
         $query = $qb->getQuery();
         
         switch($hydrationMode) {

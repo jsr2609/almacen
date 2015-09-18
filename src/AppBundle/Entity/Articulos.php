@@ -18,7 +18,7 @@ class Articulos
     
     /**
      * @ORM\ManyToOne(targetEntity="Partidas")
-     * @ORM\JoinColumn(name="PartidaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     * @ORM\JoinColumn(name="PartidaId", referencedColumnName="Id", nullable=true, onDelete="RESTRICT")
     */
     private $partida;
     
@@ -40,7 +40,7 @@ class Articulos
     
     /**
      * @ORM\ManyToOne(targetEntity="Presentaciones", cascade={})
-     * @ORM\JoinColumn(name="PresentacionId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     * @ORM\JoinColumn(name="PresentacionId", referencedColumnName="Id", nullable=true, onDelete="RESTRICT")
      */
     private $presentacion;
 

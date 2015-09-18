@@ -30,7 +30,7 @@ class EntradaDetallesController extends Controller
         $iva = $ejerciciosManager->obtenerIVAPorAlmacenYPeriodo();
         $detallesManager = $this->get('app.entrada_detalles');
         $entities = $detallesManager->listaArticulosPorEntrada($entrada->getId(), $iva);
-                
+        
         return $this->render('/Admin/EntradaDetalles/index.html.twig', array(
             'entities' => $entities,
             'entrada' => $entrada,
