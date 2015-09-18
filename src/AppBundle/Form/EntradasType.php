@@ -23,6 +23,14 @@ class EntradasType extends AbstractType
                     'readonly' => true
                 )
             ))
+            ->add('folioManual', 'text', array(
+                'label' => 'Folio Manual',
+                'help_block' => 'Folio que asigna el área de revisar documentos.',
+                'required' => false,
+                'attr' => array(
+                    'readonly' => false
+                )
+            ))
             ->add('fecha', 'date', array(
                 'widget' => 'single_text',
                 'format' => 'dd/MM/y',
@@ -33,10 +41,11 @@ class EntradasType extends AbstractType
                 ),
                 'widget_addon_prepend' => array('icon' => 'calendar'),
             ))
-            ->add('tipoEntrada', 'choice', array(
-                'label' => 'Tipo de Entrada',
-                'choices' => Entradas::$entradaTipos,
-                'expanded' => true,
+            ->add('tipoCompra', 'choice', array(
+                'label' => 'Tipo de Compra',
+                'empty_value' => 'Seleccione...',
+                'choices' => Entradas::$pedidoTiposCompra,
+                'expanded' => false,
                 'widget_type'  => 'inline'
             ))
             ->add('programa', 'search_key', array(
@@ -73,7 +82,7 @@ class EntradasType extends AbstractType
                 'label' => 'Número de Pedido',
                 'required' => false,
             ))
-            ->add('pedidoTipo', 'choice', array(
+            ->add('compra', 'choice', array(
                 'label' => 'Tipo de pedido',
                 'choices' => Entradas::$pedidoTipos,
                 'expanded' => true,

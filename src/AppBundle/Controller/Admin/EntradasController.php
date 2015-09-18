@@ -27,7 +27,7 @@ class EntradasController extends Controller
     
         return $this->render('::/Admin/Entradas/index.html.twig', array(
             'entities' => $entities,
-            'entradaTipos' => Entradas::$entradaTipos,
+            'entradaTipos' => Entradas::$pedidoTipos,
         ));
     }
     /**
@@ -45,9 +45,10 @@ class EntradasController extends Controller
             ),
             array('db' => 'pedidoNumero', 'dt' => 2),
             array('db' => 'facturaNumero', 'dt' => 3),
-            array('db' => 'tipoEntrada', 'dt' => 4,
+            array('db' => 'tipoCompra', 'dt' => 4,
                 'formatter' => function($d, $record) {
-                    return Entradas::$entradaTipos[$d];
+                    
+                    return Entradas::$pedidoTiposCompra[$d];
                 }
             ),
             

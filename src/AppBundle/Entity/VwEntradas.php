@@ -36,9 +36,9 @@ class VwEntradas
     /**
      * @var integer
      *
-     * @ORM\Column(name="TipoEntradaId", type="smallint")
+     * @ORM\Column(name="TipoCompraId", type="smallint")
      */
-    private $tipoEntrada;
+    private $tipoCompra;
 
     /**
      * @var string
@@ -178,7 +178,7 @@ class VwEntradas
      * @param integer $tipoEntrada
      * @return VwEntradas
      */
-    public function setTipoEntrada($tipoEntrada)
+    public function setTipoCompra($tipoEntrada)
     {
         $this->tipoEntrada = $tipoEntrada;
 
@@ -190,9 +190,9 @@ class VwEntradas
      *
      * @return integer 
      */
-    public function getTipoEntrada()
+    public function getTipoCompra()
     {
-        return $this->tipoEntrada;
+        return $this->tipoCompra;
     }
 
     /**
