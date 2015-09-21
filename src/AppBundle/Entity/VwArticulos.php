@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * VwArticulos
  *
  * @ORM\Table()
- * ORM\Entity
+ * @ORM\Entity
  */
 class VwArticulos
 {
@@ -34,6 +34,13 @@ class VwArticulos
      * @ORM\Column(name="Nombre", type="text")
      */
     private $nombre;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ArticuloPresentacionNombre", type="text")
+     */
+    private $articuloPresentacionNombre;
 
     /**
      * @var string
@@ -123,6 +130,16 @@ class VwArticulos
     public function getNombre()
     {
         return $this->nombre;
+    }
+    
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getArticuloPresentacionNombre()
+    {
+        return $this->articuloPresentacionNombre;
     }
 
     /**

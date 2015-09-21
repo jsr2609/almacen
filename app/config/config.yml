@@ -118,7 +118,7 @@ white_october_tcpdf:
 
 mopa_bootstrap:
     form:
-        templating: MopaBootstrapBundle:Form:fields.html.twig
+        templating: SSAUtilidadesBundle:Form:mopa_fields.html.twig
         horizontal_label_class: col-sm-3 col-md-3 col-lg-2
         horizontal_input_wrapper_class: col-sm-9 col-md-9  col-lg-10
         render_fieldset: false

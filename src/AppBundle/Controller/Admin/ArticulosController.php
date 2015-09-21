@@ -36,7 +36,7 @@ class ArticulosController extends Controller
         $columnas = array(
             array('dt' => 0, 'db' => 'clave'),
             array('dt' => 1, 'db' => 'nombre'),
-            array('dt' => 2, 'db' => 'presentacionNombre'),
+            array('dt' => 2, 'db' => 'articuloPresentacionNombre'),
             array('dt' => 3, 'db' => 'partidaClave')
         );
         
@@ -305,7 +305,7 @@ class ArticulosController extends Controller
         $columnas = array(
             array('dt' => 0, 'db' => 'clave'),
             array('dt' => 1, 'db' => 'nombre'),
-            array('dt' => 2, 'db' => 'presentacionNombre'),
+            array('dt' => 2, 'db' => 'articuloPresentacionNombre'),
             array('dt' => 3, 'db' => 'partidaClave'),
         );
         

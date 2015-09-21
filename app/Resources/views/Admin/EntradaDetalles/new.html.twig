@@ -1,3 +1,4 @@
+
 <div id="modal-nuevo-articulo" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -50,7 +51,7 @@
     $("#entrada_detalles_type_articulo").tooltip();
     
     //Interceptando el click para buscar un artículo
-    $("#entrada_detalles_type_articulo_control_group .input-group-addon").click(function(){
+    $("#entrada_detalles_type_articulo_btn").click(function(){
         $.ajax({
             url: "{{ path('admin_articulos_popup_buscar') }}",
             type: 'GET',
