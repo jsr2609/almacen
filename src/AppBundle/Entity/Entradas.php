@@ -70,7 +70,7 @@ class Entradas
     private $folio;
     
     /**
-     * @ORM\Column(name="FolioManual", type="integer", length=2, nullable=true)
+     * @ORM\Column(name="FolioManual", type="string", length=10, nullable=true)
      */
     private $folioManual;
 

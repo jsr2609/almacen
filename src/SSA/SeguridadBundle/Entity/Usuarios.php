@@ -159,6 +159,7 @@ class Usuarios implements AdvancedUserInterface, \Serializable
      */
     public function getRoles()
     {             
+        
         $roleUser = new Roles();
         $roleUser->setNombre('ROLE_USER');
         $roles = array($roleUser);

@@ -80,15 +80,19 @@ class EntradasType extends AbstractType
             ))
             ->add('pedidoNumero', 'text', array(
                 'label' => 'Número de Pedido',
-                'required' => false,
+                'required' => true,
             ))
             ->add('compra', 'choice', array(
-                'label' => 'Tipo de pedido',
+                'label' => 'Tipo de Pedido',
                 'choices' => Entradas::$pedidoTipos,
                 'expanded' => true,
                 'widget_type'  => 'inline',
-                'required' => false,
+                'required' => true,
                 'empty_value' => false,
+            ))
+            ->add('anioEjercicio', 'number', array(
+                'label' => 'Año de Ejercicio del Pedido',
+                'required' => true,
             ))
             
             ->add('observaciones', 'textarea', array(
