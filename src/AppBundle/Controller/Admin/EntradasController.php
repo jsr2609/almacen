@@ -372,30 +372,42 @@ class EntradasController extends Controller
         $pedido = $adquisicionesManager->obtenerPedido($pedidonumero, $compra, $anioEjercicio, false);
         $articulos = $adquisicionesManager->obtenerArticulosPedido($pedidonumero, $compra, $anioEjercicio, false);
         
-        $entradasManager = $this->get('app.entradas');
+        //Verificando si existen las partidas
+        $partidas = $adquisicionesManager->obtenerPartidasPedido($pedidonumero, $compra, $anioEjercicio, false);
+        $partidasManager = $this->get('app.partidas');
+        $partidasManager->comprobarExistencias($partidas);
+        
+        //Verificando si existen los articulos
+        $articulosManager = $this->get('app.articulos');
+        $articulosManager->comprobarExistencias($articulos);
+        
+        //Verificando si existe el proveedor
+        $proveedoresManager = $this->get('app.proveedores');
+        $datosProveedor = array(
+            'rfc' => $pedido['proveedorclave'],
+            'nombre' => $pedido['proveedornombre'],
+        );
+        $proveedor = $proveedoresManager->comprobarExistencia($pedido['proveedorclave'], $datosProveedor);
+        
+        //Verificando si existe el programa
+        $programasManager = $this->get('app.programas');
+        $datosPrograma = array(
+            'clave' => $pedido['programaclave'],
+            'nombre' => $pedido['programanombre'],
+        );
+        $programa = $programasManager->comprobarExistencia($pedido['programaclave'], $datosPrograma);
+        
+        //Recuperando el año de ejercicio
+        $ejerciciosManager = $this->get('app.ejercicios');
+        $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo();
+        
         $em = $this->getDoctrine()->getManager();
         //Iniciando la transaccion
         // $em instanceof EntityManager
         $em->getConnection()->beginTransaction(); // suspend auto-commit
         try {
-            $proveedoresManager = $this->get('app.proveedores');
-            $datosProveedor = array(
-                'rfc' => $pedido['proveedorclave'],
-                'nombre' => $pedido['proveedornombre'],
-            );
-            
-            $proveedor = $proveedoresManager->comprobarExistencia($pedido['proveedorclave'], $datosProveedor);
-            
-            $programasManager = $this->get('app.programas');
-            $datosPrograma = array(
-                'clave' => $pedido['programaclave'],
-                'nombre' => $pedido['programanombre'],
-            );
-            $programa = $programasManager->comprobarExistencia($pedido['programaclave'], $datosPrograma);
-            
-            $ejerciciosManager = $this->get('app.ejercicios');
-            $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo();
-            
+            //Crear la entrada en base al pedido            
+            $entradasManager = $this->get('app.entradas');
             $entrada = $entradasManager->procesarDePedido($pedido, $proveedor, $programa, $ejercicio);
             $entradasEvent = new EntradasEvent($entrada);
             
@@ -407,15 +419,16 @@ class EntradasController extends Controller
             }
             
             $em->persist($entrada);
-            //Almacenar artículos
-            $articulosManager = $this->get('app.articulos');
-            $articulosManager->comprobarExistencias($articulos);
             
             $edsManager = $this->get('app.entrada_detalles');
             $existenciasManager = $this->get('app.existencias');
-            $ejerciciosManager = $this->get('app.ejercicios');
-            $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null, 'ecs.iva, ecs.tipoInventario', 'HYDRATE_ARRAY');
-            $edsManager->procesarArticulosDePedido($articulos, $entrada, $ejercicio, $existenciasManager);
+            $datosEjercicio = array(
+                'iva' => $ejercicio->getIva(),
+                'tipoInventario' => $ejercicio->getTipoInventario(),
+            );
+            
+            //Crear los detalles de la entrada de los detalles del pedido
+            $edsManager->procesarArticulosDePedido($articulos, $entrada, $datosEjercicio, $existenciasManager);
             $em->flush();
             
             $em->getConnection()->commit();

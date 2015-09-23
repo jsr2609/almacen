@@ -205,16 +205,26 @@ class ArticulosManager
             $articuloObj = $repository->findOneBy(array(
                 $campo => $articulo['clave'],
             ));
+            
             if(!$articuloObj) {
                 $articuloObj = new Articulos();
                 $articuloObj->setClave($articulo['clave']); 
                 $articuloObj->setNombre($articulo['nombre']);
                 $articuloObj->setNombre($articulo['nombre']);
                 //$articuloObj->setPresentacion($em->getReference("AppBundle:Presentaciones", 1));
-                $articuloObj->setPresentacionNombre("FALTA");
-                //$articuloObj->setPartida($em->getReference("AppBundle:Partidas", 16));
+                $articuloObj->setPresentacionNombre($articulo['unidad']);
+                $rPartidas = $this->base->getRepository("AppBundle:Partidas");
+                $partida = $rPartidas->findOneBy(array(
+                    'clave' => $articulo['partidaclave'],
+                ));
                 
-                $articuloObj->setPartidaClave($articulo['partidaclave']);
+                if(!$partida) {
+                    throw new \LogicException("No se encontró una partida con la clave ".$articulo['partidaclave']);
+                }
+                
+                $articuloObj->setPartida($partida);
+                
+                //$articuloObj->setPartidaClave($articulo['partidaclave']);
                 $em->persist($articuloObj);
                 
             }

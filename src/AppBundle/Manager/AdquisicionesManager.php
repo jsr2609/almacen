@@ -35,6 +35,10 @@ class AdquisicionesManager
         $this->doctrine = $doctrine;
     }
     
+    /**
+     * Obtiene los datos generales del pedido
+     * 
+     */
     public function obtenerPedido($pedidoNumero, $compra, $anioEjercicio, $convertirCompra = true) 
     {
         if($convertirCompra) {
@@ -65,6 +69,31 @@ class AdquisicionesManager
         $pedido = $stmt->fetch();
         
         return $pedido;
+    }
+    
+    public function obtenerPartidasPedido($pedidoNumero, $compra, $anioEjercicio, $convertirCompra = true)
+    {
+        if($convertirCompra) {
+            $compra = Entradas::$pedidoTiposAdquisiciones[$compra];
+        }
+        $conn = $this->doctrine->getConnection('adquisiciones');
+        $sql = "SELECT DISTINCT partida as clave, descripcion_partida as nombre "
+                . "FROM qry_detalles_pedidos AS dps "
+                . "WHERE dps.no_pedido LIKE :pedidoNumero "
+                . "AND dps.compra LIKE :compra "
+                . "AND dps.ejercicio = :ejercicio "
+        ;
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('pedidoNumero', $pedidoNumero);
+        $stmt->bindValue('compra', $compra);
+        $stmt->bindValue('ejercicio', $anioEjercicio);
+        $stmt->execute();
+        
+        
+        $partidas = $stmt->fetchAll();
+        
+        return $partidas;
     }
     
     public function obtenerArticulosPedido($pedidoNumero, $compra, $anioEjercicio, $convertirCompra = true)

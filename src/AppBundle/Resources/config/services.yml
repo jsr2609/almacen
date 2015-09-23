@@ -78,6 +78,10 @@ services:
     app.programas:
         class: AppBundle\Manager\ProgramasManager
         arguments: ['@ssa_utilidades.base']
+        
+    app.partidas:
+        class: AppBundle\Manager\PartidasManager
+        arguments: ['@ssa_utilidades.base']
 
 
     app.salida_detalles:

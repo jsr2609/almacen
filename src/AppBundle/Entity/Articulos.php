@@ -18,7 +18,7 @@ class Articulos
     
     /**
      * @ORM\ManyToOne(targetEntity="Partidas")
-     * @ORM\JoinColumn(name="PartidaId", referencedColumnName="Id", nullable=true, onDelete="RESTRICT")
+     * @ORM\JoinColumn(name="PartidaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
     */
     private $partida;
     

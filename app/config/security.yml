@@ -36,8 +36,8 @@ security:
             #    realm: "Secured Demo Area"
 
     access_control:
-        - { path: ^/utilidades, roles: ROLE_USER, requires_channel: https }
-        - { path: ^/admin, roles: ROLE_USER, requires_channel: https }
-        - { path: ^/seguridad, roles: ROLE_USER, requires_channel: https }
+        - { path: ^/utilidades, roles: ROLE_USER, requires_channel: http }
+        - { path: ^/admin, roles: ROLE_USER, requires_channel: http }
+        - { path: ^/seguridad, roles: ROLE_USER, requires_channel: http }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }

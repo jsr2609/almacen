@@ -19,7 +19,7 @@ class Partidas
     
     /**
      * @ORM\ManyToOne(targetEntity="Conceptos")
-     * @ORM\JoinColumn(name="ConceptoId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     * @ORM\JoinColumn(name="ConceptoId", referencedColumnName="Id", nullable=true, onDelete="RESTRICT")
     */
     private $concepto;
     
@@ -39,7 +39,7 @@ class Partidas
     private $descripcion;
 
     /**
-     * @ORM\Column(name="Prefijo", type="string", length=5, nullable=false)
+     * @ORM\Column(name="Prefijo", type="string", length=5, nullable=true)
      */
     private $prefijo;
 
