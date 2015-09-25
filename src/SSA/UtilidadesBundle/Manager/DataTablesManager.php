@@ -87,6 +87,7 @@ class DataTablesManager
          
          
         $qb = $em->getRepository($this->repository)->createQueryBuilder($this->root);
+        
         if($select) {
             $qb->select($select);
         } else {
@@ -111,6 +112,14 @@ class DataTablesManager
         $this->setOrderQB($qb);
         
         return $qb;
+    }
+    
+    public function countFilteredRecords()
+    {
+        $qb = $this->getBaseQB($select);
+        $this->setFiltersQB($qb);
+        
+        
     }
     
     /**
