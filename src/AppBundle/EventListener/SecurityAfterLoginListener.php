@@ -46,14 +46,14 @@ class SecurityAfterLoginListener
             $this->session->getFlashBag()->add('danger', 'No existe un ejercicio definido para este año.');
             $ejercicioDatos = array('id' => null, 'periodo' => 'No se ha definido');
         } else {
-            $ejercicioDatos = array('id' => $ejercicio->getId(), 'periodo' => $ejercicio->getPeriodo());
+            $ejercicioDatos = array('id' => 1, 'periodo' => 2015);
         }
         
         
         
         $almacenDatos = array(
-            'id' => $almacen->getId(), 
-            'nombre' => $almacen->getNombre(),
+            'id' => 1, 
+            'nombre' => "ALMACEN CENTRAL",
             'ejercicio' => $ejercicioDatos,
         );
         

@@ -19,8 +19,6 @@ class SalidaDetallesRepository extends EntityRepository
         $qb->innerJoin('sds.salida', 'sls')
             ->innerJoin('sds.articulo', 'ats')
             ->innerJoin('sds.entradaDetalle', 'eds')
-            ->innerJoin('ats.partida', 'pts')
-            ->innerJoin('ats.presentacion', 'pss')
             ->innerJoin('sls.destino', 'dts')
         ;
         if($salidaId) {

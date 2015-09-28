@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * ORM\Entity
+ * @ORM\Entity
  * @ORM\Table()
  */
 class VwSalidas
@@ -18,20 +18,17 @@ class VwSalidas
     private $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Ejercicios")
-     * @ORM\JoinColumn(name="EjercicioId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     * @ORM\Column(name="EjercicioId")
     */
     private $ejercicio;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Programas")
-     * @ORM\JoinColumn(name="ProgramaId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     * @ORM\Column(name="ProgramaId")
     */
     private $programa;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Destinos")
-     * @ORM\JoinColumn(name="DestinoId", referencedColumnName="Id", nullable=false, onDelete="RESTRICT")
+     * @ORM\Column(name="DestinoId")
     */
     private $destino;
 
@@ -85,19 +82,6 @@ class VwSalidas
         $this->fechaCreacion = new \DateTime();
         $this->fechaActualizacion = new \DateTime();
     }
-    
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return Salidas
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     /**
      * Get id
@@ -110,10 +94,79 @@ class VwSalidas
     }
 
     /**
+     * Set ejercicio
+     *
+     * @param string $ejercicio
+     * @return VwSalidas
+     */
+    public function setEjercicio($ejercicio)
+    {
+        $this->ejercicio = $ejercicio;
+
+        return $this;
+    }
+
+    /**
+     * Get ejercicio
+     *
+     * @return string 
+     */
+    public function getEjercicio()
+    {
+        return $this->ejercicio;
+    }
+
+    /**
+     * Set programa
+     *
+     * @param string $programa
+     * @return VwSalidas
+     */
+    public function setPrograma($programa)
+    {
+        $this->programa = $programa;
+
+        return $this;
+    }
+
+    /**
+     * Get programa
+     *
+     * @return string 
+     */
+    public function getPrograma()
+    {
+        return $this->programa;
+    }
+
+    /**
+     * Set destino
+     *
+     * @param string $destino
+     * @return VwSalidas
+     */
+    public function setDestino($destino)
+    {
+        $this->destino = $destino;
+
+        return $this;
+    }
+
+    /**
+     * Get destino
+     *
+     * @return string 
+     */
+    public function getDestino()
+    {
+        return $this->destino;
+    }
+
+    /**
      * Set folio
      *
      * @param integer $folio
-     * @return Salidas
+     * @return VwSalidas
      */
     public function setFolio($folio)
     {
@@ -136,7 +189,7 @@ class VwSalidas
      * Set fecha
      *
      * @param \DateTime $fecha
-     * @return Salidas
+     * @return VwSalidas
      */
     public function setFecha($fecha)
     {
@@ -159,7 +212,7 @@ class VwSalidas
      * Set tipoEntrada
      *
      * @param integer $tipoEntrada
-     * @return Salidas
+     * @return VwSalidas
      */
     public function setTipoEntrada($tipoEntrada)
     {
@@ -182,7 +235,7 @@ class VwSalidas
      * Set nombreQuienRecibe
      *
      * @param string $nombreQuienRecibe
-     * @return Salidas
+     * @return VwSalidas
      */
     public function setNombreQuienRecibe($nombreQuienRecibe)
     {
@@ -205,7 +258,7 @@ class VwSalidas
      * Set areaQueRecibe
      *
      * @param string $areaQueRecibe
-     * @return Salidas
+     * @return VwSalidas
      */
     public function setAreaQueRecibe($areaQueRecibe)
     {
@@ -228,7 +281,7 @@ class VwSalidas
      * Set observaciones
      *
      * @param string $observaciones
-     * @return Salidas
+     * @return VwSalidas
      */
     public function setObservaciones($observaciones)
     {
@@ -251,7 +304,7 @@ class VwSalidas
      * Set activo
      *
      * @param boolean $activo
-     * @return Salidas
+     * @return VwSalidas
      */
     public function setActivo($activo)
     {
@@ -274,7 +327,7 @@ class VwSalidas
      * Set fechaCreacion
      *
      * @param \DateTime $fechaCreacion
-     * @return Salidas
+     * @return VwSalidas
      */
     public function setFechaCreacion($fechaCreacion)
     {
@@ -297,7 +350,7 @@ class VwSalidas
      * Set fechaActualizacion
      *
      * @param \DateTime $fechaActualizacion
-     * @return Salidas
+     * @return VwSalidas
      */
     public function setFechaActualizacion($fechaActualizacion)
     {
@@ -314,74 +367,5 @@ class VwSalidas
     public function getFechaActualizacion()
     {
         return $this->fechaActualizacion;
-    }
-
-    /**
-     * Set ejercicio
-     *
-     * @param \AppBundle\Entity\Ejercicios $ejercicio
-     * @return Salidas
-     */
-    public function setEjercicio(\AppBundle\Entity\Ejercicios $ejercicio)
-    {
-        $this->ejercicio = $ejercicio;
-
-        return $this;
-    }
-
-    /**
-     * Get ejercicio
-     *
-     * @return \AppBundle\Entity\Ejercicios 
-     */
-    public function getEjercicio()
-    {
-        return $this->ejercicio;
-    }
-
-    /**
-     * Set programa
-     *
-     * @param \AppBundle\Entity\Programas $programa
-     * @return Salidas
-     */
-    public function setPrograma(\AppBundle\Entity\Programas $programa)
-    {
-        $this->programa = $programa;
-
-        return $this;
-    }
-
-    /**
-     * Get programa
-     *
-     * @return \AppBundle\Entity\Programas 
-     */
-    public function getPrograma()
-    {
-        return $this->programa;
-    }
-
-    /**
-     * Set destino
-     *
-     * @param \AppBundle\Entity\Destinos $destino
-     * @return Salidas
-     */
-    public function setDestino(\AppBundle\Entity\Destinos $destino)
-    {
-        $this->destino = $destino;
-
-        return $this;
-    }
-
-    /**
-     * Get destino
-     *
-     * @return \AppBundle\Entity\Destinos 
-     */
-    public function getDestino()
-    {
-        return $this->destino;
     }
 }

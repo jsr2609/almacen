@@ -73,7 +73,7 @@ class EntradasRepository extends EntityRepository
             ->leftJoin('AppBundle:EntradaDetalles', 'eds', 'WITH', 'eds.entrada = ets.id')
             ->leftJoin('AppBundle:SalidaDetalles', 'sds', 'WITH', 'sds.entradaDetalle = eds.id')
             ->where('sds.id is null')
-            ->andWhere('ets.tipoEntrada = 1')
+            ->andWhere('ets.tipoCompra = 1')
             ->andWhere('ets.programa = :programa')
             ->setParameter('programa', $programaId);
        }

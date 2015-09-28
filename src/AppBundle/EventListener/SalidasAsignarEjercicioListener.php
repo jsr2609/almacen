@@ -37,6 +37,7 @@ class SalidasAsignarEjercicioListener
             'almacen' => $almacenDatos['id'],
             'periodo' => $almacenDatos['ejercicio']['periodo'],
         ));
+        
         $salida->setEjercicio($ejercicio);
         
     }

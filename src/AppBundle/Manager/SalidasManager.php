@@ -22,6 +22,7 @@ use AppBundle\Entity\Salidas;
 use AppBundle\Repository\SalidasRepository;
 use SSA\UtilidadesBundle\Manager\DataTablesManager;
 use SSA\UtilidadesBundle\Manager\BaseManager;
+use SSA\UtilidadesBundle\Helper\Helpers;
 use AppBundle\PDF\BaseSalidaPDF;
 use AppBundle\PDF\Baja;
 

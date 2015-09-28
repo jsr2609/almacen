@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -52,7 +51,7 @@ class SalidasController extends Controller
                 }
             ),
             array('db' => 'nombreQuienRecibe', 'dt' => 2),
-            array('db' => 'tipoEntrada', 'dt' => 3,
+            array('db' => 'tipoCompra', 'dt' => 3,
                 'formatter' => function($d, $record) {
                     return Salidas::$salidasTipos[$d];
                 }
@@ -62,14 +61,15 @@ class SalidasController extends Controller
         $dtManager = $this->get('ssa_utilidades.dataTables');
         $salidasManager = $this->get('app.salidas');
         $ejerciciosManager = $this->get('app.ejercicios');
-        
         $ejercicio = $ejerciciosManager->buscarPorAlmacenYPeriodo(null,"ecs.id");
+        
         $datos = $salidasManager->obtenerRegistrosDT($ejercicio['id'], $dtManager, 'AppBundle:VwSalidas', 
             $request->query->all(), $columnas
         );
         
         
         $respuesta = new JSONResponse($datos);
+               
         
         return $respuesta;
     }

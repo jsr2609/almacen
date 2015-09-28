@@ -54,7 +54,8 @@ class SalidaDetallesController extends Controller
         
         $detallesManager = $this->get('app.salida_detalles');
         $entities = $detallesManager->listaArticulosPorSalida($salida->getId(), $iva);
-              
+        
+        
         return $this->render('/Admin/SalidaDetalles/indexDirecta.html.twig', array(
             'entities' => $entities,
             'salida' => $salida,
