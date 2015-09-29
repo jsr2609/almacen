@@ -154,14 +154,14 @@ class Entradas
         $this->fechaActualizacion = new \DateTime();
     }
     
-    public function getTipoEntradaNombre()
+    public function getTipoCompraNombre()
     {
-        return self::$entradaTipos[$this->tipoEntrada];
+        return self::$pedidoTiposCompra[$this->tipoCompra];
     }
     
     public function getPedidoTipoNombre()
     {
-        $nombre = $this->pedidoTipo == null ? "" : self::$pedidoTipos[$this->pedidoTipo];
+        $nombre = $this->compra == null ? "" : self::$pedidoTipos[$this->compra];
         return $nombre;
     }
     
