@@ -27,7 +27,7 @@ class EntradasController extends Controller
     
         return $this->render('::/Admin/Entradas/index.html.twig', array(
             'entities' => $entities,
-            'entradaTipos' => Entradas::$pedidoTipos,
+            'entradaTipos' => Entradas::$pedidoTiposCompra,
         ));
     }
     /**
@@ -37,7 +37,7 @@ class EntradasController extends Controller
     public function indexAjaxAction(Request $request)
     {
         $columnas = array(
-            array('db' => 'folio', 'dt' => 0),
+            array('db' => 'folio', 'dt' => 0,),
             array('db' => 'fecha', 'dt' => 1,
                 'formatter' => function(\DateTime $d, $record) {
                     return $d->format('d/m/Y');
@@ -49,7 +49,8 @@ class EntradasController extends Controller
                 'formatter' => function($d, $record) {
                     
                     return Entradas::$pedidoTiposCompra[$d];
-                }
+                },
+                
             ),
             
         );

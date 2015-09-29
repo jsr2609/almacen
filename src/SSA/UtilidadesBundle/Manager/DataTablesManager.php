@@ -130,6 +130,7 @@ class DataTablesManager
      */
     
     public function setFiltersQB(QueryBuilder $qb) {
+        
         $dtColumns = $this->pluck($this->columns, "dt");  
         //Global Filter
         if(isset($this->request['search']) && $this->request['search']['value'] != '') {
@@ -154,10 +155,11 @@ class DataTablesManager
             $columnIdx = array_search( $requestColumn['data'], $dtColumns );
             $column = $this->columns[ $columnIdx ];
 
-            $str = $requestColumn['search']['value'];
-            if ( $requestColumn['searchable'] == 'true' && $str != '' ) {
-                $qb->andWhere($qb->expr()->like($this->root.".".$column['db'], ":str".$i));
-                $qb->setParameter("str".$i, "%".$str."%");
+            $str = $requestColumn['search']['value'];            
+            if ($requestColumn['searchable'] == 'true' && $str != '' ) {
+                //$qb->andWhere($qb->expr()->like($this->root.".".$column['db'], ":str".$i));
+                $qb = $this->addOperatorFilter($column, $qb, $str, $i);
+                
             }
         }
         
@@ -165,6 +167,33 @@ class DataTablesManager
         
         return $qb;//put your code here
        
+    }
+    
+    private function  addOperatorFilter($column,QueryBuilder $qb, $str,$i = null)
+    {
+        
+        if(!isset($column['type'])) {
+            $type = \PDO::PARAM_STR;
+        } else {
+            
+           $type = $column['type'];
+        }
+        
+        switch($type) {
+            case \PDO::PARAM_INT:
+                $qb->andWhere($this->root.".".$column['db']."= :str".$i);
+                $qb->setParameter("str".$i, $str, \PDO::PARAM_INT);
+                break;
+            case \PDO::PARAM_STR:
+                $qb->andWhere($qb->expr()->like($this->root.".".$column['db'], ":str".$i));
+                $qb->setParameter("str".$i, '%'.$str.'%', \PDO::PARAM_STR);
+                break;
+            default:
+                throw new \LogicException("No se encontró un tipo valido para armar la consulta en DataTablesManaher");
+                
+        }
+        
+        return $qb;
     }
     
     /**

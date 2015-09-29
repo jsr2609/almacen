@@ -1,11 +1,11 @@
--- View: vwentradas
+﻿-- View: vwentradas
 
--- DROP VIEW vwentradas;
+DROP VIEW vwentradas;
 
 CREATE OR REPLACE VIEW vwentradas AS 
  SELECT ets.id,
     ets.folio,
-    ets.fecha,
+    CAST(ets.fecha AS TEXT),
     ets.tipocompra AS tipocompraid,
     ets.pedidonumero,
     ets.facturanumero,
