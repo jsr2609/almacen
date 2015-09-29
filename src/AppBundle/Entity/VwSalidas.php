@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping AS ORM;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
@@ -45,7 +45,7 @@ class VwSalidas
     /**
      * @ORM\Column(name="TipoEntradaId", type="smallint", nullable=false)
      */
-    private $tipoEntrada;
+    private $tipoCompra;
 
     /**
      * @ORM\Column(name="NombreQuienRecibe", type="string", length=150, nullable=false)
