@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "321bf46ce87969f056474df244772b9f",
+    "hash": "0db2c44008d7276947e0176d40ee4247",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1122,12 +1122,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phiamo/MopaBootstrapBundle.git",
-                "reference": "c43c1c3b230cccfaa2548b55a7ddca5a5af8eaff"
+                "reference": "cc093b4f10f5598f9c5d77acd365c0e61283e8e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/c43c1c3b230cccfaa2548b55a7ddca5a5af8eaff",
-                "reference": "c43c1c3b230cccfaa2548b55a7ddca5a5af8eaff",
+                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/cc093b4f10f5598f9c5d77acd365c0e61283e8e7",
+                "reference": "cc093b4f10f5598f9c5d77acd365c0e61283e8e7",
                 "shasum": ""
             },
             "require": {
@@ -1185,7 +1185,7 @@
                 "form",
                 "template"
             ],
-            "time": "2015-09-10 17:23:40"
+            "time": "2015-09-15 16:51:21"
         },
         {
             "name": "mopa/composer-bridge",
@@ -1797,17 +1797,17 @@
             "time": "2015-09-08 14:26:39"
         },
         {
-            "name": "tecnick.com/tcpdf",
-            "version": "6.2.11",
+            "name": "tecnickcom/tcpdf",
+            "version": "6.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "354433a33946ae7497c3eab291eaaf814bccbfab"
+                "reference": "2f732eaa91b5665274689b1d40b285a7bacdc37f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/354433a33946ae7497c3eab291eaaf814bccbfab",
-                "reference": "354433a33946ae7497c3eab291eaaf814bccbfab",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/2f732eaa91b5665274689b1d40b285a7bacdc37f",
+                "reference": "2f732eaa91b5665274689b1d40b285a7bacdc37f",
                 "shasum": ""
             },
             "require": {
@@ -1857,7 +1857,7 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2015-08-02 12:30:27"
+            "time": "2015-09-12 10:08:34"
         },
         {
             "name": "twig/extensions",
@@ -1913,16 +1913,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.22.0",
+            "version": "v1.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "204a6c94907c2c2225322c267e09adbb2b1c04fd"
+                "reference": "b7fc2469fa009897871fb95b68237286fc54a5ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/204a6c94907c2c2225322c267e09adbb2b1c04fd",
-                "reference": "204a6c94907c2c2225322c267e09adbb2b1c04fd",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/b7fc2469fa009897871fb95b68237286fc54a5ad",
+                "reference": "b7fc2469fa009897871fb95b68237286fc54a5ad",
                 "shasum": ""
             },
             "require": {
@@ -1970,7 +1970,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-09-13 17:12:38"
+            "time": "2015-09-15 06:50:16"
         },
         {
             "name": "whiteoctober/tcpdf-bundle",
@@ -1979,18 +1979,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/whiteoctober/WhiteOctoberTCPDFBundle.git",
-                "reference": "a523a38aa11fcd61cbae028c8225a0171d24330e"
+                "reference": "e134861af736518ca24f4eab69699073460e4c08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/whiteoctober/WhiteOctoberTCPDFBundle/zipball/a523a38aa11fcd61cbae028c8225a0171d24330e",
-                "reference": "a523a38aa11fcd61cbae028c8225a0171d24330e",
+                "url": "https://api.github.com/repos/whiteoctober/WhiteOctoberTCPDFBundle/zipball/e134861af736518ca24f4eab69699073460e4c08",
+                "reference": "e134861af736518ca24f4eab69699073460e4c08",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
                 "symfony/framework-bundle": ">=2.0",
-                "tecnick.com/tcpdf": "*"
+                "tecnickcom/tcpdf": "*"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -2014,7 +2014,7 @@
                 "TCPDF",
                 "pdf"
             ],
-            "time": "2015-09-02 15:45:24"
+            "time": "2015-09-18 08:47:03"
         }
     ],
     "packages-dev": [

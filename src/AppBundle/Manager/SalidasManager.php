@@ -22,6 +22,7 @@ use AppBundle\Entity\Salidas;
 use AppBundle\Repository\SalidasRepository;
 use SSA\UtilidadesBundle\Manager\DataTablesManager;
 use SSA\UtilidadesBundle\Manager\BaseManager;
+use SSA\UtilidadesBundle\Helper\Helpers;
 use AppBundle\PDF\BaseSalidaPDF;
 use AppBundle\PDF\Baja;
 
@@ -171,14 +172,15 @@ class SalidasManager
     
     public function recuperarInformacionFiltrosDT($ejercicioId, $activo = true) 
     {
-        $qb = $this->dataTable->applyActionsQB();
+       $qb = $this->dataTable->getBaseQB(null);
+        $this->dataTable->setFiltersQB($qb);
         
         $root = $qb->getRootAliases()[0];
         $this->agregarFiltrosExtraQBDT($qb, $ejercicioId, $activo); 
-        //Agregar Filtros extra si se necesitan    
-        
+        //Agregar Filtros extra si se necesitan
         $total = $qb->select($qb->expr()->count($root))->getQuery()->getSingleScalarResult();  
         
+        $this->dataTable->setOrderQB($qb);
         $this->dataTable->setLimitQB($qb);
         
         $qb->select($this->dataTable->getBaseSelect());

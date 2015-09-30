@@ -150,6 +150,8 @@ class SalidaDetallesManager
         $select = "sds.id, sds.cantidad as cantidadSds, ats.clave as articuloClave, ats.nombre as articuloNombre, eds.cantidad, eds.precio, eds.aplicaIva";
         $articulos = $repository->buscarTodos($select, $salidaId);
         
+        
+        
         for($i = 0; $i < count($articulos); $i++) {
             $precio = $articulos[$i]['precio'];
             $aplicaIva = $articulos[$i]['aplicaIva'];
