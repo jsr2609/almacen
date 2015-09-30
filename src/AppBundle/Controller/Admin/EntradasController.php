@@ -9,6 +9,8 @@ use AppBundle\Form\EntradasType;
 use AppBundle\Event\EntradasEvent;
 use AppBundle\EntradasEvents;
 use AppBundle\Form\DatosPedidoType;
+use AppBundle\PDF\AltasTCPDF;
+
 /**
  * Entradas controller.
  *
@@ -291,9 +293,10 @@ class EntradasController extends Controller
     
     public function pdfAction(Request $request, $id)
     {
-        $tcpdfManager = $this->get('white_october.tcpdf');
+        //$tcpdfManager = $this->get('white_october.tcpdf');
         
-        $pdf = $tcpdfManager->create(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT);
+        //$pdf = $tcpdfManager->create(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT);
+        $pdf = new AltasTCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT);
         $entradasManager = $this->get('app.entradas');
         $select = "ets, partial pgs.{id, clave, nombre}, partial pvs.{id, rfc, nombre},partial ecs.{id, iva}, ams";
         $entrada = $entradasManager->buscar($id, $select, false, 'HYDRATE_ARRAY');

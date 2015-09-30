@@ -10,6 +10,7 @@ namespace AppBundle\PDF;
 
 use AppBundle\Repository\EntradaDetallesRepository;
 use AppBundle\PDF\MyTCPDF;
+use AppBundle\PDF\AltasTCPDF;
 use SSA\UtilidadesBundle\Helper\Helpers;
 
 /**
@@ -23,7 +24,7 @@ class Alta
     private $entrada;
     private $wCs;
     
-    public function __construct(MyTCPDF $pdf, $entrada) 
+    public function __construct(AltasTCPDF $pdf, $entrada) 
     {
         $this->pdf = $pdf;
         $this->entrada = $entrada;
