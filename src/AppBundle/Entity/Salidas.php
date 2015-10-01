@@ -14,9 +14,7 @@ class Salidas
     
     public static $salidasTipos = array(
         1 => 'Directa',
-        2 => 'Donación',
-        3 => 'Licitación',
-        4 => 'Otra',
+        2 => 'Mixta',
     );
     
     /**
