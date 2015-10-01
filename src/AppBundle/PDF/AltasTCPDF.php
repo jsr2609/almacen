@@ -19,6 +19,12 @@ use AppBundle\PDF\MyTCPDF;
 class AltasTCPDF extends MyTCPDF
 {
     private $footerText = array('address' => '', 'telephones' => '');
+    /**
+     * Los datos de a entrada en un arreglo
+     * 
+     * @var array 
+     */
+    private $entrada;
     
     
     public function setFooterText(array $txt)
@@ -34,6 +40,7 @@ class AltasTCPDF extends MyTCPDF
         $headerfont = $this->getHeaderFont();
         $headerdata = $this->getHeaderData();
         $this->y = $this->header_margin;
+        
         
         //Colocando imagen secundaria
         if ($this->rtl) {
@@ -55,6 +62,7 @@ class AltasTCPDF extends MyTCPDF
         
         $this->SetFont($headerfont[0], 'B', 9);
         $this->setX($header_x);
+        
         $this->Cell($cw, $cell_height, $headerdata['title'], '', 1, 'C', 0, '', 0);
         $this->SetFont($headerfont[0], $headerfont[1], 9);
         $this->SetX($header_x);
@@ -70,7 +78,9 @@ class AltasTCPDF extends MyTCPDF
         } else {
                 $this->x = $this->original_lMargin;
         }
-        $this->Cell(($this->w - $this->original_lMargin - $this->original_rMargin), 0, 'Juntas Y Juntos Podemos', 'B', 0, 'R');
+        $this->Cell(($this->w - $this->original_lMargin - $this->original_rMargin), 0, 'Juntas Y Juntos Podemos', 'B', 1, 'R');
+        $this->imprimirDatos();
+        
         $this->endTemplate();
         }
         // print header template
@@ -94,6 +104,36 @@ class AltasTCPDF extends MyTCPDF
 			// reset header xobject template at each page
 			$this->header_xobjid = false;
 		}
+        
+    }
+    
+    public function imprimirDatos()
+    {        
+        $this->SetMargins(PDF_MARGIN_LEFT, 90, PDF_MARGIN_RIGHT);
+        $this->Ln(2);
+        $this->SetFont('helvetica', 'B', 9);
+        $this->SetTextColorArray(array(0,0,0));
+        $this->Cell(0, 0, 'AVISO DE ALTA', '', 1, 'C');
+        //$this->Cell($w, $h, $txt, $border, $ln, $align, $fill, $link, $stretch, $ignore_min_height)
+        $this->SetFont('helvetica', '', 8);
+        $this->Ln(5);
+        $this->Cell(0, 0, 'No. '.$this->entrada['folio'], '', 1, 'R');
+        $this->Ln(5);
+        $lugar = $this->entrada['ejercicio']['almacen']['lugar']." A ".$this->entrada['fecha']->format('d/m/Y');
+        $this->Cell(0, 0, $lugar, '', 1, 'L');
+        $this->Cell(0, 0, mb_strtoupper($this->entrada['ejercicio']['almacen']['nombreJefeServicios']), '', 1, 'L');
+        $this->Cell(0, 0, 'CON ESTA FECHA SE DAN DE ALTA PROCEDENTES DE:', '', 1, 'L');
+        $this->Cell(0, 0, mb_strtoupper($this->entrada['proveedor']['nombre']), '', 1, 'L');
+        $fechaFactura = ($this->entrada['facturaFecha'] == null) ? "" : $this->entrada['facturaFecha']->format('d/m/Y');
+        $datosFactura = 'SEGUN FACTURA '.$this->entrada['facturaNumero'].', DE FECHA '.$fechaFactura
+            .', NÚMERO DE PEDIDO '.$this->entrada['pedidoNumero'];
+        $this->Cell(0, 0, $datosFactura, '', 1, 'L');
+        $programa = $this->entrada['programa']['clave'].'-'.$this->entrada['programa']['nombre'];
+        $this->Cell(0, 0, 'PROGRAMA: '.$programa, '', 1, 'L');
+        $this->Cell(0, 0, 'OBSERVACIONES: '.mb_strtoupper($this->entrada['observaciones']), '', 1, 'L');
+        $this->Cell(0, 0, 'LOS ARTICULOS QUE ACONTINUACIÓN SE DETALLAN:', '', 1, 'L');
+        $this->Ln(5);
+        
         
     }
     
@@ -131,30 +171,37 @@ class AltasTCPDF extends MyTCPDF
                 
 	}
     
-    public function init(MyTCPDF $pdf, $string = null, $footerText = null)
+    
+    public function init($entrada, $footerText = null)
     {
+        $this->entrada = $entrada;
+        
+        $nombreAlmacen = $entrada['ejercicio']['almacen']['nombre'];
         if($footerText){
-            $pdf->setFooterText($footerText);
+            $this->setFooterText($footerText);
         }
-        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, 
-            mb_strtoupper($string, 'UTF-8')
+        $this->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, 
+            mb_strtoupper($nombreAlmacen, 'UTF-8')
         );
-        $pdf->setFooterData(array(0,64,0), array(0,64,128));
+        $this->setFooterData(array(0,64,0), array(0,64,128));
         // set header and footer fonts
-        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+        $this->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $this->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
         // set default monospaced font
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+        $this->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
         // set margins
-        $pdf->SetMargins(PDF_MARGIN_RIGHT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-        // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
         
-        $pdf->AddPage();
+        
+        
+        $this->SetMargins(PDF_MARGIN_LEFT, 80, PDF_MARGIN_RIGHT);
+        $this->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $this->SetFooterMargin(PDF_MARGIN_FOOTER);
+        // set auto page breaks
+        $this->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        
+        $this->AddPage();
     }
     
 }
