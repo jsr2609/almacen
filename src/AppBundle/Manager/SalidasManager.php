@@ -131,9 +131,15 @@ class SalidasManager
             $editar = '<a class="btn btn-primary btn-xs" href="'.
                     $this->base->generateUrl('admin_salidas_edit', array('id' => $record['id'])).
                     '"><i class="fa fa-edit fa-fw"></i> Editar</a>';
+            if($record['tipoCompra'] == 1){
             $articulos = '<a class="btn btn-default btn-xs" href="'.
+                    $this->base->generateUrl('admin_salidadetallesDirecta', array('id' => $record['id'])).
+                    '"><i class="fa fa-list fa-fw"></i> Articulos</a>';
+            }else{
+                $articulos = '<a class="btn btn-default btn-xs" href="'.
                     $this->base->generateUrl('admin_salidadetalles', array('id' => $record['id'])).
                     '"><i class="fa fa-list fa-fw"></i> Articulos</a>';
+            }
             $row[] = $editar.' '.$articulos;
             
 
