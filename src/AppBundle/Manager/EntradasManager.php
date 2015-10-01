@@ -24,6 +24,7 @@ use SSA\UtilidadesBundle\Manager\DataTablesManager;
 use SSA\UtilidadesBundle\Manager\BaseManager;
 use SSA\UtilidadesBundle\Helper\Helpers;
 use AppBundle\PDF\BasePDF;
+use AppBundle\PDF\AltasTCPDF;
 use AppBundle\PDF\Alta;
 
 
@@ -210,17 +211,17 @@ class EntradasManager
      * Fin de funciones para recuperar registros del datatable
      */
     
-    public function generarPDF(\TCPDF $pdf, $entrada)
-    {        
-        $bPDF = new BasePDF();
+    public function generarPDF(AltasTCPDF $pdf, $entrada)
+    {   
         $footerText = array(
             'address' => $entrada['ejercicio']['almacen']['domicilio'],
             'telephones' => $entrada['ejercicio']['almacen']['telefonos'],
         );
-        $bPDF->init($pdf, $entrada['ejercicio']['almacen']['nombre'], $footerText);
+        
+        $pdf->init($entrada, $footerText);
         $edsRepository = $this->base->getRepository('AppBundle:EntradaDetalles');
         $alta = new Alta($pdf, $entrada);
-        $alta->imprimirDatos();
+        
         $alta->imprimirDetalles($edsRepository);
         
         $alta->imprimirFirmas();

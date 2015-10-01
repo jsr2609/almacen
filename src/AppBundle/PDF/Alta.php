@@ -30,34 +30,7 @@ class Alta
         $this->entrada = $entrada;
     }
      
-    public function imprimirDatos()
-    {
-        
-        //$this->pdf->Cell($w, $h, $txt, $border, $ln, $align, $fill, $link, $stretch, $ignore_min_height)
-        $this->pdf->SetFont('helvetica', 'B', 13);
-        $this->pdf->Cell(0, 0, 'AVISO DE ALTA', '', 1, 'C');
-        
-        $this->pdf->SetFont('helvetica', '', 9);
-        $this->pdf->Ln(5);
-        $this->pdf->Cell(0, 0, 'No. '.$this->entrada['folio'], '', 1, 'R');
-        $this->pdf->Ln(5);
-        $lugar = $this->entrada['ejercicio']['almacen']['lugar']." A ".$this->entrada['fecha']->format('d/m/Y');
-        $this->pdf->Cell(0, 0, $lugar, '', 1, 'L');
-        $this->pdf->Cell(0, 0, mb_strtoupper($this->entrada['ejercicio']['almacen']['nombreJefeServicios']), '', 1, 'L');
-        $this->pdf->Cell(0, 0, 'CON ESTA FECHA SE DAN DE ALTA PROCEDENTES DE:', '', 1, 'L');
-        $this->pdf->Cell(0, 0, mb_strtoupper($this->entrada['proveedor']['nombre']), '', 1, 'L');
-        $fechaFactura = ($this->entrada['facturaFecha'] == null) ? "" : $this->entrada['facturaFecha']->format('d/m/Y');
-        $datosFactura = 'SEGUN FACTURA '.$this->entrada['facturaNumero'].', DE FECHA '.$fechaFactura
-            .', NÚMERO DE PEDIDO '.$this->entrada['pedidoNumero'];
-        $this->pdf->Cell(0, 0, $datosFactura, '', 1, 'L');
-        $programa = $this->entrada['programa']['clave'].'-'.$this->entrada['programa']['nombre'];
-        $this->pdf->Cell(0, 0, 'PROGRAMA: '.$programa, '', 1, 'L');
-        $this->pdf->Cell(0, 0, 'OBSERVACIONES: '.mb_strtoupper($this->entrada['observaciones']), '', 1, 'L');
-        $this->pdf->Cell(0, 0, 'LOS ARTICULOS QUE ACONTINUACIÓN SE DETALLAN:', '', 1, 'L');
-        $this->pdf->Ln(5);
-        
-        
-    }
+    
     
     public function imprimirDetalles(EntradaDetallesrepository $edsRepository)
     {
@@ -97,7 +70,7 @@ class Alta
         
         foreach($partidas as $partida) {
             $this->pdf->SetFont('helvetica', 'B', 8);
-            $this->pdf->cell($wImporte, $hCell, $partida['nombre'], '', 1, 'l');
+            $this->pdf->cell($wImporte, $hCell, $partida['clave']." ".$partida['nombre'], '', 1, 'l');
             $this->pdf->Ln(1);
             $this->pdf->SetFont('helvetica', '', 8);
             
@@ -147,6 +120,16 @@ class Alta
         $this->pdf->cell($wPrecio, $hCell, 'TOTAL', '', 0, 'R');
 
         $this->pdf->cell($wImporte, $hCell, number_format($total, 2, '.', ','), '', 1, 'R');
+        /**
+        for($i= 0; $i < 100; $i++) {
+            $this->pdf->cell($wCve, $hCell, 'CLAVE', 'LTRB', 0, 'C', 1);
+        $this->pdf->cell($wNombre, $hCell, 'NOMBRE', 'LTRB', 0, 'C', 1);
+        $this->pdf->cell($wCaducidad, $hCell, 'CAD.', 'LTRB', 0, 'C', 1);
+        $this->pdf->cell($wCantidad, $hCell, 'CANTIDAD', 'LTRB', 0, 'C', 1);
+        $this->pdf->cell($wUnidad, $hCell, 'UNIDAD', 'LTRB', 0, 'C', 1);
+        $this->pdf->cell($wPrecio, $hCell, 'PRECIO', 'LTRB', 0, 'C', 1);
+        $this->pdf->cell($wImporte, $hCell, 'IMPORTE', 'LTRB', 1, 'C', 1);
+        }*/
         
         
     }
