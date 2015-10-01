@@ -34,7 +34,7 @@ class SalidasType extends AbstractType
                 'widget_addon_prepend' => array('icon' => 'calendar'),
             ))
             ->add('tipoEntrada', 'choice', array(
-                'label' => 'Tipo de Entrada',
+                'label' => 'Tipo de Salida',
                 'choices' => Salidas::$salidasTipos,
                 'expanded' => true,
                 'widget_type'  => 'inline'
