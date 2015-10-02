@@ -198,6 +198,7 @@ class AltasTCPDF extends MyTCPDF
         $this->SetMargins(PDF_MARGIN_LEFT, 80, PDF_MARGIN_RIGHT);
         $this->SetHeaderMargin(PDF_MARGIN_HEADER);
         $this->SetFooterMargin(PDF_MARGIN_FOOTER);
+        
         // set auto page breaks
         $this->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
         

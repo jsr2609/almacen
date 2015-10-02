@@ -34,11 +34,11 @@ class Alta
     
     public function imprimirDetalles(EntradaDetallesrepository $edsRepository)
     {
-        $this->pdf->SetFont('helvetica', '', 8);
+        $this->pdf->SetFont('helvetica', '', 7);
         
         $wPage = $this->pdf->getPageWidth() - PDF_MARGIN_LEFT - PDF_MARGIN_RIGHT;
-        $wCve = 20;
-        $wNombre = 80;
+        $wCve = 15;
+        $wNombre = 90;
         $wCaducidad = 15;
         $wCantidad = 15;
         $wUnidad = 20;
@@ -69,17 +69,19 @@ class Alta
         $iva = $this->entrada['ejercicio']['iva'];
         
         foreach($partidas as $partida) {
-            $this->pdf->SetFont('helvetica', 'B', 8);
+            $this->pdf->SetFont('helvetica', 'B', 7);
             $this->pdf->cell($wImporte, $hCell, $partida['clave']." ".$partida['nombre'], '', 1, 'l');
             $this->pdf->Ln(1);
-            $this->pdf->SetFont('helvetica', '', 8);
+            $this->pdf->SetFont('helvetica', '', 6);
             
             $detalles = $edsRepository->buscarTodos($selectEds, $this->entrada['id'], $partida['id']);
             $subtotalPartida = 0;
             foreach($detalles as $detalle){
                 //Articulos
                 $this->pdf->cell($wCve, $hCell, $detalle['clave'], 'LTRB', 0, 'C');
-                $this->pdf->cell($wNombre, $hCell, Helpers::getSubString($detalle['nombre'], 45), 'LTRB', 0, 'L');
+                //$this->pdf->MultiCell($w, $h, $txt, $border, $align, $fill, $ln, $x, $y, $reseth);
+                $this->pdf->MultiCell($wNombre, '', ($detalle['nombre']), 'LTRB', 'L', 0, 0);
+                //$this->pdf->cell($wNombre, $hCell, $detalle['nombre'], 'LTRB', 0, 'L');
                 $this->pdf->cell($wCaducidad, $hCell, $detalle['fechaCaducidad'], 'LTRB', 0, 'C');
                 $this->pdf->cell($wCantidad, $hCell, number_format($detalle['cantidad'], 0, '.', ','), 'LTRB', 0, 'R');
                 $this->pdf->cell($wUnidad, $hCell, $detalle['presentacionNombre'], 'LTRB', 0, 'C');
@@ -92,6 +94,7 @@ class Alta
                 
                 $this->pdf->cell($wImporte, $hCell, number_format($importe, 2, '.', ','), 'LTRB', 1, 'R');
                 $subtotalPartida += $importe;
+                break;
             }
             $subtotalPartida = round($subtotalPartida, 2);
             $this->pdf->cell($wCve, $hCell, '', '', 0, 'C');
