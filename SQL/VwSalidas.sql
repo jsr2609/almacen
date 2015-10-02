@@ -1,20 +1,21 @@
-use dbalmacen;
-CREATE OR REPLACE
-    ALGORITHM = UNDEFINED
-    DEFINER = `root`@`localhost`
-    SQL SECURITY DEFINER
-VIEW `VwSalidas` AS
-    SELECT
-        `ets`.`Id` AS `Id`,
-        `ets`.`Folio` AS `Folio`,
-        `ets`.`Fecha` AS `Fecha`,
-        `ets`.`TipoEntradaId` AS `TipoEntradaId`,
-        `ets`.`EjercicioId` AS `EjercicioId`,
-        `ets`.`NombreQuienRecibe` AS `NombreQuienRecibe`,
-        `ets`.`ProgramaId` AS `ProgramaId`,
-        `pgs`.`Clave` AS `ProgramaClave`,
-        `pgs`.`Nombre` AS `ProgramaNombre`,
-        `ets`.`Activo` AS `Activo`
-    FROM
-        (`Salidas` `ets`
-        JOIN `Programas` `pgs` ON ((`ets`.`ProgramaId` = `pgs`.`Id`)))
+-- View: almacen.vwsalidas
+
+-- DROP VIEW almacen.vwsalidas;
+
+CREATE OR REPLACE VIEW almacen.vwsalidas AS 
+ SELECT sds.id,
+    sds.folio,
+    sds.fecha,
+    sds.tipoentradaid,
+    sds.ejercicioid,
+    sds.nombrequienrecibe,
+    sds.programaid,
+    pgs.clave AS programaclave,
+    pgs.nombre AS programanombre,
+    sds.activo
+   FROM almacen.salidas sds
+     JOIN almacen.programas pgs ON sds.programaid = pgs.id
+  ORDER BY sds.id, sds.folio DESC;
+
+ALTER TABLE almacen.vwsalidas
+  OWNER TO almacen;

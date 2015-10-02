@@ -1,28 +1,30 @@
-CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
-VIEW `vwexistencias` AS
-    SELECT 
-        `ats`.`Id` AS `Id`,
-        `ets`.`ProgramaId` AS `ProgramaId`,
-        `eds`.`Id` AS `EntradaDetalleId`,
-        `eds`.`Existencia` AS `Existencia`,
-        `ets`.`TipoEntradaId` AS `TipoEntrada`,
-        `exs`.`Cantidad` AS `Cantidad`,
-        `ats`.`Clave` AS `Clave`,
-        `ats`.`Nombre` AS `Nombre`,
-        `ats`.`PartidaId` AS `PartidaId`,
-        `pts`.`Clave` AS `PartidaClave`,
-        `pts`.`Nombre` AS `PartidaNombre`,
-        `ats`.`PresentacionId` AS `PresentacionId`,
-        `pss`.`Nombre` AS `PresentacionNombre`,
-        `ats`.`Activo` AS `Activo`
-    FROM
-        (((((`entradadetalles` `eds`
-        JOIN `entradas` `ets` ON ((`eds`.`EntradaId` = `ets`.`Id`)))
-        JOIN `articulos` `ats` ON ((`eds`.`ArticuloId` = `ats`.`Id`)))
-        JOIN `existencias` `exs` ON ((`exs`.`ArticuloId` = `ats`.`Id`)))
-        JOIN `partidas` `pts` ON ((`ats`.`PartidaId` = `pts`.`Id`)))
-        JOIN `presentaciones` `pss` ON ((`ats`.`PresentacionId` = `pss`.`Id`)))
-    GROUP BY `ats`.`Id`
+-- View: almacen.vwexistencias
+
+-- DROP VIEW almacen.vwexistencias;
+
+CREATE OR REPLACE VIEW almacen.vwexistencias AS 
+ SELECT ats.id,
+    ets.programaid,
+    eds.id AS entradadetalleid,
+    eds.existencia,
+    ets.tipocompra AS tipoentrada,
+    exs.cantidad,
+    exs.total,
+    ats.clave,
+    ats.nombre,
+    ats.presentacionnombre AS articulopresentacionnombre,
+    ats.partidaid,
+    pts.clave AS partidaclave,
+    pts.nombre AS partidanombre,
+    ats.presentacionid,
+    pss.nombre AS presentacionnombre,
+    ats.activo
+   FROM almacen.entradadetalles eds
+     LEFT JOIN almacen.entradas ets ON eds.entradaid = ets.id
+     LEFT JOIN almacen.articulos ats ON eds.articuloid = ats.id
+     LEFT JOIN almacen.existencias exs ON exs.articuloid = ats.id
+     LEFT JOIN almacen.partidas pts ON ats.partidaid = pts.id
+     LEFT JOIN almacen.presentaciones pss ON ats.presentacionid = pss.id;
+
+ALTER TABLE almacen.vwexistencias
+  OWNER TO postgres;

@@ -33,7 +33,6 @@
 </div><!-- /.modal -->
 <script type="text/javascript">
     initDatePicker();
-    
     $('#entrada_detalles_type').validate({
         rules: {
             "salida_detalles_type[cantidad]": {
@@ -42,6 +41,7 @@
             },
         }
     });
+   
     
     //Interceptando el evento al enviar el formulario
     $("#salida_detalles_type").submit(function(e){
@@ -79,7 +79,7 @@
     });
     
     //Interceptando el click para buscar un artículo
-    $("#salida_detalles_type_articulo_control_group .input-group-addon").click(function(){
+    $("#salida_detalles_type_articulo_btn").click(function(){
         $.ajax({
             url: "{{ path('admin_articulos_popup_buscar_salida') }}",
             type: 'GET',
@@ -93,7 +93,6 @@
             success: function(data) {
                 if(data.code == 200) {
                     $("#contenedor-modal-popup-buscar-articulo").html(data.html);
-
                 } else {
                     createAlert("danger", null, data.message);
 
@@ -107,7 +106,7 @@
     });
     
     //Interceptando el click para buscar una Entrada Detalle
-    $("#salida_detalles_type_entradaDetalle_control_group .input-group-addon").click(function(){
+    $("#salida_detalles_type_entradaDetalle_btn").click(function(){
         
         $.ajax({
             url: "{{ path('admin_entradaDetalles_popup_buscar') }}",
@@ -168,7 +167,7 @@
     $('#salida_detalles_type_articulo').blur(function(){
         articuloClave = $(this).val()
         if(!isEmpty(articuloClave)) {
-            $("#salida_detalles_type_entradaDetalle_control_group .input-group-addon").trigger('click');
+            $("#salida_detalles_type_entradaDetalle_btn").trigger('click');
         }
     }); //Fin blur campo artículo
     

@@ -22,7 +22,18 @@ class SalidaDetallesType extends AbstractType
                 ->add('articulo', 'entity_id', array(
                     'class' => "AppBundle:Articulos",
                     'property' => 'clave',
-                    'widget_addon_prepend' => array('icon' => 'search'),
+                    //'widget_addon_prepend' => array('icon' => 'search'),
+                    "widget_btn_prepend" => array(
+                array(
+                    "type"          => "button",
+                    "attr" => array('id' => 'dasd'),
+                    "label"         => "",
+                    "icon"          => "search",
+                    "icon_inverted" => false,
+                    "class" => "btn-primary",
+                    "name" => "dasdadsadsd"
+                )
+            ),
                     'hidden' => false,
                     'horizontal_label_class' => $widthLabel,
                     'horizontal_input_wrapper_class' => $withInput,
@@ -38,7 +49,18 @@ class SalidaDetallesType extends AbstractType
                 'label' => 'Entrada ',
                 'help_block' => 'Seleccione la Entrada.',
                 'property' => 'id',
-                'widget_addon_prepend' => array('icon' => 'search'),
+                'widget_btn_prepend' => array(
+                    array(
+                    "type"          => "button",
+                    "attr" => array('id' => 'dasd'),
+                    "label"         => "",
+                    "icon"          => "search",
+                    "icon_inverted" => false,
+                    "class" => "btn-primary",
+                    "name" => "dasdadsadsd"
+                )
+                    
+                ),
                 'hidden' => false,
                 'horizontal_label_class' => $widthLabel,
                 'horizontal_input_wrapper_class' => $withInput,

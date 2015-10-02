@@ -1,17 +1,19 @@
     <table class="table">
         <tbody>
-            
-            <tr>
-                <th>Clave</th>
-                <td>{{ entity.articulo.clave }}</td>
-            </tr>
             <tr>
                 <th>Nombre</th>
-                <td>{{ entity.articulo.nombre }}</td>
+                <td>
+                        {% if entity.articulo.nombre|length > 500 %}
+                            {{ entity.articulo.nombre|slice(1, 500)~ "..." }}
+                        {% else %}
+                            {{ entity.articulo.nombre }}
+                        {% endif %}
+
+                       </td>
             </tr>
             <tr>
                 <th>Presentacion</th>
-                <td>{{ entity.articulo.presentacion.nombre }}</td>
+                <td></td>
             </tr>
             <tr>
                 <th>Existencia</th>

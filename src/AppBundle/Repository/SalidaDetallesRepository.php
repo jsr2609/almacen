@@ -18,6 +18,7 @@ class SalidaDetallesRepository extends EntityRepository
         $qb->select($select);
         $qb->innerJoin('sds.salida', 'sls')
             ->innerJoin('sds.articulo', 'ats')
+            ->leftJoin('ats.presentacion', 'pss')
             ->innerJoin('sds.entradaDetalle', 'eds')
             ->innerJoin('sls.destino', 'dts')
         ;
@@ -98,7 +99,7 @@ class SalidaDetallesRepository extends EntityRepository
         $dql = "SELECT DISTINCT pts.id, pts.clave, pts.nombre FROM AppBundle:SalidaDetalles sds "
                 . "INNER JOIN sds.entradaDetalle AS eds "
                 . "INNER JOIN eds.articulo AS ats "
-                . "INNER JOIN ats.partida AS pts "
+                . "LEFT JOIN ats.partida AS pts "
                 . "WHERE sds.salida = :salida";
         
         $query = $this->getEntityManager()->createQuery($dql);

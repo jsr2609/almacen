@@ -346,7 +346,6 @@ class SalidasController extends Controller
         $salidasManager = $this->get('app.salidas');
         $select = "sls, partial pgs.{id, clave, nombre}, partial ecs.{id, iva}, ams, dts";
         $salida = $salidasManager->buscar($id, $select, false, 'HYDRATE_ARRAY');
-        
         $pdf = $salidasManager->generarPDF($pdf, $salida);
         $pdf->output('salida.pdf', 'D');
     }

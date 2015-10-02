@@ -29,6 +29,13 @@ class VwExistencias
     private $programaId;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="ArticuloPresentacionNombre", type="text")
+     */
+    private $articuloPresentacionNombre;
+    
+    /**
      * @var integer
      *
      * @ORM\Column(name="EntradaDetalleId", type="integer")
@@ -148,6 +155,29 @@ class VwExistencias
     public function getProgramaId()
     {
         return $this->programaId;
+    }
+
+    /**
+     * Set articuloPresentacionNombre
+     *
+     * @param string $articuloPresentacionNombre
+     * @return VwExistencias
+     */
+    public function setArticuloPresentacionNombre($articuloPresentacionNombre)
+    {
+        $this->articuloPresentacionNombre = $articuloPresentacionNombre;
+
+        return $this;
+    }
+
+    /**
+     * Get articuloPresentacionNombre
+     *
+     * @return string 
+     */
+    public function getArticuloPresentacionNombre()
+    {
+        return $this->articuloPresentacionNombre;
     }
 
     /**
