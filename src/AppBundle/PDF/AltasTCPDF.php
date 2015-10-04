@@ -6,6 +6,12 @@
  * and open the template in the editor.
  */
 
+/**
+ * TCPDF para formato base de altas
+ *
+ * @author jsr
+ */
+
 namespace AppBundle\PDF;
 
 use AppBundle\PDF\MyTCPDF;
@@ -25,6 +31,8 @@ class AltasTCPDF extends MyTCPDF
      * @var array 
      */
     private $entrada;
+    
+    private $wCells;
     
     
     public function setFooterText(array $txt)
@@ -134,8 +142,19 @@ class AltasTCPDF extends MyTCPDF
         $this->Cell(0, 0, 'LOS ARTICULOS QUE ACONTINUACIÓN SE DETALLAN:', '', 1, 'L');
         $this->Ln(5);
         
+        $this->SetFillColor(230, 230, 230);
         
-    }
+        
+        $this->cell($this->wCells['wCve'], 5, 'CLAVE', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wNombre'], 5, 'NOMBRE', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wCaducidad'], 5, 'CAD.', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wCantidad'], 5, 'CANTIDAD', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wUnidad'], 5, 'UNIDAD', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wPrecio'], 5, 'PRECIO', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wImporte'], 5, 'IMPORTE', 'LTRB', 1, 'C', 1);
+        
+        
+   }
     
     public function Footer() {
         
@@ -144,7 +163,7 @@ class AltasTCPDF extends MyTCPDF
 		$this->SetTextColorArray($this->footer_text_color);
 		//set style for cell border
 		$line_width = (0.85 / $this->k);
-		$this->SetLineStyle(array('width' => $line_width, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => $this->footer_line_color));
+		//$this->SetLineStyle(array('width' => $line_width, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => $this->footer_line_color));
 		//print document barcode
 		
                 // QRCODE,H : QR-CODE Best error correction
@@ -161,7 +180,7 @@ class AltasTCPDF extends MyTCPDF
 		$this->SetX($this->original_lMargin);
                         
                 $this->Cell(0, 0, $this->getAliasRightShift().$pagenumtxt."", 'T', 1, 'R');
-                $this->write2DBarcode('www.tcpdf.org', 'QRCODE,H', '', '', 10, 10);
+                $this->write2DBarcode($this->entrada['folio'], 'QRCODE,H', '', '', 10, 10);
                 $this->SetX($this->original_lMargin + 15);
                 $domicilio = 'Av. Ruffo Figueroa #6, Col.Burocratas, C.P. 39020, Chilpancingo, Gro.';
                 
@@ -180,6 +199,19 @@ class AltasTCPDF extends MyTCPDF
         if($footerText){
             $this->setFooterText($footerText);
         }
+        //Asignando wl ancho de las celdas
+        $this->wCells = array(
+            'wCve' => 17,
+            'wNombre' => 89,
+            'wCaducidad' => 15,
+            'wCantidad' => 15,
+            'wUnidad' => 20,
+            'wPrecio' => 20,
+            'wImporte' => 20,
+        );
+        
+        
+        
         $this->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, 
             mb_strtoupper($nombreAlmacen, 'UTF-8')
         );
@@ -195,14 +227,20 @@ class AltasTCPDF extends MyTCPDF
         
         
         
-        $this->SetMargins(PDF_MARGIN_LEFT, 80, PDF_MARGIN_RIGHT);
+        $this->SetMargins(PDF_MARGIN_LEFT, 87, PDF_MARGIN_RIGHT);
         $this->SetHeaderMargin(PDF_MARGIN_HEADER);
         $this->SetFooterMargin(PDF_MARGIN_FOOTER);
         
+        
         // set auto page breaks
-        $this->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        $this->SetAutoPageBreak(TRUE, PDF_MARGIN_FOOTER);
         
         $this->AddPage();
+    }
+    
+    public function getWCells()
+    {
+        return $this->wCells;
     }
     
 }
