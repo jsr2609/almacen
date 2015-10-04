@@ -220,7 +220,6 @@ class SalidasManager
             'telephones' => $salida['ejercicio']['almacen']['telefonos'],
         );
         
-        die(var_dump($footerText));
         
         $pdf->init($salida, $footerText);
         $sdsRepository = $this->base->getRepository('AppBundle:SalidaDetalles');
