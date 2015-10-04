@@ -34,9 +34,18 @@
                                         </a>
                                     </li>
                                     <li>
-                                         <a href="{{ path('admin_salidadetalles', {'id': entity.id}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
-                                            <i class="fa fa-list fa-fw"></i> Articulos
-                                        </a>
+                                        
+                                        {% if entity.tipoEntrada == 1%}
+                                             
+                                            <a href="{{ path('admin_salidadetallesDirecta', {'id': entity.id}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
+                                               <i class="fa fa-list fa-fw"></i> Articulos
+                                            </a>
+                                         {% else %}
+                                             <a href="{{ path('admin_salidadetalles', {'id': entity.id}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
+                                               <i class="fa fa-list fa-fw"></i> Articulos
+                                            </a>
+                                        {% endif %}    
+                                        
                                     </li>
                                     <li>
                                          <a href="{{ path('admin_salidas_pdf', {'id': entity.id}) }}" class="btn btn-default" data-toggle="tooltip" title="PDF">

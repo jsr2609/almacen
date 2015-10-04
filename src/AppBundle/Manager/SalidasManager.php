@@ -24,6 +24,7 @@ use SSA\UtilidadesBundle\Manager\DataTablesManager;
 use SSA\UtilidadesBundle\Manager\BaseManager;
 use SSA\UtilidadesBundle\Helper\Helpers;
 use AppBundle\PDF\BaseSalidaPDF;
+use AppBundle\PDF\BajaTCPDF;
 use AppBundle\PDF\Baja;
 
 
@@ -211,20 +212,20 @@ class SalidasManager
         return $entidad;
     }
     
-    public function generarPDF(\TCPDF $pdf, $salida)
+    public function generarPDF(BajaTCPDF $pdf, $salida)
     {        
-        $bPDF = new BaseSalidaPDF();
         
         $footerText = array(
             'address' => $salida['ejercicio']['almacen']['domicilio'],
             'telephones' => $salida['ejercicio']['almacen']['telefonos'],
         );
-        $bPDF->init($pdf, $salida['ejercicio']['almacen']['nombre'], $footerText);
         
+        die(var_dump($footerText));
+        
+        $pdf->init($salida, $footerText);
         $sdsRepository = $this->base->getRepository('AppBundle:SalidaDetalles');
-        
         $baja = new Baja($pdf, $salida);
-        $baja->imprimirDatos();
+        
         $baja->imprimirDetalles($sdsRepository);
         
         $baja->imprimirFirmasdeSalida();

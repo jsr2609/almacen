@@ -10,9 +10,9 @@ namespace AppBundle\PDF;
 use AppBundle\PDF\MyTCPDF;
 
 /**
- * Description of BasePDF
+ * Description of BaseSalidaPDF
  *
- * @author jsr
+ * @author jsr by DTD
  */
 class BaseSalidaPDF {
     public function init(MyTCPDF $pdf, $string = null, $footerText = null)
@@ -39,5 +39,6 @@ class BaseSalidaPDF {
         $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
         
         $pdf->AddPage();
+       
     }
 }

@@ -4,14 +4,15 @@ namespace AppBundle\Controller\Admin;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 use AppBundle\Entity\Salidas;
 use AppBundle\Entity\Entradas;
 use AppBundle\Entity\SalidaDetalles;
 use AppBundle\Form\SalidasType;
 use AppBundle\Repository\EntradasRepository;
-
+use AppBundle\PDF\BajaTCPDF;
 use AppBundle\Event\SalidasEvent;
-use AppBundle\SalidasEvents;
+
 
 /**
  * Salidas controller.
@@ -340,14 +341,15 @@ class SalidasController extends Controller
     
     public function pdfAction(Request $request, $id)
     {
-        $tcpdfManager = $this->get('white_october.tcpdf');
         
-        $pdf = $tcpdfManager->create();
+        $pdf = new BajaTCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT);
         $salidasManager = $this->get('app.salidas');
         $select = "sls, partial pgs.{id, clave, nombre}, partial ecs.{id, iva}, ams, dts";
         $salida = $salidasManager->buscar($id, $select, false, 'HYDRATE_ARRAY');
+        
         $pdf = $salidasManager->generarPDF($pdf, $salida);
         $pdf->output('salida.pdf', 'D');
+      
     }
     
     
