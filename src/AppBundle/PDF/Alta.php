@@ -16,9 +16,7 @@
 namespace AppBundle\PDF;
 
 use AppBundle\Repository\EntradaDetallesRepository;
-use AppBundle\PDF\MyTCPDF;
 use AppBundle\PDF\AltasTCPDF;
-use SSA\UtilidadesBundle\Helper\Helpers;
 
 /**
  * Description of Alta
