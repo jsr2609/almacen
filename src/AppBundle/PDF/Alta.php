@@ -82,7 +82,8 @@ class Alta
                 $this->pdf->SetX(PDF_MARGIN_LEFT + $wCells['wCve'] + $wCells['wNombre']);
                 
                 $this->pdf->MultiCell($wCells['wCaducidad'], $hNombre, $detalle['fechaCaducidad'], 'LTRB','C', 0, 0, '', '',true, 0, true);
-                $this->pdf->MultiCell($wCells['wCantidad'], $hNombre, number_format($detalle['cantidad'], 0, '.', ','), 'LTRB', 'R', 0, 0, '', '',true, 0, true);
+                $this->pdf->MultiCell($wCells['wCantidad'], $hNombre, number_format($detalle['cantidad'], 0, '.', ','), 'LTRB', 'R', 0, 0, '', '',true, 0, true);   
+                
                 $this->pdf->MultiCell($wCells['wUnidad'], $hNombre, $detalle['presentacionNombre'], 'LTRB', 'L', 0, 0, '', '',true, 0, true);
                 $precio = $detalle['precio'];
                 if($detalle['aplicaIva']) {
@@ -144,7 +145,7 @@ class Alta
         $start_page = $this->pdf->getPage();
         // call your printing functions with your parameters
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        $this->pdf->MultiCell($w, $h=5, $txt, $border=1, $align='L', $fill=false, $ln=1, $x='', $y='',     $reseth=true, $stretch=0, $ishtml=false, $autopadding=true, $maxh=0);
+        $this->pdf->MultiCell($w, $h=6, $txt, $border=1, $align='L', $fill=false, $ln=1, $x='', $y='',     $reseth=true, $stretch=0, $ishtml=false, $autopadding=true, $maxh=0);
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         // get the new Y
         $end_y = $this->pdf->GetY();
