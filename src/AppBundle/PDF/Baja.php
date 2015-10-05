@@ -30,125 +30,135 @@ class Baja
         $this->salida = $salida;
     }
      
-    
-    public function imprimirDetalles(SalidaDetallesrepository $sdsRepository)
+
+ public function imprimirDetalles(SalidaDetallesrepository $sdsRepository)
     {
-        $this->pdf->SetFont('helvetica', '', 8);
+        $this->pdf->SetFont('helvetica', '', 7);
         
-        $wPage = $this->pdf->getPageWidth() - PDF_MARGIN_LEFT - PDF_MARGIN_RIGHT;
-        $wCve = 20;
-        $wNombre = 80;
-        $wCaducidad = 15;
-        $wCantidad = 15;
-        $wUnidad = 20;
-        $wPrecio = 20;
-        $wImporte = 20;
+        $wCells = $this->pdf->getWCells();
         $hCell = 5;
-        
-        $this->pdf->SetFillColor(230, 230, 230);
-        
-        
-        $this->pdf->cell($wCve, $hCell, 'CLAVE', 'LTRB', 0, 'C', 1);
-        $this->pdf->cell($wNombre, $hCell, 'NOMBRE', 'LTRB', 0, 'C', 1);
-        $this->pdf->cell($wCaducidad, $hCell, 'CAD.', 'LTRB', 0, 'C', 1);
-        $this->pdf->cell($wCantidad, $hCell, 'CANTIDAD', 'LTRB', 0, 'C', 1);
-        $this->pdf->cell($wUnidad, $hCell, 'UNIDAD', 'LTRB', 0, 'C', 1);
-        $this->pdf->cell($wPrecio, $hCell, 'PRECIO', 'LTRB', 0, 'C', 1);
-        $this->pdf->cell($wImporte, $hCell, 'IMPORTE', 'LTRB', 1, 'C', 1);
-        
-        
         
         $this->pdf->SetFont('helvetica', '', 8);
         
         $partidas = $sdsRepository->obtenerPartidasPorSalida($this->salida['id']);
         
-        $selectSds = 'ats.clave, ats.nombre, eds.fechaCaducidad, sds.cantidad, '
+        $selectSds = 'ats.clave, ats.nombre, eds.fechaCaducidad, eds.cantidad, '
             . 'pss.nombre AS presentacionNombre, eds.precio, eds.aplicaIva';
         
         $total = 0;
         $iva = $this->salida['ejercicio']['iva'];
         
         foreach($partidas as $partida) {
-            
-            $this->pdf->SetFont('helvetica', 'B', 8);
-            $this->pdf->cell($wImporte, $hCell, $partida['nombre'], '', 1, 'l');
+            $this->pdf->SetFont('helvetica', 'B', 7);
+            $this->pdf->cell($wCells['wNombre'], $hCell, $partida['clave']." ".$partida['nombre'], '', 1, 'l');
             $this->pdf->Ln(1);
-            $this->pdf->SetFont('helvetica', '', 8);
+            $this->pdf->SetFont('helvetica', '', 6);
             
             $detalles = $sdsRepository->buscarTodos($selectSds, $this->salida['id'], $partida['id']);
             $subtotalPartida = 0;
-            
             foreach($detalles as $detalle){
+                $page = $this->pdf->getPage();
+                $yI = $this->pdf->GetY();
+                $nombre = $detalle['nombre'];
+                
+                $hNombre = $this->imprimirColumnaNombre($detalle['nombre'], $wCells['wNombre'], $wCells['wCve']);
+                
                 //Articulos
-                $this->pdf->cell($wCve, $hCell, $detalle['clave'], 'LTRB', 0, 'C');
-                $this->pdf->cell($wNombre, $hCell, Helpers::getSubString($detalle['nombre'], 45), 'LTRB', 0, 'L');
-                $this->pdf->cell($wCaducidad, $hCell, $detalle['fechaCaducidad'], 'LTRB', 0, 'C');
-                $this->pdf->cell($wCantidad, $hCell, number_format($detalle['cantidad'], 0, '.', ','), 'LTRB', 0, 'R');
-                $this->pdf->cell($wUnidad, $hCell, $detalle['presentacionNombre'], 'LTRB', 0, 'C');
+                
+                $this->pdf->setPage($page);
+                $this->pdf->SetX(PDF_MARGIN_LEFT);
+                $this->pdf->SetY($yI);
+                $this->pdf->MultiCell($wCells['wCve'], $hNombre, $detalle['clave'], 'LTRB', 'C', 0, 0, '', '', true, 0, true);
+               
+                
+                $this->pdf->SetX(PDF_MARGIN_LEFT + $wCells['wCve'] + $wCells['wNombre']);
+                
+                $this->pdf->MultiCell($wCells['wCaducidad'], $hNombre, $detalle['fechaCaducidad'], 'LTRB','C', 0, 0, '', '',true, 0, true);
+                $this->pdf->MultiCell($wCells['wCantidad'], $hNombre, number_format($detalle['cantidad'], 0, '.', ','), 'LTRB', 'R', 0, 0, '', '',true, 0, true);
+                $this->pdf->MultiCell($wCells['wUnidad'], $hNombre, $detalle['presentacionNombre'], 'LTRB', 'C', 0, 0, '', '',true, 0, true);
                 $precio = $detalle['precio'];
                 if($detalle['aplicaIva']) {
                     $precio = round($precio + ($precio * $iva / 100), 2);
                 }
-                $this->pdf->cell($wPrecio, $hCell, number_format($precio, 2, '.', ','), 'LTRB', 0, 'R');
+                $this->pdf->MultiCell($wCells['wPrecio'], $hNombre, number_format($precio, 2, '.', ','), 'LTRB', 'R', 0, 0, '', '',true, 0, true);
                 $importe = round($precio * $detalle['cantidad'], 2);
                 
-                $this->pdf->cell($wImporte, $hCell, number_format($importe, 2, '.', ','), 'LTRB', 1, 'R');
+                $this->pdf->MultiCell($wCells['wImporte'], $hNombre, number_format($importe, 2, '.', ','), 'LTRB', 'R', 0, 1, '', '',true, 0, true);
                 $subtotalPartida += $importe;
+                
             }
             $subtotalPartida = round($subtotalPartida, 2);
-            $this->pdf->cell($wCve, $hCell, '', '', 0, 'C');
-            $this->pdf->cell($wNombre, $hCell, '', '', 0, 'L');
-            $this->pdf->cell($wCaducidad, $hCell, '', '', 0, 'C');
-            $this->pdf->cell($wCantidad, $hCell, '', '', 0, 'R');
-            $this->pdf->cell($wUnidad, $hCell, '', '', 0, 'C');
-            $this->pdf->cell($wPrecio, $hCell, 'SUBTOTAL', '', 0, 'R');
             
-            $this->pdf->cell($wImporte, $hCell, number_format($subtotalPartida, 2, '.', ','), '', 1, 'R');
-            
+            $this->pdf->cell($wCells['wCve'], $hCell, '', '', 0, 'C');
+            $this->pdf->cell($wCells['wNombre'], $hCell, '', '', 0, 'L');
+            $this->pdf->cell($wCells['wCaducidad'], $hCell, '', '', 0, 'C');
+            $this->pdf->cell($wCells['wCantidad'], $hCell, '', '', 0, 'R');            
+            $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'SUBTOTAL '.$partida['clave'], '', 0, 'R');                        
+            $this->pdf->cell($wCells['wImporte'], $hCell, number_format($subtotalPartida, 2, '.', ','), '', 1, 'R');
             $total += $subtotalPartida;
         }
         
-        $this->pdf->Ln(5);
+        $this->pdf->Ln(3);
         $total = round($total, 2);
-        $this->pdf->cell($wCve, $hCell, '', '', 0, 'C');
-        $this->pdf->cell($wNombre, $hCell, '', '', 0, 'L');
-        $this->pdf->cell($wCaducidad, $hCell, '', '', 0, 'C');
-        $this->pdf->cell($wCantidad, $hCell, '', '', 0, 'R');
-        $this->pdf->cell($wUnidad, $hCell, '', '', 0, 'C');
-        $this->pdf->cell($wPrecio, $hCell, 'TOTAL', '', 0, 'R');
+        $this->pdf->SetFont('helvetica', 'B', 7);
+        $this->pdf->cell($wCells['wCve'], $hCell, '', '', 0, 'C');
+        $this->pdf->cell($wCells['wNombre'], $hCell, '', '', 0, 'L');
+        $this->pdf->cell($wCells['wCaducidad'], $hCell, '', '', 0, 'C');
+        $this->pdf->cell($wCells['wCantidad'], $hCell, '', '', 0, 'R');
+        $this->pdf->SetFillColor(230, 230, 230);
 
-        $this->pdf->cell($wImporte, $hCell, number_format($total, 2, '.', ','), '', 1, 'R');
-        
+        $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'TOTAL GENERAL', 'LTRB', 0, 'R', 1);
+         
+        $this->pdf->cell($wCells['wImporte'], $hCell, number_format($total, 2, '.', ','), 'LTRB', 1, 'R', 1);
         
     }
     
-    public function imprimirFirmas()
+    private function imprimirColumnaNombre($txt, $w, $x)
     {
+        // store current object
+        
+        // store starting values
+        $this->pdf->setX(PDF_MARGIN_LEFT+$x);
+        $start_y = $this->pdf->GetY();
+        $start_page = $this->pdf->getPage();
+        // call your printing functions with your parameters
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        $this->pdf->MultiCell($w, $h=5, $txt, $border=1, $align='L', $fill=false, $ln=1, $x='', $y='',     $reseth=true, $stretch=0, $ishtml=false, $autopadding=true, $maxh=0);
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        // get the new Y
+        $end_y = $this->pdf->GetY();
+        $end_page = $this->pdf->getPage();
+        // calculate height
+        $heightT = 0;
+        $breakMargin = $this->pdf->getBreakMargin();
         $margins = $this->pdf->getMargins();
-        $pageW = $this->pdf->getPageWidth() - $margins['left'] - $margins['right'];
-        $wCell = $pageW / 3;
-        $yActual = $this->pdf->GetY();
-        $hC = $this->pdf->getCellHeight($this->pdf->getFontSize());
-        $iFirmas = $this->pdf->getPageHeight() - $this->pdf->getBreakMargin() - $hC * 3 -5;
-        if($yActual < $iFirmas) {
-            $this->pdf->SetY($iFirmas);
-            
+        $marginTop = $margins['top'];
+        $pageHeight = $this->pdf->getPageHeight();
+        
+        if ($end_page == $start_page) {
+            $heightT = $end_y - $start_y;
         } else {
-            $this->pdf->AddPage();
-            $this->pdf->SetY($iFirmas);
+            for ($page=$start_page; $page <= $end_page; ++$page) {
+                
+                $this->pdf->setPage($page);
+                if ($page == $start_page) {
+                    // first page
+                    $height = $pageHeight - $start_y - $breakMargin;
+                    
+                } elseif ($page == $end_page) {
+                    // last page
+                    $height = $end_y - $marginTop;
+                } else {
+                    $height = $pageHeight - $marginTop - $breakMargin;
+                }
+                
+                $heightT= $heightT + $height;
+            }
         }
-        $this->pdf->cell(0, 0, '', '', 1, 'C');
-        $yI = $this->pdf->GetY();
-        $this->pdf->cell($wCell, 0, $this->salida['ejercicio']['almacen']['nombreRecursosMateriales'], 'B', 0, 'C');
-        $this->pdf->cell($wCell, 0, "", '', 0, 'C');
-        $this->pdf->cell($wCell, 0, $this->salida['ejercicio']['almacen']['nombreResponsableAlmacen'], 'B', 1, 'C');
         
-        $this->pdf->cell($wCell, 0, $this->salida['ejercicio']['almacen']['cargoRecursosMateriales'], '', 0, 'C');
-        $this->pdf->cell($wCell, 0, "", '', 0, 'C');
-        $this->pdf->cell($wCell, 0, $this->salida['ejercicio']['almacen']['cargoResponsableAlmacen'], '', 0, 'C');
-        $yF = $this->pdf->GetY();
-        
+        return $heightT;
     }
+  
     
      public function imprimirFirmasdeSalida()
     {

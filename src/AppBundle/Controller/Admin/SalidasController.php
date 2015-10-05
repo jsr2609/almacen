@@ -12,6 +12,7 @@ use AppBundle\Form\SalidasType;
 use AppBundle\Repository\EntradasRepository;
 use AppBundle\PDF\BajaTCPDF;
 use AppBundle\Event\SalidasEvent;
+use AppBundle\SalidasEvents;
 
 
 /**
