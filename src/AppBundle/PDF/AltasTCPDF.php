@@ -129,16 +129,16 @@ class AltasTCPDF extends MyTCPDF
         $this->Ln(5);
         $lugar = $this->entrada['ejercicio']['almacen']['lugar']." A ".$this->entrada['fecha']->format('d/m/Y');
         $this->Cell(0, 0, $lugar, '', 1, 'L');
-        $this->Cell(0, 0, mb_strtoupper($this->entrada['ejercicio']['almacen']['nombreJefeServicios']), '', 1, 'L');
+        $this->Cell(0, 0, mb_strtoupper($this->entrada['ejercicio']['almacen']['nombreJefeServicios'], 'UTF-8'), '', 1, 'L');
         $this->Cell(0, 0, 'CON ESTA FECHA SE DAN DE ALTA PROCEDENTES DE:', '', 1, 'L');
-        $this->Cell(0, 0, mb_strtoupper($this->entrada['proveedor']['nombre']), '', 1, 'L');
+        $this->Cell(0, 0, mb_strtoupper($this->entrada['proveedor']['nombre'], 'UTF-8'), '', 1, 'L');
         $fechaFactura = ($this->entrada['facturaFecha'] == null) ? "" : $this->entrada['facturaFecha']->format('d/m/Y');
         $datosFactura = 'SEGUN FACTURA '.$this->entrada['facturaNumero'].', DE FECHA '.$fechaFactura
             .', NÚMERO DE PEDIDO '.$this->entrada['pedidoNumero'];
         $this->Cell(0, 0, $datosFactura, '', 1, 'L');
         $programa = $this->entrada['programa']['clave'].'-'.$this->entrada['programa']['nombre'];
         $this->Cell(0, 0, 'PROGRAMA: '.$programa, '', 1, 'L');
-        $this->Cell(0, 0, 'OBSERVACIONES: '.mb_strtoupper($this->entrada['observaciones']), '', 1, 'L');
+        $this->Cell(0, 0, 'OBSERVACIONES: '.mb_strtoupper($this->entrada['observaciones'], 'UTF-8'), '', 1, 'L');
         $this->Cell(0, 0, 'LOS ARTICULOS QUE ACONTINUACIÓN SE DETALLAN:', '', 1, 'L');
         $this->Ln(5);
         
