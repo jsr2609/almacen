@@ -48,8 +48,8 @@ class Alta
         
         $partidas = $edsRepository->obtenerPartidasPorEntrada($this->entrada['id']);
         
-        $selectEds = 'ats.clave, ats.nombre, eds.fechaCaducidad, eds.cantidad, '
-            . 'pss.nombre AS presentacionNombre, eds.precio, eds.aplicaIva';
+        $selectEds = 'ats.clave, ats.nombre, ats.presentacionNombre, eds.fechaCaducidad, eds.cantidad, '
+            . 'eds.precio, eds.aplicaIva';
         
         $total = 0;
         $iva = $this->entrada['ejercicio']['iva'];
@@ -83,7 +83,7 @@ class Alta
                 
                 $this->pdf->MultiCell($wCells['wCaducidad'], $hNombre, $detalle['fechaCaducidad'], 'LTRB','C', 0, 0, '', '',true, 0, true);
                 $this->pdf->MultiCell($wCells['wCantidad'], $hNombre, number_format($detalle['cantidad'], 0, '.', ','), 'LTRB', 'R', 0, 0, '', '',true, 0, true);
-                $this->pdf->MultiCell($wCells['wUnidad'], $hNombre, $detalle['presentacionNombre'], 'LTRB', 'C', 0, 0, '', '',true, 0, true);
+                $this->pdf->MultiCell($wCells['wUnidad'], $hNombre, $detalle['presentacionNombre'], 'LTRB', 'L', 0, 0, '', '',true, 0, true);
                 $precio = $detalle['precio'];
                 if($detalle['aplicaIva']) {
                     $precio = round($precio + ($precio * $iva / 100), 2);
