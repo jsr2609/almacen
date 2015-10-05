@@ -10,26 +10,6 @@
                 <table id="lista-articulos" class="table">
                     <thead>
                         <tr>
-                            <th>
-                                <input class="form-control" placeholder="..."type="text"/>
-                            </th>
-                            <th>
-                                <input class="form-control" placeholder="..."type="text"/>
-                            </th>
-                            <th>
-                                <input class="form-control" placeholder="..."type="text"/>
-                            </th>
-                            <th>
-                                <input class="form-control" placeholder="..."type="text"/>
-                            </th>
-                            <th>
-                                <input class="form-control" placeholder="..."type="text"/>
-                            </th>
-                            <th>
-                                <input class="form-control" placeholder="..."type="text"/>
-                            </th>
-                        </tr>
-                        <tr>
                             <th>Clave</th>
                             <th>Nombre</th>
                             <th>Presentación</th>
@@ -91,7 +71,9 @@
             "processing": true,
             "autoWidth": false,
             "serverSide": true,
-            "order": [[ 1, 'desc' ]],
+            "order": [[ 0, 'desc' ]],
+            "scrollY":        "350px",
+            "scrollCollapse": true,
             "ajax": {
                 "url": "{{ path('admin_articulos_popup_buscar_index') }}",
                 "data": function(d) {
@@ -102,11 +84,11 @@
                 { "sortable": false, "targets": noOrdenar }
             ],
             "columns": [
-                { "width": "10%" },
+                { "width": "10%","className": "text-center" },
                 { "width": "40%" },
-                { "width": "10%" },
-                { "width": "10%" },
-                { "width": "10%" },
+                { "width": "10%","className": "text-center" },
+                { "width": "10%","className": "text-center" },
+                { "width": "10%","className": "text-center" },
                 { "type": "formatted-num" , "width": "10%", "className": "text-right" },
                 { "width": "10%", "className": "text-right" },
 

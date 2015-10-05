@@ -32,9 +32,16 @@
                                     </li>
                                     
                                     <li>
-                                        <a href="{{ path('admin_salidadetalles', {'id': entity.id}) }}" class="btn btn-default">
-                                            <i class="fa fa-list fa-fw"></i> Lista de Artículos
-                                        </a>
+                                        {% if entity.tipoEntrada == 1%}
+                                             
+                                            <a href="{{ path('admin_salidadetallesDirecta', {'id': entity.id}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
+                                               <i class="fa fa-list fa-fw"></i> Articulos
+                                            </a>
+                                         {% else %}
+                                             <a href="{{ path('admin_salidadetalles', {'id': entity.id}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
+                                               <i class="fa fa-list fa-fw"></i> Articulos
+                                            </a>
+                                        {% endif %}    
                                     </li>
                                     <li>{#{{ form(delete_form) }}#}</li>
                                 </ul>
@@ -59,7 +66,12 @@
                                             {% for detalle in detalles %}
                                                 <tr>
                                                     <td>{{ detalle.articuloClave }}</td>
-                                                    <td>{{ detalle.articuloNombre }}</td>
+                                                    <td>{% if detalle.articuloNombre|length > 500 %}
+                                                            {{ detalle.articuloNombre|slice(0, 500)~ "..." }}
+                                                        {% else %}
+                                                            {{ detalle.articuloNombre }}
+                                                        {% endif %}
+                                                    </td>
                                                     <td class="text-right">{{ detalle.cantidad | number_format(0, '.', ',') }}</td>
                                                     <td class="text-right">{{ detalle.precio | number_format(2, '.', ',') }}</td>
                                                     <td class="text-right">

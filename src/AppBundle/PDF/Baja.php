@@ -10,12 +10,13 @@ namespace AppBundle\PDF;
 
 use AppBundle\Repository\SalidaDetallesRepository;
 use AppBundle\PDF\MyTCPDF;
+use AppBundle\PDF\BajaTCPDF;
 use SSA\UtilidadesBundle\Helper\Helpers;
 
 /**
  * Description of Baja
  *
- * @author jsr
+ * @author jsr by DTD
  */
 class Baja
 {
@@ -23,34 +24,12 @@ class Baja
     private $salida;
     private $wCs;
     
-    public function __construct(MyTCPDF $pdf, $salida) 
+    public function __construct(BajaTCPDF $pdf, $salida) 
     {
         $this->pdf = $pdf;
         $this->salida = $salida;
     }
      
-    public function imprimirDatos()
-    {
-        
-        //$this->pdf->Cell($w, $h, $txt, $border, $ln, $align, $fill, $link, $stretch, $ignore_min_height)
-        $this->pdf->SetFont('helvetica', 'B', 13);
-        $this->pdf->Cell(0, 0, 'SALIDA DE ALMACEN', '', 1, 'C');
-        
-        $this->pdf->SetFont('helvetica', '', 9);
-        $this->pdf->Ln(5);
-        $this->pdf->Cell(0, 0, 'No. '.$this->salida['folio'], '', 1, 'R');
-        $this->pdf->Ln(5);
-        $lugar = $this->salida['ejercicio']['almacen']['lugar']." A ".$this->salida['fecha']->format('d/m/Y');
-        $this->pdf->Cell(0, 0, $lugar, '', 1, 'L');
-        $this->pdf->Cell(0, 0, mb_strtoupper('CARGO A: '.$this->salida['destino']['nombre']), '', 1, 'L');
-        $this->pdf->Cell(0, 0, mb_strtoupper('                   '.$this->salida['areaQueRecibe']), '', 1, 'L');
-        $programa = $this->salida['programa']['clave'].'  -  '.$this->salida['programa']['nombre'];
-        $this->pdf->Cell(0, 0, 'PROGRAMA: '.$programa, '', 1, 'L');
-        $this->pdf->Cell(0, 0, 'OBSERVACIONES: '.mb_strtoupper($this->salida['observaciones']), '', 1, 'L');
-        $this->pdf->Ln(3);
-        
-        
-    }
     
     public function imprimirDetalles(SalidaDetallesrepository $sdsRepository)
     {

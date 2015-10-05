@@ -63,7 +63,12 @@
                                 {% for entity in entities %}
                                     <tr>
                                         <td>{{ entity.articuloClave }}</td>
-                                        <td>{{ entity.articuloNombre }}</td>
+                                        <td>{% if entity.articuloNombre|length > 500 %}
+                                                {{ entity.articuloNombre|slice(0, 500)~ "..." }}
+                                            {% else %}
+                                                {{ entity.articuloNombre }}
+                                            {% endif %}
+                                        </td>
                                         <td class="text-right">{{ entity.cantidadSds | number_format(0, '.', ',') }}</td>
                                         <td class="text-right">{{ entity.precio | number_format(2, '.', ',') }}</td>
                                         <td class="text-right">
