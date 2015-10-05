@@ -225,15 +225,15 @@ class AltasTCPDF extends MyTCPDF
 
         // set margins
         
-        
+        $breakMargin = 20.8;
         
         $this->SetMargins(PDF_MARGIN_LEFT, 87, PDF_MARGIN_RIGHT);
         $this->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $this->SetFooterMargin(PDF_MARGIN_FOOTER);
+        $this->SetFooterMargin($breakMargin);
         
         
         // set auto page breaks
-        $this->SetAutoPageBreak(TRUE, PDF_MARGIN_FOOTER);
+        $this->SetAutoPageBreak(TRUE, $breakMargin);
         
         $this->AddPage();
     }

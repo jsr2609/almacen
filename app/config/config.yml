@@ -110,7 +110,7 @@ white_october_tcpdf:
         pdf_header_logo: '/escudo_gro_mini.jpg'
         pdf_header_logo_width: 20
         pdf_margin_top: 35
-        pdf_margin_footer: 20.8
+        pdf_margin_footer: 20
         #Margen mínimo izquierdo y derecho 6.5
         pdf_margin_left: 10 
         pdf_margin_right: 10
