@@ -14,7 +14,7 @@ class Salidas
     
     public static $salidasTipos = array(
         1 => 'Directa',
-        2 => 'Mixta',
+        2 => 'En base a Cuadro de Distribucion',
     );
     
     /**

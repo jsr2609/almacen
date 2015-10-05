@@ -10,15 +10,17 @@ namespace AppBundle\PDF;
 
 use \TCPDF;
 
+
 /**
- * Description of MyTCPDF
+ * Description of BajaTCPDF
  *
- * @author jsr
+ * @author DTD
  */
-class MyTCPDF extends \TCPDF 
+class BajaTCPDF extends TCPDF
 {
     private $footerText = array('address' => '', 'telephones' => '');
     
+    private $salida;
     
     public function setFooterText(array $txt)
     {
@@ -33,6 +35,7 @@ class MyTCPDF extends \TCPDF
         $headerfont = $this->getHeaderFont();
         $headerdata = $this->getHeaderData();
         $this->y = $this->header_margin;
+        
         
         //Colocando imagen secundaria
         if ($this->rtl) {
@@ -52,10 +55,11 @@ class MyTCPDF extends \TCPDF
         $this->setX($header_x);
         $cw = $this->w - $this->original_lMargin - $this->original_rMargin - ($headerdata['logo_width'] * 1.1) - ($headerdata['logo_width'] * 1.1);
         
-        $this->SetFont($headerfont[0], 'B', $headerfont[2] + 1);
+        $this->SetFont($headerfont[0], 'B', 9);
         $this->setX($header_x);
+        
         $this->Cell($cw, $cell_height, $headerdata['title'], '', 1, 'C', 0, '', 0);
-        $this->SetFont($headerfont[0], $headerfont[1], $headerfont[2]);
+        $this->SetFont($headerfont[0], $headerfont[1], 9);
         $this->SetX($header_x);
         $this->MultiCell($cw, $cell_height, $headerdata['string'], 0, 'C', 0, 1);
         
@@ -69,7 +73,9 @@ class MyTCPDF extends \TCPDF
         } else {
                 $this->x = $this->original_lMargin;
         }
-        $this->Cell(($this->w - $this->original_lMargin - $this->original_rMargin), 0, 'Juntas Y Juntos Podemos', 'B', 0, 'R');
+        $this->Cell(($this->w - $this->original_lMargin - $this->original_rMargin), 0, 'Juntas Y Juntos Podemos', 'B', 1, 'R');
+        $this->imprimirDatos();
+        
         $this->endTemplate();
         }
         // print header template
@@ -93,6 +99,33 @@ class MyTCPDF extends \TCPDF
 			// reset header xobject template at each page
 			$this->header_xobjid = false;
 		}
+            
+
+    }
+    
+    
+     public function imprimirDatos()
+    {
+        
+        $this->SetMargins(PDF_MARGIN_LEFT, 90, PDF_MARGIN_RIGHT);
+        $this->Ln(2);
+        $this->SetFont('helvetica', 'B', 9);
+        $this->SetTextColorArray(array(0,0,0));
+        $this->Cell(0, 0, 'SALIDA DE ALMACEN', '', 1, 'C');
+        
+        $this->SetFont('helvetica', '', 9);
+        $this->Ln(5);
+        $this->Cell(0, 0, 'No. '.$this->salida['folio'], '', 1, 'R');
+        $this->Ln(5);
+        $lugar = $this->salida['ejercicio']['almacen']['lugar']." A ".$this->salida['fecha']->format('d/m/Y');
+        $this->Cell(0, 0, $lugar, '', 1, 'L');
+        $this->Cell(0, 0, mb_strtoupper('CARGO A: '.$this->salida['destino']['nombre']), '', 1, 'L');
+        $this->Cell(0, 0, mb_strtoupper('AREA QUE RECIBE: '.$this->salida['areaQueRecibe']), '', 1, 'L');
+        $programa = $this->salida['programa']['clave'].'  -  '.$this->salida['programa']['nombre'];
+        $this->Cell(0, 0, 'PROGRAMA: '.$programa, '', 1, 'L');
+        $this->Cell(0, 0, 'OBSERVACIONES: '.mb_strtoupper($this->salida['observaciones']), '', 1, 'L');
+        $this->Ln(3);
+        
         
     }
     
@@ -130,10 +163,33 @@ class MyTCPDF extends \TCPDF
                 
 	}
     
-    public function getFullPageWidth() {
-        $margins = $this->getMargins();
-        
-        return $this->getPageWidth() - $margins['left'] - $margins['right'];
-    }
     
+    public function init($salida, $footerText = null)
+    {
+        $this->salida = $salida;
+        
+        $nombreAlmacen = $salida['ejercicio']['almacen']['nombre'];
+        if($footerText){
+            $this->setFooterText($footerText);
+        }
+        $this->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, 
+            mb_strtoupper($nombreAlmacen, 'UTF-8')
+        );
+        $this->setFooterData(array(0,64,0), array(0,64,128));
+        // set header and footer fonts
+        $this->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $this->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+        // set default monospaced font
+        $this->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $this->SetMargins(PDF_MARGIN_LEFT, 80, PDF_MARGIN_RIGHT);
+        $this->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $this->SetFooterMargin(PDF_MARGIN_FOOTER);
+        // set auto page breaks
+        $this->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        
+        $this->AddPage();
+    }
 }

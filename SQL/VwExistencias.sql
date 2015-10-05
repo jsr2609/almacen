@@ -3,18 +3,18 @@
 -- DROP VIEW almacen.vwexistencias;
 
 CREATE OR REPLACE VIEW almacen.vwexistencias AS 
- SELECT ats.id,
+  SELECT ats.id,
     ets.programaid,
     eds.id AS entradadetalleid,
     eds.existencia,
     ets.tipocompra AS tipoentrada,
-    exs.cantidad,
-    exs.total,
+    exs.cantidad::text AS cantidad,
+    exs.total::text AS total,
     ats.clave,
     ats.nombre,
     ats.presentacionnombre AS articulopresentacionnombre,
     ats.partidaid,
-    pts.clave AS partidaclave,
+    pts.clave::text AS partidaclave,
     pts.nombre AS partidanombre,
     ats.presentacionid,
     pss.nombre AS presentacionnombre,

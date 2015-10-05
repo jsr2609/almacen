@@ -4,7 +4,7 @@
                 <th>Nombre</th>
                 <td>
                         {% if entity.articulo.nombre|length > 500 %}
-                            {{ entity.articulo.nombre|slice(1, 500)~ "..." }}
+                            {{ entity.articulo.nombre|slice(0, 500)~ "..." }}
                         {% else %}
                             {{ entity.articulo.nombre }}
                         {% endif %}
