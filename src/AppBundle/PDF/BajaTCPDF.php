@@ -22,6 +22,8 @@ class BajaTCPDF extends TCPDF
     
     private $salida;
     
+    private $wCells;
+    
     public function setFooterText(array $txt)
     {
         $this->footerText = $txt;
@@ -113,10 +115,10 @@ class BajaTCPDF extends TCPDF
         $this->SetTextColorArray(array(0,0,0));
         $this->Cell(0, 0, 'SALIDA DE ALMACEN', '', 1, 'C');
         
-        $this->SetFont('helvetica', '', 9);
-        $this->Ln(5);
+        $this->SetFont('helvetica', '', 8);
+        $this->Ln(3);
         $this->Cell(0, 0, 'No. '.$this->salida['folio'], '', 1, 'R');
-        $this->Ln(5);
+        $this->Ln(3);
         $lugar = $this->salida['ejercicio']['almacen']['lugar']." A ".$this->salida['fecha']->format('d/m/Y');
         $this->Cell(0, 0, $lugar, '', 1, 'L');
         $this->Cell(0, 0, mb_strtoupper('CARGO A: '.$this->salida['destino']['nombre']), '', 1, 'L');
@@ -124,8 +126,18 @@ class BajaTCPDF extends TCPDF
         $programa = $this->salida['programa']['clave'].'  -  '.$this->salida['programa']['nombre'];
         $this->Cell(0, 0, 'PROGRAMA: '.$programa, '', 1, 'L');
         $this->Cell(0, 0, 'OBSERVACIONES: '.mb_strtoupper($this->salida['observaciones']), '', 1, 'L');
-        $this->Ln(3);
+        $this->Ln(20);
         
+         $this->SetFillColor(230, 230, 230);
+        
+        
+        $this->cell($this->wCells['wCve'], 5, 'CLAVE', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wNombre'], 5, 'NOMBRE', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wCaducidad'], 5, 'CAD.', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wCantidad'], 5, 'CANTIDAD', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wUnidad'], 5, 'UNIDAD', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wPrecio'], 5, 'PRECIO', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wImporte'], 5, 'IMPORTE', 'LTRB', 1, 'C', 1);
         
     }
     
@@ -172,6 +184,19 @@ class BajaTCPDF extends TCPDF
         if($footerText){
             $this->setFooterText($footerText);
         }
+        //Asignando wl ancho de las celdas
+        $this->wCells = array(
+            'wCve' => 17,
+            'wNombre' => 89,
+            'wCaducidad' => 15,
+            'wCantidad' => 15,
+            'wUnidad' => 20,
+            'wPrecio' => 20,
+            'wImporte' => 20,
+        );
+        
+        
+        
         $this->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, 
             mb_strtoupper($nombreAlmacen, 'UTF-8')
         );
@@ -184,12 +209,22 @@ class BajaTCPDF extends TCPDF
         $this->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
         // set margins
-        $this->SetMargins(PDF_MARGIN_LEFT, 80, PDF_MARGIN_RIGHT);
+        
+        
+        
+        $this->SetMargins(PDF_MARGIN_LEFT, 87, PDF_MARGIN_RIGHT);
         $this->SetHeaderMargin(PDF_MARGIN_HEADER);
         $this->SetFooterMargin(PDF_MARGIN_FOOTER);
+        
+        
         // set auto page breaks
-        $this->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        $this->SetAutoPageBreak(TRUE, PDF_MARGIN_FOOTER);
         
         $this->AddPage();
+    }
+    
+    public function getWCells()
+    {
+        return $this->wCells;
     }
 }
