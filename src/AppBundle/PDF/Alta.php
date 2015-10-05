@@ -97,14 +97,15 @@ class Alta
                 $subtotalPartida += $importe;
                 
             }
+            $this->pdf->SetFillColor(230, 230, 230);
             $subtotalPartida = round($subtotalPartida, 2);
             
             $this->pdf->cell($wCells['wCve'], $hCell, '', '', 0, 'C');
             $this->pdf->cell($wCells['wNombre'], $hCell, '', '', 0, 'L');
             $this->pdf->cell($wCells['wCaducidad'], $hCell, '', '', 0, 'C');
             $this->pdf->cell($wCells['wCantidad'], $hCell, '', '', 0, 'R');            
-            $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'SUBTOTAL '.$partida['clave'], '', 0, 'R');                        
-            $this->pdf->cell($wCells['wImporte'], $hCell, number_format($subtotalPartida, 2, '.', ','), '', 1, 'R');
+            $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'SUBTOTAL '.$partida['clave'], 'LTRB', 0, 'R', 1);                        
+            $this->pdf->cell($wCells['wImporte'], $hCell, number_format($subtotalPartida, 2, '.', ','), 'LTRB', 1, 'R', 1);
             $total += $subtotalPartida;
         }
         

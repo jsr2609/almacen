@@ -101,7 +101,7 @@ class EntradaDetallesRepository extends EntityRepository
                 . "INNER JOIN eds.entrada AS ets "
                 . "INNER JOIN eds.articulo AS ats "
                 . "INNER JOIN ats.partida AS pts "
-                . "WHERE ets.id = :entrada";
+                . "WHERE ets.id = :entrada ORDER BY pts.clave ASC";
         $query = $this->getEntityManager()->createQuery($dql);
         
         $query->setParameter('entrada', $entradaId);
