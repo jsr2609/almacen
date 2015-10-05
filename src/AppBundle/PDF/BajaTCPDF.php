@@ -121,11 +121,11 @@ class BajaTCPDF extends TCPDF
         $this->Ln(3);
         $lugar = $this->salida['ejercicio']['almacen']['lugar']." A ".$this->salida['fecha']->format('d/m/Y');
         $this->Cell(0, 0, $lugar, '', 1, 'L');
-        $this->Cell(0, 0, mb_strtoupper('CARGO A: '.$this->salida['destino']['nombre']), '', 1, 'L');
-        $this->Cell(0, 0, mb_strtoupper('AREA QUE RECIBE: '.$this->salida['areaQueRecibe']), '', 1, 'L');
+        $this->Cell(0, 0, mb_strtoupper('CARGO A: '.$this->salida['destino']['nombre'],'UTF-8'), '', 1, 'L');
+        $this->Cell(0, 0, mb_strtoupper('AREA QUE RECIBE: '.$this->salida['areaQueRecibe'],'UTF-8'), '', 1, 'L');
         $programa = $this->salida['programa']['clave'].'  -  '.$this->salida['programa']['nombre'];
         $this->Cell(0, 0, 'PROGRAMA: '.$programa, '', 1, 'L');
-        $this->Cell(0, 0, 'OBSERVACIONES: '.mb_strtoupper($this->salida['observaciones']), '', 1, 'L');
+        $this->Cell(0, 0, 'OBSERVACIONES: '.mb_strtoupper($this->salida['observaciones'],'UTF-8'), '', 1, 'L');
         $this->Ln(20);
         
          $this->SetFillColor(230, 230, 230);

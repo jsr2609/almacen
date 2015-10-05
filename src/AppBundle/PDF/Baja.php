@@ -42,7 +42,8 @@ class Baja
         
         $partidas = $sdsRepository->obtenerPartidasPorSalida($this->salida['id']);
         
-        $selectSds = 'ats.clave, ats.nombre, eds.fechaCaducidad, eds.cantidad, '
+        
+        $selectSds = 'ats.clave, ats.nombre, eds.fechaCaducidad, sds.cantidad, '
             . 'pss.nombre AS presentacionNombre, eds.precio, eds.aplicaIva';
         
         $total = 0;
