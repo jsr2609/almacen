@@ -15,6 +15,7 @@
 namespace AppBundle\PDF;
 
 use AppBundle\PDF\MyTCPDF;
+use SSA\UtilidadesBundle\Helper\DateToText;
 
 
 /**
@@ -127,7 +128,8 @@ class AltasTCPDF extends MyTCPDF
         $this->Ln(5);
         $this->Cell(0, 0, 'No. '.$this->entrada['folio'], '', 1, 'R');
         $this->Ln(5);
-        $lugar = $this->entrada['ejercicio']['almacen']['lugar']." A ".$this->entrada['fecha']->format('d/m/Y');
+        $dateToText = new DateToText($this->entrada['fecha']);
+        $lugar = $this->entrada['ejercicio']['almacen']['lugar']." A ".strtoupper($dateToText->getText());
         $this->Cell(0, 0, $lugar, '', 1, 'L');
         $this->Cell(0, 0, mb_strtoupper($this->entrada['ejercicio']['almacen']['nombreJefeServicios'], 'UTF-8'), '', 1, 'L');
         $this->Cell(0, 0, 'CON ESTA FECHA SE DAN DE ALTA PROCEDENTES DE:', '', 1, 'L');
