@@ -78,7 +78,7 @@ function createAlert(type, title, content, time, size)
        return;
    }
    if(time == null) {
-       time = 3000;
+       time = 6000;
    }
    if(content == null) {
        content = "<i class='fa fa-clock-o'></i> <i>Hace 1 segundo...</i>";
