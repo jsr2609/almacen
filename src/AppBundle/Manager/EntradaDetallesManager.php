@@ -126,10 +126,10 @@ class EntradaDetallesManager
         for($i = 0; $i < count($articulos); $i++) {
             $precio = $articulos[$i]['precio'];
             $aplicaIva = $articulos[$i]['aplicaIva'];
-            
+            /*
             if($aplicaIva) {
                 $precio = $precio + ($precio * ($iva / 100));
-            }
+            }*/
             
             $articulos[$i]['precio'] = round($precio, 2);
         }
