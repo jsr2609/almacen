@@ -126,7 +126,7 @@ class Alta
         $this->pdf->SetFillColor(230, 230, 230);
 
         $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'SUBTOTAL', 'LTRB', 0, 'R', 1);
-        $this->pdf->cell($wCells['wImporte'], $hCell, number_format($total, 2, '.', ','), 'LTRB', 1, 'R', 0);
+        $this->pdf->cell(0, $hCell, number_format($total, 2, '.', ','), 'LTRB', 1, 'R', 0);
         
         $this->pdf->cell($wCells['wCve'], $hCell, '', '', 0, 'C');
         $this->pdf->cell($wCells['wNombre'], $hCell, '', '', 0, 'L');
@@ -136,7 +136,7 @@ class Alta
         
         $iva = round($total * $iva/100, 2);
         $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'I.V.A', 'LTRB', 0, 'R', 1);
-        $this->pdf->cell($wCells['wImporte'], $hCell, number_format($iva, 2, '.', ','), 'LTRB', 1, 'R', 0);
+        $this->pdf->cell(0, $hCell, number_format($iva, 2, '.', ','), 'LTRB', 1, 'R', 0);
         
         $this->pdf->cell($wCells['wCve'], $hCell, '', '', 0, 'C');
         $this->pdf->cell($wCells['wNombre'], $hCell, '', '', 0, 'L');
@@ -145,7 +145,7 @@ class Alta
         $this->pdf->SetFillColor(230, 230, 230);
 
         $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'TOTAL', 'LTRB', 0, 'R', 1);
-        $this->pdf->cell($wCells['wImporte'], $hCell, number_format($total + $iva, 2, '.', ','), 'LTRB', 1, 'R', 0);
+        $this->pdf->cell(0, $hCell, number_format($total + $iva, 2, '.', ','), 'LTRB', 1, 'R', 0);
         $yFTotal = $this->pdf->GetY();
         
         //die(var_export($yFTotal - $yITotal));

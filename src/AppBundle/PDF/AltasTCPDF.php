@@ -117,17 +117,25 @@ class AltasTCPDF extends MyTCPDF
     }
     
     public function imprimirDatos()
-    {        
+    {    
+        
         $this->SetMargins(PDF_MARGIN_LEFT, 90, PDF_MARGIN_RIGHT);
         $this->Ln(2);
         $this->SetFont('helvetica', 'B', 9);
         $this->SetTextColorArray(array(0,0,0));
         $this->Cell(0, 0, 'AVISO DE ALTA', '', 1, 'C');
         //$this->Cell($w, $h, $txt, $border, $ln, $align, $fill, $link, $stretch, $ignore_min_height)
-        $this->SetFont('helvetica', '', 8);
         $this->Ln(5);
-        $this->Cell(0, 0, 'No. '.$this->entrada['folio'], '', 1, 'R');
-        $this->Ln(5);
+        $yFolio = $this->GetY();
+        //$this->Text($x, $y, $txt, $fstroke, $fclip, $ffill, $border, $ln, $align, $fill)
+        $this->SetFont('helvetica', 'B', 14);
+        $this->SetTextColor(195, 41, 0);
+        $this->Text(PDF_MARGIN_LEFT, $yFolio, 'Folio '.$this->entrada['folio'], false, false, true, '', 0, 'R');
+        $this->SetFont('helvetica', '', 10);
+        $this->Text(PDF_MARGIN_LEFT, $yFolio + 5, $this->entrada['folioManual'], false, false, true, '', 0, 'R');
+        $this->SetY($yFolio+5);
+        $this->SetFont('helvetica', '', 9);
+        $this->SetTextColor(0, 0, 0);
         $dateToText = new DateToText($this->entrada['fecha']);
         $lugar = $this->entrada['ejercicio']['almacen']['lugar']." A ".strtoupper($dateToText->getText());
         $this->Cell(0, 0, $lugar, '', 1, 'L');
@@ -150,7 +158,7 @@ class AltasTCPDF extends MyTCPDF
         $this->cell($this->wCells['wCve'], 5, 'CLAVE', 'LTRB', 0, 'C', 1);
         $this->cell($this->wCells['wNombre'], 5, 'NOMBRE', 'LTRB', 0, 'C', 1);
         $this->cell($this->wCells['wCaducidad'], 5, 'CAD.', 'LTRB', 0, 'C', 1);
-        $this->cell($this->wCells['wCantidad'], 5, 'CANTIDAD', 'LTRB', 0, 'C', 1);
+        $this->cell($this->wCells['wCantidad'], 5, 'CANT.', 'LTRB', 0, 'C', 1);
         $this->cell($this->wCells['wUnidad'], 5, 'UNIDAD', 'LTRB', 0, 'C', 1);
         $this->cell($this->wCells['wPrecio'], 5, 'PRECIO', 'LTRB', 0, 'C', 1);
         $this->cell($this->wCells['wImporte'], 5, 'IMPORTE', 'LTRB', 1, 'C', 1);
