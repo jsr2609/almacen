@@ -41,10 +41,6 @@
                             <th>
                                 <input class="form-control" placeholder="..."type="text"/>
                             </th>
-                            <th>
-
-                            </th>
-
                         </tr>
                     </tfoot>
                 </table>
@@ -72,8 +68,6 @@
             "autoWidth": false,
             "serverSide": true,
             "order": [[ 0, 'desc' ]],
-            "scrollY":        "350px",
-            "scrollCollapse": true,
             "ajax": {
                 "url": "{{ path('admin_articulos_popup_buscar_index') }}",
                 "data": function(d) {
