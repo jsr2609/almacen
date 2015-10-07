@@ -40,14 +40,15 @@ class EntradasController extends Controller
     {
         $columnas = array(
             array('db' => 'folio', 'dt' => 0,),
-            array('db' => 'fecha', 'dt' => 1,
+            array('db' => 'folioManual', 'dt' => 1,),
+            array('db' => 'fecha', 'dt' => 2,
                 'formatter' => function(\DateTime $d, $record) {
                     return $d->format('d/m/Y');
                 }
             ),
-            array('db' => 'pedidoNumero', 'dt' => 2),
-            array('db' => 'facturaNumero', 'dt' => 3),
-            array('db' => 'tipoCompra', 'dt' => 4,
+            array('db' => 'pedidoNumero', 'dt' => 3),
+            array('db' => 'facturaNumero', 'dt' => 4),
+            array('db' => 'tipoCompra', 'dt' => 5,
                 'formatter' => function($d, $record) {
                     
                     return Entradas::$pedidoTiposCompra[$d];
