@@ -127,7 +127,11 @@ class EntradasManager
                 else {
                     $row[ $column['dt'] ] = $record[ $columns[$j]['db'] ];
                 }
-            }    
+            }
+            if(!$record['facturaNumero']) {
+                $row["DT_RowClass"] = "warning text-warning";    
+            }
+            
             /*
             $configuracion = "<a data-toggle='tooltip' title='Configuración' class='btn btn-primary btn-xs' href='".
                     $this->base->generateUrl('admin_avales_configuracion', array('id' => $record['id'])).
