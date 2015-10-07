@@ -63,6 +63,7 @@ class ArticulosManager
             $registrosTotal = $this->contarRegistrosTotalDT($activo ,$peticion['programa']);
         }
         
+        
         $informacionRegistrosFiltrados = $this->recuperarInformacionFiltrosDT($activo ,$peticion['programa']);
         
         return array(
@@ -77,7 +78,6 @@ class ArticulosManager
     
     public function agregarFiltrosExtraQBDT(QueryBuilder $qb, $root, $activo, $programa) 
     {      
-        
         
         if($programa == null){
             $qb->andWhere($root.".activo = :activo");        
@@ -97,7 +97,6 @@ class ArticulosManager
         
         $qb = $this->dataTable->getBaseQB();
         $root = $qb->getRootAliases()[0];
-        
         
         $this->agregarFiltrosExtraQBDT($qb, $root, $activo, $programa);
         

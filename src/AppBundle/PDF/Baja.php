@@ -74,13 +74,15 @@ class Baja
                 
                 $this->pdf->SetX(PDF_MARGIN_LEFT + $wCells['wCve'] + $wCells['wNombre']);
                 
-                $this->pdf->MultiCell($wCells['wCaducidad'], $hNombre, $detalle['fechaCaducidad'], 'LTRB','C', 0, 0, '', '',true, 0, true);
+                $fechaCaducidad = ($detalle['fechaCaducidad'] === null) ? '' : $detalle['fechaCaducidad']->format('d/m/Y');
+                $this->pdf->MultiCell($wCells['wCaducidad'], $hNombre, $fechaCaducidad, 'LTRB','C', 0, 0, '', '',true, 0, true);
                 $this->pdf->MultiCell($wCells['wCantidad'], $hNombre, number_format($detalle['cantidad'], 0, '.', ','), 'LTRB', 'R', 0, 0, '', '',true, 0, true);
                 $this->pdf->MultiCell($wCells['wUnidad'], $hNombre, $detalle['presentacionNombre'], 'LTRB', 'C', 0, 0, '', '',true, 0, true);
                 $precio = $detalle['precio'];
+                /*
                 if($detalle['aplicaIva']) {
                     $precio = round($precio + ($precio * $iva / 100), 2);
-                }
+                }*/
                 $this->pdf->MultiCell($wCells['wPrecio'], $hNombre, number_format($precio, 2, '.', ','), 'LTRB', 'R', 0, 0, '', '',true, 0, true);
                 $importe = round($precio * $detalle['cantidad'], 2);
                 
@@ -95,22 +97,41 @@ class Baja
             $this->pdf->cell($wCells['wCaducidad'], $hCell, '', '', 0, 'C');
             $this->pdf->cell($wCells['wCantidad'], $hCell, '', '', 0, 'R');            
             $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'SUBTOTAL '.$partida['clave'], '', 0, 'R');                        
-            $this->pdf->cell($wCells['wImporte'], $hCell, number_format($subtotalPartida, 2, '.', ','), '', 1, 'R');
+            $this->pdf->cell($wCells['wImporte'], $hCell, number_format($subtotalPartida, 2, '.', ','), 'LTRB', 1, 'R', 0);
             $total += $subtotalPartida;
         }
         
         $this->pdf->Ln(3);
         $total = round($total, 2);
-        $this->pdf->SetFont('helvetica', 'B', 7);
+        $this->pdf->SetFont('helvetica', 'B', 8);
+        
         $this->pdf->cell($wCells['wCve'], $hCell, '', '', 0, 'C');
         $this->pdf->cell($wCells['wNombre'], $hCell, '', '', 0, 'L');
         $this->pdf->cell($wCells['wCaducidad'], $hCell, '', '', 0, 'C');
         $this->pdf->cell($wCells['wCantidad'], $hCell, '', '', 0, 'R');
         $this->pdf->SetFillColor(230, 230, 230);
 
-        $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'TOTAL GENERAL', 'LTRB', 0, 'R', 1);
-         
-        $this->pdf->cell($wCells['wImporte'], $hCell, number_format($total, 2, '.', ','), 'LTRB', 1, 'R', 1);
+        $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'SUBTOTAL', 'LTRB', 0, 'R', 1);
+        $this->pdf->cell($wCells['wImporte'], $hCell, number_format($total, 2, '.', ','), 'LTRB', 1, 'R', 0);
+        
+        $this->pdf->cell($wCells['wCve'], $hCell, '', '', 0, 'C');
+        $this->pdf->cell($wCells['wNombre'], $hCell, '', '', 0, 'L');
+        $this->pdf->cell($wCells['wCaducidad'], $hCell, '', '', 0, 'C');
+        $this->pdf->cell($wCells['wCantidad'], $hCell, '', '', 0, 'R');
+        $this->pdf->SetFillColor(230, 230, 230);
+        
+        $iva = round($total * $iva/100, 2);
+        $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'I.V.A', 'LTRB', 0, 'R', 1);
+        $this->pdf->cell($wCells['wImporte'], $hCell, number_format($iva, 2, '.', ','), 'LTRB', 1, 'R', 0);
+        
+        $this->pdf->cell($wCells['wCve'], $hCell, '', '', 0, 'C');
+        $this->pdf->cell($wCells['wNombre'], $hCell, '', '', 0, 'L');
+        $this->pdf->cell($wCells['wCaducidad'], $hCell, '', '', 0, 'C');
+        $this->pdf->cell($wCells['wCantidad'], $hCell, '', '', 0, 'R');
+        $this->pdf->SetFillColor(230, 230, 230);
+
+        $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'TOTAL', 'LTRB', 0, 'R', 1);
+        $this->pdf->cell($wCells['wImporte'], $hCell, number_format($total + $iva, 2, '.', ','), 'LTRB', 1, 'R', 0);
         
     }
     
