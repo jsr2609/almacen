@@ -264,6 +264,24 @@ class EntradasManager
         
     }
     
-    
+    /**
+     * Verifica si una de las partidas tiene fecha de caducidad
+     * @param array $partidas
+     * @param ParametrosManager $parameterManager
+     */
+    public function verificarPartidasConCaducidad($partidas, $parameterManager = null)
+    {
+        $partidasConCaducidad = array('25301');
+        $conCaducidad = false;
+        foreach($partidas as $partida) {
+            if(array_search($partida['clave'], $partidasConCaducidad) !== false) {
+                $conCaducidad = true;
+                break;
+                
+            }
+        }
+        
+        return $conCaducidad;
+    }
     
 }

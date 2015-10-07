@@ -381,6 +381,11 @@ class EntradasController extends Controller
         $partidas = $adquisicionesManager->obtenerPartidasPedido($pedidonumero, $compra, $anioEjercicio, false);
         $partidasManager = $this->get('app.partidas');
         $partidasManager->comprobarExistencias($partidas);
+        //Verificando partidas con caducidad
+        $entradasManager = $this->get('app.entradas');
+        if($entradasManager->verificarPartidasConCaducidad($partidas)) {
+            $this->addFlash("warning", "El pedido tiene artículos que requieren la fecha de caducidad, necesitas agregarlas manualmente.");
+        }        
         
         //Verificando si existen los articulos
         $articulosManager = $this->get('app.articulos');
@@ -411,8 +416,7 @@ class EntradasController extends Controller
         // $em instanceof EntityManager
         $em->getConnection()->beginTransaction(); // suspend auto-commit
         try {
-            //Crear la entrada en base al pedido            
-            $entradasManager = $this->get('app.entradas');
+            //Crear la entrada en base al pedido                        
             $entrada = $entradasManager->procesarDePedido($pedido, $proveedor, $programa, $ejercicio);
             $entradasEvent = new EntradasEvent($entrada);
             
