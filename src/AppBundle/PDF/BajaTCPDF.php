@@ -9,6 +9,7 @@
 namespace AppBundle\PDF;
 
 use \TCPDF;
+use SSA\UtilidadesBundle\Helper\DateToText;
 
 
 /**
@@ -119,7 +120,8 @@ class BajaTCPDF extends TCPDF
         $this->Ln(3);
         $this->Cell(0, 0, 'No. '.$this->salida['folio'], '', 1, 'R');
         $this->Ln(3);
-        $lugar = $this->salida['ejercicio']['almacen']['lugar']." A ".$this->salida['fecha']->format('d/m/Y');
+        $dateToText = new DateToText($this->salida['fecha']);
+        $lugar = $this->salida['ejercicio']['almacen']['lugar']." A ".strtoupper($dateToText->getText());
         $this->Cell(0, 0, $lugar, '', 1, 'L');
         $this->Cell(0, 0, mb_strtoupper('CARGO A: '.$this->salida['destino']['nombre'],'UTF-8'), '', 1, 'L');
         $this->Cell(0, 0, mb_strtoupper('AREA QUE RECIBE: '.$this->salida['areaQueRecibe'],'UTF-8'), '', 1, 'L');

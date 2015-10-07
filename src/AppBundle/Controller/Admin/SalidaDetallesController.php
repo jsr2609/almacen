@@ -322,6 +322,7 @@ class SalidaDetallesController extends Controller
         
         $entradas = $em->getRepository("AppBundle:EntradaDetalles")->recuperarListaEntradaDetalles($salida->getPrograma()->getId(), $articuloClave);
         
+        
         $html = $this->renderView('/Admin/SalidaDetalles/popup_buscar_entradaDetalles.html.twig', array(
             'acciones' => $acciones,
             'entradas' => $entradas,
