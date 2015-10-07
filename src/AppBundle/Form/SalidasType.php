@@ -55,7 +55,7 @@ class SalidasType extends AbstractType
             ))
             ->add('nombreQuienRecibe', 'text',array(
                 'label' => 'Nombre de quien Recibe',
-                'required' => true,
+                'required' => false,
             ))
             ->add('observaciones', 'text',array(
                 'label' => 'Observaciones',

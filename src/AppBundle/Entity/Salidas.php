@@ -58,7 +58,7 @@ class Salidas
     private $tipoEntrada;
 
     /**
-     * @ORM\Column(name="NombreQuienRecibe", type="string", length=150, nullable=false)
+     * @ORM\Column(name="NombreQuienRecibe", type="string", length=150, nullable=true)
      */
     private $nombreQuienRecibe;
 
