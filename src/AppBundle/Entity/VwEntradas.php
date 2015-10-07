@@ -25,6 +25,11 @@ class VwEntradas
      * @ORM\Column(name="Folio", type="integer")
      */
     private $folio;
+    
+    /**
+     * @ORM\Column(name="FolioManual", type="string", length=10, nullable=true)
+     */
+    private $folioManual;
 
     /**
      * @var \DateTime
@@ -147,6 +152,16 @@ class VwEntradas
     public function getFolio()
     {
         return $this->folio;
+    }
+    
+    /**
+     * Get folio
+     *
+     * @return string
+     */
+    public function getFolioManual()
+    {
+        return $this->folioManual;
     }
 
     /**
