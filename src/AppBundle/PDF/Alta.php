@@ -114,7 +114,11 @@ class Alta
         $this->pdf->Ln(5);
         $total = round($total, 2);
         $this->pdf->SetFont('helvetica', 'B', 8);
-        
+        $yITotal = $this->pdf->GetY();
+        $yLimitTotal = $this->pdf->getPageWidth() - $this->pdf->getBreakMargin();
+        if($yLimitTotal - $yITotal < 15) {
+            $this->pdf->AddPage();
+        }
         $this->pdf->cell($wCells['wCve'], $hCell, '', '', 0, 'C');
         $this->pdf->cell($wCells['wNombre'], $hCell, '', '', 0, 'L');
         $this->pdf->cell($wCells['wCaducidad'], $hCell, '', '', 0, 'C');
@@ -142,6 +146,9 @@ class Alta
 
         $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'TOTAL', 'LTRB', 0, 'R', 1);
         $this->pdf->cell($wCells['wImporte'], $hCell, number_format($total + $iva, 2, '.', ','), 'LTRB', 1, 'R', 0);
+        $yFTotal = $this->pdf->GetY();
+        
+        //die(var_export($yFTotal - $yITotal));
         /*
         for($i= 0; $i < 100; $i++) {
             $this->pdf->cell($wCve, $hCell, 'CLAVE', 'LTRB', 0, 'C', 1);
