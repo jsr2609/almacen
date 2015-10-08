@@ -18,7 +18,7 @@ class Destinos
     private $id;
     
     /**
-     * @ORM\Column(name="Clave", type="string", length=5, nullable=false, unique=true)
+     * @ORM\Column(name="Clave", type="string", length=11, nullable=false, unique=true)
      */
     private $clave;
     
