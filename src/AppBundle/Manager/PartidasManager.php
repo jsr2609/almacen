@@ -49,8 +49,7 @@ class PartidasManager
         
         
         return $this;
-    }
-    
+    }    
     
     
     /**
