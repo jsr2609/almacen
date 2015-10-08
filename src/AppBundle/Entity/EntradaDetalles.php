@@ -82,6 +82,9 @@ class EntradaDetalles
      * @ORM\Column(name="FechaActualizacion", type="datetime", nullable=true)
      */
     private $fechaActualizacion;
+           
+    //Funciones generadas automaticamente
+   
     
     public function __construct() 
     {
@@ -93,6 +96,19 @@ class EntradaDetalles
     {
         $txt = $this->aplicaIva == false ? "No" : "Si"; 
         return $txt;
+    }
+    
+    /**
+     * Get aplicaIva
+     *
+     * @return boolean 
+     */
+    public function getAplicaIva()
+    {
+        if(!$this->aplicaIva) {
+            return 0;
+        }
+        return $this->aplicaIva;
     }
     
     
@@ -183,15 +199,7 @@ class EntradaDetalles
         return $this;
     }
 
-    /**
-     * Get aplicaIva
-     *
-     * @return boolean 
-     */
-    public function getAplicaIva()
-    {
-        return $this->aplicaIva;
-    }
+    
 
     /**
      * Set observaciones
