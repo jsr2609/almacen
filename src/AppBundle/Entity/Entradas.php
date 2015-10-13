@@ -22,7 +22,8 @@ class Entradas
         8 => "LICITACION PUBLICA INTERNACIONAL (PALACIO)",
         9 => "INVITACION A CUANDO MENOS TRES PERSONAS",
         10 => "(PALACIO) DIRECTA",
-        11 => "(PALACIO) LICITACION PUBLICA INTERNACIONAL",        
+        11 => "(PALACIO) LICITACION PUBLICA INTERNACIONAL",
+        100 => "DONACION",    
     );
     
     public static $pedidoTipos = array(

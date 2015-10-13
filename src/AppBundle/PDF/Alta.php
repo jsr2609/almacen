@@ -37,7 +37,7 @@ class Alta
      
     
     
-    public function imprimirDetalles(EntradaDetallesrepository $edsRepository)
+    public function imprimirDetalles(EntradaDetallesrepository $edsRepository, $sumaIva)
     {
         $this->pdf->SetFont('helvetica', '', 7);
         
@@ -115,7 +115,8 @@ class Alta
         $total = round($total, 2);
         $this->pdf->SetFont('helvetica', 'B', 8);
         $yITotal = $this->pdf->GetY();
-        $yLimitTotal = $this->pdf->getPageWidth() - $this->pdf->getBreakMargin();
+        $yLimitTotal = $this->pdf->getPageHeight() - $this->pdf->getBreakMargin();
+        
         if($yLimitTotal - $yITotal < 15) {
             $this->pdf->AddPage();
         }
@@ -133,10 +134,10 @@ class Alta
         $this->pdf->cell($wCells['wCaducidad'], $hCell, '', '', 0, 'C');
         $this->pdf->cell($wCells['wCantidad'], $hCell, '', '', 0, 'R');
         $this->pdf->SetFillColor(230, 230, 230);
-        
-        $iva = round($total * $iva/100, 2);
+        $iva = ($sumaIva == true) ? $iva : 0;
+        $totalIva = round($total * $iva/100, 2);
         $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'I.V.A', 'LTRB', 0, 'R', 1);
-        $this->pdf->cell(0, $hCell, number_format($iva, 2, '.', ','), 'LTRB', 1, 'R', 0);
+        $this->pdf->cell(0, $hCell, number_format($totalIva, 2, '.', ','), 'LTRB', 1, 'R', 0);
         
         $this->pdf->cell($wCells['wCve'], $hCell, '', '', 0, 'C');
         $this->pdf->cell($wCells['wNombre'], $hCell, '', '', 0, 'L');
@@ -145,7 +146,7 @@ class Alta
         $this->pdf->SetFillColor(230, 230, 230);
 
         $this->pdf->cell($wCells['wUnidad'] + $wCells['wPrecio'], $hCell, 'TOTAL', 'LTRB', 0, 'R', 1);
-        $this->pdf->cell(0, $hCell, number_format($total + $iva, 2, '.', ','), 'LTRB', 1, 'R', 0);
+        $this->pdf->cell(0, $hCell, number_format($total + $totalIva, 2, '.', ','), 'LTRB', 1, 'R', 0);
         $yFTotal = $this->pdf->GetY();
         
         //die(var_export($yFTotal - $yITotal));

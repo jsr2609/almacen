@@ -223,9 +223,15 @@ class EntradasManager
         
         $pdf->init($entrada, $footerText);
         $edsRepository = $this->base->getRepository('AppBundle:EntradaDetalles');
+        $partidas = $edsRepository->obtenerPartidasPorEntrada($entrada['id']);
+        $sumarIva = true;
+        if($this->verificarPartidasNoAplicaIVA($partidas) == true) {
+            $sumarIva = false;
+        } 
+        $sumarIva = $entrada['tipoCompra'] == 100 ? false : true;
         $alta = new Alta($pdf, $entrada);
         
-        $alta->imprimirDetalles($edsRepository);
+        $alta->imprimirDetalles($edsRepository, $sumarIva);
         
         $alta->imprimirFirmas();
         
@@ -293,7 +299,7 @@ class EntradasManager
         $partidasNoAplicaIVA = array('25301');
         $sinIVA = false;
         foreach($partidas as $partida) {
-            if(array_search($partida['clave'], $partidasConCaducidad) !== false) {
+            if(array_search($partida['clave'], $partidasNoAplicaIVA) !== false) {
                 $sinIVA = true;
                 break;
                 
