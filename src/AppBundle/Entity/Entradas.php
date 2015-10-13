@@ -108,7 +108,7 @@ class Entradas
     
 
     /**
-     * @ORM\Column(name="FacturaNumero", type="string", length=10, nullable=true)
+     * @ORM\Column(name="FacturaNumero", type="string", length=100, nullable=true)
      */
     private $facturaNumero;
 

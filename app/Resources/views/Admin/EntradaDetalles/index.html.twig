@@ -42,12 +42,13 @@
                                     <span class="glyphicon glyphicon-search"></span> 
                                     Datos de la Entrada
                                 </button>
+                                <a href="{{ path('admin_entradas_edit', {'id': entrada.id}) }}" class="btn btn-default" data-toggle="tooltip" title="Editar">
+                                    <i class="fa fa-edit fa-fw"></i> Editar Entrada
+                                </a>
                                 
                                     <a href="{{ path('admin_entradas_pdf', {'id': entrada.id}) }}" class="btn btn-default" data-toggle="tooltip" title="PDF">
                                        <i class="fa fa-file-pdf-o fa-fw"></i> Generar PDF
                                    </a>
-                               
-
                                 
                                 <a href="{{ path('admin_entradas', {}) }}" class="btn btn-default" data-toggle="tooltip" title="Lista">
                                     <i class="fa fa-list fa-fw"></i> Lista de Entradas

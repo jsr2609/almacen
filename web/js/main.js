@@ -36,6 +36,11 @@ $(document).ready(function(){
     
     $(".datepicker").datepicker(optionsDatePicker);
     
+    $("input, textarea").keyup(function(){
+        valor = $(this).val();
+        $(this).val(valor.toUpperCase());
+    });
+    
 });
 
 function initTooltip()
