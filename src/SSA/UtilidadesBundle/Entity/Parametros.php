@@ -34,6 +34,15 @@ class Parametros
      * @ORM\Column(name="Valor", type="string", length=10)
      */
     private $valor;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="Descripcion", type="string", length=255, nullable=true)
+     */
+    private $descripcion;
+    
+    
 
     /**
      * @var \DateTime
@@ -155,5 +164,28 @@ class Parametros
     public function getFechaActualizacion()
     {
         return $this->fechaActualizacion;
+    }
+
+    /**
+     * Set descripcion
+     *
+     * @param string $descripcion
+     * @return Parametros
+     */
+    public function setDescripcion($descripcion)
+    {
+        $this->descripcion = $descripcion;
+
+        return $this;
+    }
+
+    /**
+     * Get descripcion
+     *
+     * @return string 
+     */
+    public function getDescripcion()
+    {
+        return $this->descripcion;
     }
 }

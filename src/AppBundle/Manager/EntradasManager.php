@@ -283,4 +283,24 @@ class EntradasManager
         return $conCaducidad;
     }
     
+    /**
+     * Verifica si una de las partidas no aplica IVA
+     * @param array $partidas
+     * @param ParametrosManager $parameterManager
+     */
+    public function verificarPartidasNoAplicaIVA($partidas, $parameterManager = null)
+    {
+        $partidasNoAplicaIVA = array('25301');
+        $sinIVA = false;
+        foreach($partidas as $partida) {
+            if(array_search($partida['clave'], $partidasConCaducidad) !== false) {
+                $sinIVA = true;
+                break;
+                
+            }
+        }
+        
+        return $sinIVA;
+    }
+    
 }
