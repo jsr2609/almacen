@@ -37,6 +37,9 @@
                                 <button type="button" id="btn-agregar-entrada" class="btn btn-primary" data-toggle="tooltip" title="Agregar">
                                     <i class="fa fa-plus-circle fa-fw"></i> Agregar Entrada
                                 </button>
+                                <a href="{{ path('admin_salidas_edit', {'id': salida.id}) }}" class="btn btn-default" data-toggle="tooltip" title="Editar">
+                                    <i class="fa fa-edit fa-fw"></i> Editar Salida
+                                </a>
                                 {% endif %}
                                 <button type="button" id="btn-consultar-salida" class="btn btn-default" data-toggle="tooltip" title="Consultar">
                                     <span class="glyphicon glyphicon-search"></span> 
