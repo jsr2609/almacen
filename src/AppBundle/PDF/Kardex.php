@@ -50,7 +50,7 @@ class Kardex
         
         $this->pdf->MultiCell(0,5,$this->articulo['clave'].' '.$articuloNombre, 'LTRB', 'L',0,1);
         $this->pdf->Cell(30,5, 'PRESENTACION', 'LTRB', 0, 'L', true);
-        $this->pdf->Cell(0,5, 'Pendiente',  'LTRB', 1, 'L', false);
+        $this->pdf->Cell(0,5, $this->articulo['presentacionNombre'],  'LTRB', 1, 'L', false);
         $this->pdf->Cell(30,5, 'PROGRAMA', 'LTRB', 0, 'L', true);
         $programaNombre = ($this->datos['programa'] == null) ? "Todos" : $this->datos['programa']->getNombre();
         $this->pdf->Cell(0,5, $programaNombre, 'LTRB', 1);
@@ -64,11 +64,11 @@ class Kardex
         $wCampos = array(
             'wFecha' => 14,
             'wPrograma' => 24,
-            'wDestino' => 12,
-            'wFolio' => 11, 
+            'wDestino' => 17,
+            'wFolio' => 10, 
             'wCantidad' => 12, 
-            'wPrecio' => 17, 
-            'wTotal' => 17,
+            'wPrecio' => 15, 
+            'wTotal' => 16,
         );
         $wPage = $this->pdf->getPageWidth();
         $paginaInicial = $this->pdf->getPage();
