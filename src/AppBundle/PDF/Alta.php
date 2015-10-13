@@ -173,7 +173,7 @@ class Alta
         $start_page = $this->pdf->getPage();
         // call your printing functions with your parameters
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        $this->pdf->MultiCell($w, $h=6, $txt, $border=1, $align='L', $fill=false, $ln=1, $x='', $y='',     $reseth=true, $stretch=0, $ishtml=false, $autopadding=true, $maxh=0);
+        $this->pdf->MultiCell($w, $h=6, $txt, $border=1, $align='L', $fill=false, $ln=1, $x='', $y='',     $reseth=true, $stretch=0, $ishtml=true, $autopadding=true, $maxh=0);
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         // get the new Y
         $end_y = $this->pdf->GetY();
