@@ -225,6 +225,7 @@ class EntradasController extends Controller
         $editForm->handleRequest($request);
         if ($editForm->isValid()) {
             $em->flush();
+            $this->addFlash("success", "Los datos se actualizaron satisfactoriamente");
             return $this->redirect($this->generateUrl('admin_entradas_edit', array('id' => $id)));
         }
         return $this->render('::/Admin/Entradas/edit.html.twig', array(
